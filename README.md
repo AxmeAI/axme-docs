@@ -4,12 +4,22 @@ Public platform documentation and architecture guides for integrators.
 
 ## Status
 
-Wave 2 extraction in progress.
+Track B extraction in progress.
 
-## Included through Wave 2
+## OpenAPI artifacts
+
+Canonical OpenAPI specifications live under `docs/openapi/`:
+- `gateway.v1.json`
+- `chatgpt-adapter.v1.json`
+- `gemini-adapter.v1.json`
+
+## Included through Track B batches
 
 - Core public docs:
   - `docs/public-api-auth.md`
+  - `docs/integration-quickstart.md`
+  - `docs/migration-and-deprecation-policy.md`
+  - `docs/supported-limits-and-error-model.md`
   - `docs/MVP_SCOPE.md`
   - `docs/B2B_FEATURES.md`
   - `docs/ADR-002-service-boundaries.md`
