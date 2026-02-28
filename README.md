@@ -18,6 +18,7 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
 - Core public docs:
   - `docs/public-api-auth.md`
   - `docs/integration-quickstart.md`
+  - `docs/external-integrator-dry-run.md`
   - `docs/migration-and-deprecation-policy.md`
   - `docs/supported-limits-and-error-model.md`
   - `docs/MVP_SCOPE.md`
