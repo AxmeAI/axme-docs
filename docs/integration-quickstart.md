@@ -16,6 +16,7 @@ Build a minimal integration using public repositories only.
 - `axme-spec/docs/schema-versioning-rules.md`
 - `axme-spec/docs/protocol-error-status-model.md`
 - `axme-spec/docs/idempotency-correlation-rules.md`
+- `docs/public-api-families-d1-intents-inbox-approvals.md`
 
 ## Step 2: Pick Integration Surface
 
