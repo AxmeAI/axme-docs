@@ -15,6 +15,7 @@ These layers are developed as independent products with separate responsibilitie
 
 - Canonical name: `AXP`
 - Legacy protocol aliases in old notes are considered deprecated and must be replaced with `AXP`.
+- Canonical concept: `AXP` is the Intent Protocol (durable execution layer).
 
 ## Agent Classes
 
