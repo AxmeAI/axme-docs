@@ -19,6 +19,7 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
   - `docs/public-api-auth.md`
   - `docs/public-api-families-d1-intents-inbox-approvals.md`
   - `docs/public-api-families-d2-webhooks-capabilities.md`
+  - `docs/public-api-families-d3-users.md`
   - `docs/integration-quickstart.md`
   - `docs/external-integrator-dry-run.md`
   - `docs/migration-and-deprecation-policy.md`
