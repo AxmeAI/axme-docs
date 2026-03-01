@@ -4,6 +4,9 @@ This guide covers the first additive parity batch for family-level integration d
 
 - `intents.create`
 - `intents.get`
+- `intents.events`
+- `intents.events.stream`
+- `intents.resolve`
 - `inbox.list`
 - `inbox.thread`
 - `inbox.reply`
@@ -29,12 +32,18 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 
 - `POST /v1/intents` -> create intent
 - `GET /v1/intents/{intent_id}` -> read intent
+- `GET /v1/intents/{intent_id}/events` -> list lifecycle events
+- `GET /v1/intents/{intent_id}/events/stream` -> stream lifecycle events (SSE)
+- `POST /v1/intents/{intent_id}/resolve` -> append terminal lifecycle event
 
 ### Canonical schemas
 
 - `axme-spec/schemas/public_api/api.intents.create.request.v1.json`
 - `axme-spec/schemas/public_api/api.intents.create.response.v1.json`
 - `axme-spec/schemas/public_api/api.intents.get.response.v1.json`
+- `axme-spec/schemas/public_api/api.intents.events.list.response.v1.json`
+- `axme-spec/schemas/public_api/api.intents.resolve.request.v1.json`
+- `axme-spec/schemas/public_api/api.intents.resolve.response.v1.json`
 
 ### Request example (`POST /v1/intents`)
 
@@ -79,14 +88,29 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 
 - Python GA: `AxmeClient.create_intent(...)`
 - TypeScript GA: `AxmeClient.createIntent(...)`
-- Gap to close in Track C parity: direct `intents.get` helper in GA SDKs.
+- Python GA:
+  - `AxmeClient.send_intent(...)`
+  - `AxmeClient.list_intent_events(...)`
+  - `AxmeClient.observe(...)`
+  - `AxmeClient.wait_for(...)`
+  - `AxmeClient.resolve_intent(...)`
+- TypeScript GA:
+  - `AxmeClient.sendIntent(...)`
+  - `AxmeClient.listIntentEvents(...)`
+  - `AxmeClient.observe(...)`
+  - `AxmeClient.waitFor(...)`
+  - `AxmeClient.resolveIntent(...)`
 
 ### Conformance expectation
 
 - Existing executable checks:
   - `intent_create`
   - `intent_create_idempotency`
-- Track C expansion should add explicit `intents.get` read-shape checks.
+  - `intents_get`
+  - `intents_events`
+  - `intents_stream_resume`
+  - `intents_resolve`
+  - `intent_completion_delivery`
 
 ## 2) Inbox Family
 
@@ -246,11 +270,10 @@ Approvals provide explicit workflow decision points for external assistants and 
 
 ### SDK call mapping
 
-- Python GA: no dedicated helper yet (use direct HTTP path until parity batch lands).
-- TypeScript GA: no dedicated helper yet (use direct HTTP path until parity batch lands).
+- Python GA: `AxmeClient.decide_approval(...)`
+- TypeScript GA: `AxmeClient.decideApproval(...)`
 - Beta SDKs (`Go/Java/.NET`): parity pending.
 
 ### Conformance expectation
 
-- Not yet covered by an executable conformance check.
-- Track C conformance expansion must add `approvals.decision` happy-path and conflict-path checks.
+- Executable check: `approvals_decision`.

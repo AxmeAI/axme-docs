@@ -26,6 +26,9 @@ Canonical model for this guide:
 - `docs/public-api-families-d3-users.md`
 - `docs/public-api-families-d4-invites-media.md`
 - `docs/public-api-families-d5-schemas.md`
+- `docs/axme-is-not-rpc.md`
+- `docs/mcp-axme-continuation-pattern.md`
+- `docs/migration-message-centric-to-intent-lifecycle.md`
 
 ## Step 2: Pick Integration Surface
 
@@ -40,9 +43,15 @@ Canonical model for this guide:
 Recommended baseline:
 
 1. Submit intent (`POST /v1/intents`)
-2. Poll/get intent status (`GET /v1/intents/{intent_id}`)
-3. Read inbox (`GET /v1/inbox`)
-4. Reply/delegate/decision on inbox thread as needed
+2. Observe continuation (primary stream):
+   - `GET /v1/intents/{intent_id}/events/stream`
+3. Keep polling fallback:
+   - `GET /v1/intents/{intent_id}`
+   - `GET /v1/intents/{intent_id}/events?since=<seq>`
+4. Enable offline completion when needed:
+   - set `reply_to` in `POST /v1/intents`
+   - consume completion from `GET /v1/inbox?owner_agent=<reply_to>`
+5. Reply/delegate/decision on inbox thread as needed
 
 ## Step 4: Apply Auth, Limits, and Error Handling
 
