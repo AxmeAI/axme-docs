@@ -5,7 +5,7 @@ It answers one question: **what a B2B customer gets when integrating with Axme**
 
 ## 1) Product Scope for B2B
 
-Axme B2B is an infrastructure product for agent communication:
+Axme B2B is built on AXP, the Intent Protocol (durable execution layer), and provides infrastructure capabilities for production operations:
 
 - identity and addressing (`@ax`);
 - message transport and inbox storage;
@@ -116,4 +116,4 @@ Depending on plan, Axme can provide:
 
 ## 13) B2B Value Proposition
 
-Axme B2B gives partners a production-ready communication layer for agents without building identity, transport, addressing, delivery guarantees, and security controls from scratch.
+Axme B2B gives partners a production-ready intent execution and coordination layer without building identity, transport, addressing, delivery guarantees, and security controls from scratch.

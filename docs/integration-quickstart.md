@@ -4,6 +4,11 @@
 
 Build a minimal integration using public repositories only.
 
+Canonical model for this guide:
+
+- `AXP` is the Intent Protocol (durable execution layer).
+- Integrations should use intent lifecycle semantics, not RPC-style remote calls.
+
 ## Inputs
 
 - API contracts/schemas: `axme-spec`

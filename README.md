@@ -2,6 +2,10 @@
 
 Public platform documentation and architecture guides for integrators.
 
+Canonical positioning for all materials:
+
+- **AXP is the Intent Protocol (durable execution layer).**
+
 ## Status
 
 Track B extraction in progress.
