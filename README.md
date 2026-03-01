@@ -26,6 +26,9 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
   - `docs/public-api-families-d3-users.md`
   - `docs/public-api-families-d4-invites-media.md`
   - `docs/public-api-families-d5-schemas.md`
+  - `docs/axme-is-not-rpc.md`
+  - `docs/mcp-axme-continuation-pattern.md`
+  - `docs/migration-message-centric-to-intent-lifecycle.md`
   - `docs/integration-quickstart.md`
   - `docs/external-integrator-dry-run.md`
   - `docs/migration-and-deprecation-policy.md`

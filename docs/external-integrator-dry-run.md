@@ -15,6 +15,9 @@ Provide a repeatable public-only verification that a third-party integrator can 
 - `axme-docs/docs/migration-and-deprecation-policy.md`
 - `axme-docs/docs/openapi/gateway.v1.json`
 - `axme-docs/docs/integration-quickstart.md`
+- `axme-docs/docs/axme-is-not-rpc.md`
+- `axme-docs/docs/mcp-axme-continuation-pattern.md`
+- `axme-docs/docs/migration-message-centric-to-intent-lifecycle.md`
 
 ## Dry-Run Steps
 
@@ -22,6 +25,8 @@ Provide a repeatable public-only verification that a third-party integrator can 
 2. Generate client request models from OpenAPI and/or JSON schemas.
 3. Implement minimal API flow:
    - `POST /v1/intents`
+   - `GET /v1/intents/{intent_id}/events/stream`
+   - `GET /v1/intents/{intent_id}/events?since=<seq>`
    - `GET /v1/intents/{intent_id}`
    - `GET /v1/inbox`
 4. Add retry/idempotency behavior for retryable write paths.
