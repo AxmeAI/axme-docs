@@ -1777,11 +1777,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Ordered intent lifecycle stream (SSE).",
             "content": {
-              "application/json": {
-                "schema": {}
-              }
+              "text/event-stream": {}
             }
           },
           "422": {

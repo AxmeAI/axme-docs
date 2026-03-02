@@ -39,6 +39,22 @@ Reference:
   - earliest removal date,
   - required client-side actions.
 
+## Intent `legacy_status` Deprecation Schedule
+
+`legacy_status` on intent projections exists only as a migration bridge from legacy status values (`accepted|running|blocked|done|failed`) to canonical lifecycle status values.
+
+Timeline:
+
+1. **Phase A (current through 2026-06-30): dual projection**
+   - `intent.status` is canonical and required for client logic.
+   - `intent.legacy_status` remains enabled by default for compatibility.
+2. **Phase B (from 2026-07-01): explicit opt-out**
+   - Integrators should validate clients with `GATEWAY_INCLUDE_LEGACY_INTENT_STATUS=false`.
+   - New integrations should ignore `legacy_status` and rely only on canonical lifecycle fields.
+3. **Phase C (next major after overlap, earliest 2026-10-01): removal**
+   - `legacy_status` is removed from public payloads in the next major API version.
+   - SDKs and conformance contracts treat canonical `status` as the only supported lifecycle projection.
+
 ## Migration Expectations for Integrators
 
 - Pin to explicit schema/API versions (do not depend on implicit latest behavior).
