@@ -10,6 +10,8 @@ This guide publishes Sprint 1 Track F contract docs for:
 - `usage.summary.get`
 - `usage.timeseries.get`
 - `usage.rollups.daily`
+- `billing.plan.*`
+- `billing.invoices.*`
 - `service_accounts.*`
 - `service_accounts.keys.*`
 - `portal.enterprise.*` (BFF overview + request queue)
@@ -69,6 +71,11 @@ Published operation groups:
   - `GET /v1/usage/summary`
   - `GET /v1/usage/timeseries`
   - `POST /v1/usage/rollups/daily`
+- billing:
+  - `PATCH /v1/billing/plan`
+  - `GET /v1/billing/plan`
+  - `GET /v1/billing/invoices`
+  - `GET /v1/billing/invoices/{invoice_id}`
 - service accounts:
   - `POST /v1/service-accounts`
   - `GET /v1/service-accounts`
@@ -153,6 +160,11 @@ Quotas and usage:
 - `axp-spec/schemas/public_api/api.quotas.update.response.v1.json`
 - `axp-spec/schemas/public_api/api.usage.summary.get.response.v1.json`
 - `axp-spec/schemas/public_api/api.usage.timeseries.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.billing.plan.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.billing.plan.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.billing.plan.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.billing.invoices.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.billing.invoices.get.response.v1.json`
 - `axp-spec/schemas/public_api/api.service_accounts.create.request.v1.json`
 - `axp-spec/schemas/public_api/api.service_accounts.create.response.v1.json`
 - `axp-spec/schemas/public_api/api.service_accounts.list.response.v1.json`
@@ -215,6 +227,8 @@ Permission matrix:
 | quotas.get | allow | allow | allow | deny | allow | allow |
 | usage.summary.get and usage.timeseries.get | allow | allow | allow | deny | allow | allow |
 | usage.rollups.daily | allow | allow | allow | deny | deny | deny |
+| billing.plan.update | allow | allow | allow | deny | deny | deny |
+| billing.plan.get and billing.invoices.list/get | allow | allow | allow | deny | allow | allow |
 | service_accounts.create/get/list and service_accounts.keys.* | allow | allow | allow | deny | read-only list/get | read-only list/get |
 | portal.enterprise.overview and portal.enterprise.access_requests | allow | allow | allow | deny | allow | allow |
 
