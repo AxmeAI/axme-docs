@@ -23,13 +23,18 @@ jobs:
       - name: Run docs validator
         run: python scripts/validate_docs.py
       - name: Verify OpenAPI sync against control-plane full contract
+        if: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN != '' }}
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN }}
         run: |
           git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/AxmeAI/axme-control-plane" ../axme-control-plane
           python -m pip install -r ../axme-control-plane/requirements.txt
           python ../axme-control-plane/scripts/export_gateway_openapi.py
           diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
           diff -u docs/openapi/gateway.track-f-sprint1.v1.json ../axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
+      - name: OpenAPI sync gate skipped (missing cross-repo token)
+        if: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN == '' }}
+        run: |
+          echo "::warning::AXME_CONTROL_PLANE_READ_TOKEN is not configured; skipping control-plane OpenAPI sync gate."
       - name: Run tests
         run: python -m pytest -q
