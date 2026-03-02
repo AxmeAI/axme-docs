@@ -18,6 +18,15 @@ Canonical positioning for all materials:
 - AXME App docs:
   - reserved section for consumer product docs as they are published
 
+## Product Doc Lanes
+
+- AXME Cloud (product docs in this repo):
+  - enterprise runtime, API families, deployment/operations, and integration guides under `docs/`
+- AXP Protocol (spec and semantics):
+  - canonical protocol contracts live in `axp-spec` and conformance in `axp-conformance`
+- AXME App (consumer surface):
+  - consumer-facing documentation lane reserved and expanded as public app docs are published
+
 ## Status
 
 Track B extraction in progress.
@@ -47,6 +56,7 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
   - `docs/external-integrator-dry-run.md`
   - `docs/enterprise-scoped-credentials-migration-note.md`
   - `docs/enterprise-runtime-model-and-placement.md`
+  - `docs/enterprise-routing-transport-operations.md`
   - `docs/migration-and-deprecation-policy.md`
   - `docs/supported-limits-and-error-model.md`
   - `docs/MVP_SCOPE.md`
