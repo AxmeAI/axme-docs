@@ -93,7 +93,7 @@ Adapters can optionally submit normalized intents to gateway and return:
     "submitted": true,
     "via": "gateway",
     "intent_id": "...",
-    "status": "accepted|running|done|failed",
+    "status": "SUBMITTED|IN_PROGRESS|WAITING|COMPLETED|FAILED|CANCELED",
     "created_at": "..."
   }
 }
