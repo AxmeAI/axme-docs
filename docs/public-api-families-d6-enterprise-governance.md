@@ -13,9 +13,10 @@ This guide publishes Sprint 1 Track F contract docs for:
 Use this guide with:
 
 - `docs/openapi/gateway.track-f-sprint1.v1.json` (draft OpenAPI operation surface for Sprint 1)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md`
 - `docs/supported-limits-and-error-model.md`
+- `docs/enterprise-runtime-model-and-placement.md`
 
 ## 1) OpenAPI Operation Publication
 
@@ -53,36 +54,36 @@ Published operation groups:
 
 Organizations and access requests:
 
-- `axme-spec/schemas/public_api/api.organizations.create.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.create.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.update.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.update.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.workspaces.create.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.workspaces.create.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.workspaces.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.workspaces.update.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.workspaces.update.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.add.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.add.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.update.request.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.update.response.v1.json`
-- `axme-spec/schemas/public_api/api.organizations.members.remove.response.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.create.request.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.create.response.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.review.request.v1.json`
-- `axme-spec/schemas/public_api/api.access_requests.review.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.workspaces.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.workspaces.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.workspaces.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.workspaces.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.workspaces.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.add.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.add.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.organizations.members.remove.response.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.review.request.v1.json`
+- `axp-spec/schemas/public_api/api.access_requests.review.response.v1.json`
 
 Quotas and usage:
 
-- `axme-spec/schemas/public_api/api.quotas.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.quotas.update.request.v1.json`
-- `axme-spec/schemas/public_api/api.quotas.update.response.v1.json`
-- `axme-spec/schemas/public_api/api.usage.summary.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.usage.timeseries.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.quotas.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.quotas.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.quotas.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.usage.summary.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.usage.timeseries.get.response.v1.json`
 
 ## 3) Permission and Scope Matrix (Sprint 1)
 
