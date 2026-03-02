@@ -14,6 +14,7 @@ Track B extraction in progress.
 
 Canonical OpenAPI specifications live under `docs/openapi/`:
 - `gateway.v1.json`
+- `gateway.track-f-sprint1.v1.json`
 - `chatgpt-adapter.v1.json`
 - `gemini-adapter.v1.json`
 
@@ -26,6 +27,7 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
   - `docs/public-api-families-d3-users.md`
   - `docs/public-api-families-d4-invites-media.md`
   - `docs/public-api-families-d5-schemas.md`
+  - `docs/public-api-families-d6-enterprise-governance.md`
   - `docs/axme-is-not-rpc.md`
   - `docs/mcp-axme-continuation-pattern.md`
   - `docs/migration-message-centric-to-intent-lifecycle.md`
