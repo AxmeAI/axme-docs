@@ -116,6 +116,22 @@ Auth flow endpoints are exposed by gateway and proxied to `auth_service`:
   - when enabled, valid bearer is required and owner is derived from JWT claim.
 - Access to a thread outside the provided owner scope returns HTTP `403`.
 
+## Production Hardening and Scoped Credential Migration
+
+Production profile defaults and migration controls:
+
+- `AXME_DEPLOYMENT_PROFILE=production` enables fail-closed defaults for:
+  - `GATEWAY_REQUIRE_BEARER_AUTH=true`
+  - `GATEWAY_ENFORCE_INBOX_OWNER_SCOPE=true`
+  - `GATEWAY_ALLOW_UNCONTROLLED_ACCOUNT_BOOTSTRAP=false`
+- Scoped credential transition flags:
+  - `AXME_FEATURE_SCOPED_CREDENTIALS`
+  - `AXME_SCOPED_CREDENTIALS_ALLOW_LEGACY_OWNER`
+
+Detailed rollout phases and compatibility window behavior:
+
+- `docs/enterprise-scoped-credentials-migration-note.md`
+
 ## Idempotency (`POST /v1/intents`)
 
 - Header: `idempotency-key: <client-generated-key>`

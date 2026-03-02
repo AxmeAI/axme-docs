@@ -44,6 +44,8 @@ Reference:
 - Pin to explicit schema/API versions (do not depend on implicit latest behavior).
 - Validate request/response payloads against published schemas.
 - Track release notes for deprecations and scheduled removals.
+- For enterprise auth migration details (shared key to scoped credentials), follow:
+  - `docs/enterprise-scoped-credentials-migration-note.md`
 
 ## Enforcement
 
