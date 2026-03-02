@@ -5,6 +5,9 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,8 +23,10 @@ jobs:
       - name: Run docs validator
         run: python scripts/validate_docs.py
       - name: Verify OpenAPI sync against control-plane full contract
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git clone --depth 1 https://github.com/AxmeAI/axme-control-plane ../axme-control-plane
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/AxmeAI/axme-control-plane" ../axme-control-plane
           python -m pip install -r ../axme-control-plane/requirements.txt
           python ../axme-control-plane/scripts/export_gateway_openapi.py
           diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
