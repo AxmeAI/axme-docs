@@ -4,7 +4,19 @@ Public platform documentation and architecture guides for integrators.
 
 Canonical positioning for all materials:
 
-- **AXP is the Intent Protocol (durable execution layer).**
+- **AXME** is the product ecosystem and brand.
+- **AXP** is the Intent Protocol (durable execution layer).
+- **AXME Cloud** is the enterprise infrastructure product surface.
+- **AXME App** is the consumer application surface.
+
+## Documentation Tracks
+
+- AXME platform and products (Cloud, SDKs, tools, apps):
+  - architecture and operational docs in this repository
+- AXP protocol (spec and conformance):
+  - `axp-spec` and `axp-conformance` repositories
+- AXME App docs:
+  - reserved section for consumer product docs as they are published
 
 ## Status
 
@@ -34,6 +46,7 @@ Canonical OpenAPI specifications live under `docs/openapi/`:
   - `docs/integration-quickstart.md`
   - `docs/external-integrator-dry-run.md`
   - `docs/enterprise-scoped-credentials-migration-note.md`
+  - `docs/enterprise-runtime-model-and-placement.md`
   - `docs/migration-and-deprecation-policy.md`
   - `docs/supported-limits-and-error-model.md`
   - `docs/MVP_SCOPE.md`
