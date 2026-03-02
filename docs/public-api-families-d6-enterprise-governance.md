@@ -13,6 +13,16 @@ This guide publishes Sprint 1 Track F contract docs for:
 - `service_accounts.*`
 - `service_accounts.keys.*`
 - `portal.enterprise.*` (BFF overview + request queue)
+- `principals.*`
+- `aliases.*`
+- `routing.*`
+- `transports.bindings.*`
+- `deliveries.*`
+- `principals.*`
+- `aliases.*`
+- `routing.*`
+- `transports.bindings.*`
+- `deliveries.*`
 
 Use this guide with:
 
@@ -21,6 +31,11 @@ Use this guide with:
 - `docs/public-api-auth.md`
 - `docs/supported-limits-and-error-model.md`
 - `docs/enterprise-runtime-model-and-placement.md`
+
+OpenAPI note:
+
+- `docs/openapi/*` are generated from the full contract surface (all Track F enterprise flags enabled for export).
+- Runtime availability for specific endpoints still depends on deployment feature flags and profile configuration.
 
 ## 1) OpenAPI Operation Publication
 
@@ -60,9 +75,49 @@ Published operation groups:
   - `GET /v1/service-accounts/{service_account_id}`
   - `POST /v1/service-accounts/{service_account_id}/keys`
   - `POST /v1/service-accounts/{service_account_id}/keys/{key_id}/revoke`
+- naming/routing/transports/deliveries foundation:
+  - `POST /v1/principals`
+  - `GET /v1/principals/{principal_id}`
+  - `POST /v1/aliases`
+  - `GET /v1/aliases`
+  - `POST /v1/aliases/{alias_id}/revoke`
+  - `GET /v1/aliases/resolve`
+  - `POST /v1/routing/endpoints`
+  - `GET /v1/routing/endpoints`
+  - `PATCH /v1/routing/endpoints/{route_id}`
+  - `DELETE /v1/routing/endpoints/{route_id}`
+  - `POST /v1/routing/resolve`
+  - `POST /v1/transports/bindings`
+  - `GET /v1/transports/bindings`
+  - `DELETE /v1/transports/bindings/{binding_id}`
+  - `POST /v1/deliveries`
+  - `GET /v1/deliveries`
+  - `GET /v1/deliveries/{delivery_id}`
+  - `POST /v1/deliveries/{delivery_id}/replay`
 - portal backend-for-frontend:
   - `GET /v1/portal/enterprise/overview`
   - `GET /v1/portal/enterprise/access-requests`
+- naming and routing foundation:
+  - `POST /v1/principals`
+  - `GET /v1/principals/{principal_id}`
+  - `POST /v1/aliases`
+  - `GET /v1/aliases`
+  - `POST /v1/aliases/{alias_id}/revoke`
+  - `GET /v1/aliases/resolve`
+  - `POST /v1/routing/endpoints`
+  - `GET /v1/routing/endpoints`
+  - `PATCH /v1/routing/endpoints/{route_id}`
+  - `DELETE /v1/routing/endpoints/{route_id}`
+  - `POST /v1/routing/resolve`
+- transport bindings:
+  - `POST /v1/transports/bindings`
+  - `GET /v1/transports/bindings`
+  - `DELETE /v1/transports/bindings/{binding_id}`
+- deliveries and replay:
+  - `POST /v1/deliveries`
+  - `GET /v1/deliveries`
+  - `GET /v1/deliveries/{delivery_id}`
+  - `POST /v1/deliveries/{delivery_id}/replay`
 
 ## 2) Canonical Schema Contracts
 
@@ -105,6 +160,31 @@ Quotas and usage:
 - `axp-spec/schemas/public_api/api.service_accounts.keys.create.request.v1.json`
 - `axp-spec/schemas/public_api/api.service_accounts.keys.create.response.v1.json`
 - `axp-spec/schemas/public_api/api.service_accounts.keys.revoke.response.v1.json`
+- `axp-spec/schemas/public_api/api.principals.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.principals.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.principals.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.aliases.bind.request.v1.json`
+- `axp-spec/schemas/public_api/api.aliases.bind.response.v1.json`
+- `axp-spec/schemas/public_api/api.aliases.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.aliases.resolve.response.v1.json`
+- `axp-spec/schemas/public_api/api.aliases.revoke.response.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.register.request.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.register.response.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.routing.endpoints.remove.response.v1.json`
+- `axp-spec/schemas/public_api/api.routing.resolve.request.v1.json`
+- `axp-spec/schemas/public_api/api.routing.resolve.response.v1.json`
+- `axp-spec/schemas/public_api/api.transports.bindings.upsert.request.v1.json`
+- `axp-spec/schemas/public_api/api.transports.bindings.upsert.response.v1.json`
+- `axp-spec/schemas/public_api/api.transports.bindings.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.transports.bindings.remove.response.v1.json`
+- `axp-spec/schemas/public_api/api.deliveries.submit.request.v1.json`
+- `axp-spec/schemas/public_api/api.deliveries.submit.response.v1.json`
+- `axp-spec/schemas/public_api/api.deliveries.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.deliveries.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.deliveries.replay.response.v1.json`
 
 ## 3) Permission and Scope Matrix (Sprint 1)
 

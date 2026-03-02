@@ -19,5 +19,12 @@ jobs:
           python -m pip install -e ".[dev]"
       - name: Run docs validator
         run: python scripts/validate_docs.py
+      - name: Verify OpenAPI sync against control-plane full contract
+        run: |
+          git clone --depth 1 https://github.com/AxmeAI/axme-control-plane ../axme-control-plane
+          python -m pip install -r ../axme-control-plane/requirements.txt
+          python ../axme-control-plane/scripts/export_gateway_openapi.py
+          diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
+          diff -u docs/openapi/gateway.track-f-sprint1.v1.json ../axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
       - name: Run tests
         run: python -m pytest -q
