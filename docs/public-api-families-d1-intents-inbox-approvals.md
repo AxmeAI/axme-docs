@@ -26,7 +26,7 @@ Use this guide together with:
 
 ### Purpose and context
 
-Intents are the primary write/read entry for assistant-integrator workflows. Integrators submit normalized intent envelopes and track the accepted intent by ID.
+Intents are the primary write/read entry for assistant-integrator workflows. Integrators submit normalized intent envelopes and track canonical lifecycle status by intent ID.
 
 ### Endpoint mapping
 
@@ -65,7 +65,7 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 {
   "ok": true,
   "intent_id": "7d0bcf7e-6d94-4a78-9232-1491db2a545b",
-  "status": "accepted",
+  "status": "DELIVERED",
   "created_at": "2026-02-21T11:00:00Z"
 }
 ```
