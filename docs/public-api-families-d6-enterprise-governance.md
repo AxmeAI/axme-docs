@@ -1,4 +1,4 @@
-# Public API Families D6: Enterprise Governance (Sprint 1)
+# Public API Families D6: Enterprise Governance (Sprint 1 + Sprint 2)
 
 This guide publishes Sprint 1 Track F contract docs for:
 
@@ -9,6 +9,10 @@ This guide publishes Sprint 1 Track F contract docs for:
 - `quotas.*`
 - `usage.summary.get`
 - `usage.timeseries.get`
+- `usage.rollups.daily`
+- `service_accounts.*`
+- `service_accounts.keys.*`
+- `portal.enterprise.*` (BFF overview + request queue)
 
 Use this guide with:
 
@@ -49,6 +53,16 @@ Published operation groups:
   - `PATCH /v1/quotas`
   - `GET /v1/usage/summary`
   - `GET /v1/usage/timeseries`
+  - `POST /v1/usage/rollups/daily`
+- service accounts:
+  - `POST /v1/service-accounts`
+  - `GET /v1/service-accounts`
+  - `GET /v1/service-accounts/{service_account_id}`
+  - `POST /v1/service-accounts/{service_account_id}/keys`
+  - `POST /v1/service-accounts/{service_account_id}/keys/{key_id}/revoke`
+- portal backend-for-frontend:
+  - `GET /v1/portal/enterprise/overview`
+  - `GET /v1/portal/enterprise/access-requests`
 
 ## 2) Canonical Schema Contracts
 
@@ -84,6 +98,13 @@ Quotas and usage:
 - `axp-spec/schemas/public_api/api.quotas.update.response.v1.json`
 - `axp-spec/schemas/public_api/api.usage.summary.get.response.v1.json`
 - `axp-spec/schemas/public_api/api.usage.timeseries.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.keys.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.keys.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.service_accounts.keys.revoke.response.v1.json`
 
 ## 3) Permission and Scope Matrix (Sprint 1)
 
@@ -113,6 +134,9 @@ Permission matrix:
 | quotas.update | allow | allow | deny | deny | deny | deny |
 | quotas.get | allow | allow | allow | deny | allow | allow |
 | usage.summary.get and usage.timeseries.get | allow | allow | allow | deny | allow | allow |
+| usage.rollups.daily | allow | allow | allow | deny | deny | deny |
+| service_accounts.create/get/list and service_accounts.keys.* | allow | allow | allow | deny | read-only list/get | read-only list/get |
+| portal.enterprise.overview and portal.enterprise.access_requests | allow | allow | allow | deny | allow | allow |
 
 Notes:
 
