@@ -36,6 +36,16 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 - `GET /v1/intents/{intent_id}/events/stream` -> stream lifecycle events (SSE)
 - `POST /v1/intents/{intent_id}/resolve` -> append terminal lifecycle event
 
+### Continuation semantics (v1)
+
+- Stream transport for `/events/stream` is `text/event-stream` (SSE).
+- Polling (`/events?since=`) and streaming are both expected to surface newly synced lifecycle progress without requiring a side-effect `GET /v1/intents/{intent_id}` call first.
+- `intent.waiting` events carry `waiting_reason` with one of:
+  - `WAITING_FOR_HUMAN`
+  - `WAITING_FOR_TOOL`
+  - `WAITING_FOR_TIME`
+  - `WAITING_FOR_AGENT`
+
 ### Canonical schemas
 
 - `axme-spec/schemas/public_api/api.intents.create.request.v1.json`
@@ -109,6 +119,7 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
   - `intents_get`
   - `intents_events`
   - `intents_stream_resume`
+  - `intents_continuation_autonomy`
   - `intents_resolve`
   - `intent_completion_delivery`
 

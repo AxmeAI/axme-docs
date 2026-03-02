@@ -21,6 +21,8 @@ AXME supports three continuation mechanisms:
 - Polling: `GET /v1/intents/{intent_id}` and `GET /v1/intents/{intent_id}/events?since=<seq>`
 - Deliver-to-inbox: pass `reply_to` on create and observe completion in that inbox
 
+For forwarded long-running intents, stream and polling are expected to surface lifecycle progress directly (without requiring `GET /v1/intents/{intent_id}` as a side-effect trigger).
+
 ## Design Rules
 
 - Do not model `create_intent` as "remote function call that must finish now".
