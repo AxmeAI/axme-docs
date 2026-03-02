@@ -11,6 +11,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      AXME_CONTROL_PLANE_READ_TOKEN: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,9 +25,9 @@ jobs:
       - name: Run docs validator
         run: python scripts/validate_docs.py
       - name: Verify OpenAPI sync against control-plane full contract
-        if: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN != '' }}
+        if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN != '' }}
         env:
-          GH_TOKEN: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN }}
+          GH_TOKEN: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN }}
         run: |
           git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/AxmeAI/axme-control-plane" ../axme-control-plane
           python -m pip install -r ../axme-control-plane/requirements.txt
@@ -33,7 +35,7 @@ jobs:
           diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
           diff -u docs/openapi/gateway.track-f-sprint1.v1.json ../axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
       - name: OpenAPI sync gate skipped (missing cross-repo token)
-        if: ${{ secrets.AXME_CONTROL_PLANE_READ_TOKEN == '' }}
+        if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN == '' }}
         run: |
           echo "::warning::AXME_CONTROL_PLANE_READ_TOKEN is not configured; skipping control-plane OpenAPI sync gate."
       - name: Run tests
