@@ -89,7 +89,9 @@ Enterprise operation groups currently published on `gateway.v1.json`:
   - `DELETE /v1/transports/bindings/{binding_id}`
   - `POST /v1/deliveries`
   - `GET /v1/deliveries`
+  - `GET /v1/deliveries-operations`
   - `GET /v1/deliveries/{delivery_id}`
+  - `POST /v1/deliveries/reconcile`
   - `POST /v1/deliveries/{delivery_id}/replay`
 - portal backend-for-frontend:
   - `GET /v1/portal/enterprise/overview`
@@ -125,7 +127,8 @@ Primary schema groups in this batch:
 Schema disposition notes:
 
 - `POST /v1/usage/rollups/daily` and `GET /v1/portal/enterprise/*` are currently OpenAPI-exposed operational surfaces.
-- As of this snapshot, there are no dedicated `axp-spec/schemas/public_api/api.usage.rollups.daily.*` or `api.portal.enterprise.*` files.
+- `GET /v1/deliveries-operations` and `POST /v1/deliveries/reconcile` are currently OpenAPI-exposed delivery operations surfaces.
+- As of this snapshot, there are no dedicated `axp-spec/schemas/public_api/api.usage.rollups.daily.*`, `api.portal.enterprise.*`, or `api.deliveries.operations.*` files.
 - These surfaces require explicit disposition in parity tracking:
   - either add canonical `public_api` schema artifacts,
   - or document them as gateway-operational endpoints outside canonical `public_api` family scope.
