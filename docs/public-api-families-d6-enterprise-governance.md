@@ -1,6 +1,8 @@
-# Public API Families D6: Enterprise Governance (Sprint 1 + Sprint 2)
+# Public API Families D6: Enterprise Governance and Routing
 
-This guide publishes Sprint 1 Track F contract docs for:
+This guide documents the enterprise governance and routing surface published after the core D1-D5 family batches.
+
+Families covered:
 
 - `organizations.*`
 - `organizations.workspaces.*`
@@ -9,17 +11,12 @@ This guide publishes Sprint 1 Track F contract docs for:
 - `quotas.*`
 - `usage.summary.get`
 - `usage.timeseries.get`
-- `usage.rollups.daily`
+- `usage.rollups.daily` (OpenAPI-exposed operational surface; schema disposition note below)
 - `billing.plan.*`
 - `billing.invoices.*`
 - `service_accounts.*`
 - `service_accounts.keys.*`
-- `portal.enterprise.*` (BFF overview + request queue)
-- `principals.*`
-- `aliases.*`
-- `routing.*`
-- `transports.bindings.*`
-- `deliveries.*`
+- `portal.enterprise.*` (OpenAPI-exposed BFF operational surface; schema disposition note below)
 - `principals.*`
 - `aliases.*`
 - `routing.*`
@@ -28,24 +25,17 @@ This guide publishes Sprint 1 Track F contract docs for:
 
 Use this guide with:
 
-- `docs/openapi/gateway.track-f-sprint1.v1.json` (draft OpenAPI operation surface for Sprint 1)
-- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `docs/openapi/gateway.v1.json` (current canonical public operation surface)
+- `docs/openapi/gateway.track-f-sprint1.v1.json` (historical phased snapshot)
+- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axme-spec/docs/public-api-schema-index.md` (schema-to-operation mapping)
 - `docs/public-api-auth.md`
 - `docs/supported-limits-and-error-model.md`
 - `docs/enterprise-runtime-model-and-placement.md`
 
-OpenAPI note:
-
-- `docs/openapi/*` are generated from the full contract surface (all Track F enterprise flags enabled for export).
-- Runtime availability for specific endpoints still depends on deployment feature flags and profile configuration.
-
 ## 1) OpenAPI Operation Publication
 
-Sprint 1 operation publication for enterprise families is captured in:
-
-- `docs/openapi/gateway.track-f-sprint1.v1.json`
-
-Published operation groups:
+Enterprise operation groups currently published on `gateway.v1.json`:
 
 - organization lifecycle:
   - `POST /v1/organizations`
@@ -82,7 +72,7 @@ Published operation groups:
   - `GET /v1/service-accounts/{service_account_id}`
   - `POST /v1/service-accounts/{service_account_id}/keys`
   - `POST /v1/service-accounts/{service_account_id}/keys/{key_id}/revoke`
-- naming/routing/transports/deliveries foundation:
+- naming/routing/transports/deliveries:
   - `POST /v1/principals`
   - `GET /v1/principals/{principal_id}`
   - `POST /v1/aliases`
@@ -104,101 +94,43 @@ Published operation groups:
 - portal backend-for-frontend:
   - `GET /v1/portal/enterprise/overview`
   - `GET /v1/portal/enterprise/access-requests`
-- naming and routing foundation:
-  - `POST /v1/principals`
-  - `GET /v1/principals/{principal_id}`
-  - `POST /v1/aliases`
-  - `GET /v1/aliases`
-  - `POST /v1/aliases/{alias_id}/revoke`
-  - `GET /v1/aliases/resolve`
-  - `POST /v1/routing/endpoints`
-  - `GET /v1/routing/endpoints`
-  - `PATCH /v1/routing/endpoints/{route_id}`
-  - `DELETE /v1/routing/endpoints/{route_id}`
-  - `POST /v1/routing/resolve`
-- transport bindings:
-  - `POST /v1/transports/bindings`
-  - `GET /v1/transports/bindings`
-  - `DELETE /v1/transports/bindings/{binding_id}`
-- deliveries and replay:
-  - `POST /v1/deliveries`
-  - `GET /v1/deliveries`
-  - `GET /v1/deliveries/{delivery_id}`
-  - `POST /v1/deliveries/{delivery_id}/replay`
 
 ## 2) Canonical Schema Contracts
 
-Organizations and access requests:
+Canonical schema files for these families are published in:
 
-- `axp-spec/schemas/public_api/api.organizations.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.workspaces.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.workspaces.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.workspaces.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.workspaces.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.workspaces.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.add.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.add.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.organizations.members.remove.response.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.review.request.v1.json`
-- `axp-spec/schemas/public_api/api.access_requests.review.response.v1.json`
+- `axme-spec/schemas/public_api/`
+- `axme-spec/docs/public-api-schema-index.md` (authoritative mapping by operation)
 
-Quotas and usage:
+Primary schema groups in this batch:
 
-- `axp-spec/schemas/public_api/api.quotas.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.quotas.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.quotas.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.usage.summary.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.usage.timeseries.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.billing.plan.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.billing.plan.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.billing.plan.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.billing.invoices.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.billing.invoices.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.keys.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.keys.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.service_accounts.keys.revoke.response.v1.json`
-- `axp-spec/schemas/public_api/api.principals.create.request.v1.json`
-- `axp-spec/schemas/public_api/api.principals.create.response.v1.json`
-- `axp-spec/schemas/public_api/api.principals.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.aliases.bind.request.v1.json`
-- `axp-spec/schemas/public_api/api.aliases.bind.response.v1.json`
-- `axp-spec/schemas/public_api/api.aliases.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.aliases.resolve.response.v1.json`
-- `axp-spec/schemas/public_api/api.aliases.revoke.response.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.register.request.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.register.response.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.update.request.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.update.response.v1.json`
-- `axp-spec/schemas/public_api/api.routing.endpoints.remove.response.v1.json`
-- `axp-spec/schemas/public_api/api.routing.resolve.request.v1.json`
-- `axp-spec/schemas/public_api/api.routing.resolve.response.v1.json`
-- `axp-spec/schemas/public_api/api.transports.bindings.upsert.request.v1.json`
-- `axp-spec/schemas/public_api/api.transports.bindings.upsert.response.v1.json`
-- `axp-spec/schemas/public_api/api.transports.bindings.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.transports.bindings.remove.response.v1.json`
-- `axp-spec/schemas/public_api/api.deliveries.submit.request.v1.json`
-- `axp-spec/schemas/public_api/api.deliveries.submit.response.v1.json`
-- `axp-spec/schemas/public_api/api.deliveries.list.response.v1.json`
-- `axp-spec/schemas/public_api/api.deliveries.get.response.v1.json`
-- `axp-spec/schemas/public_api/api.deliveries.replay.response.v1.json`
+- organizations/access:
+  - `api.organizations.*`
+  - `api.access_requests.*`
+- quotas/usage/billing:
+  - `api.quotas.*`
+  - `api.usage.summary.get.*`
+  - `api.usage.timeseries.get.*`
+  - `api.billing.*`
+- service accounts:
+  - `api.service_accounts.*`
+  - `api.service_accounts.keys.*`
+- naming/routing/delivery:
+  - `api.principals.*`
+  - `api.aliases.*`
+  - `api.routing.*`
+  - `api.transports.bindings.*`
+  - `api.deliveries.*`
 
-## 3) Permission and Scope Matrix (Sprint 1)
+Schema disposition notes:
+
+- `POST /v1/usage/rollups/daily` and `GET /v1/portal/enterprise/*` are currently OpenAPI-exposed operational surfaces.
+- As of this snapshot, there are no dedicated `axme-spec/schemas/public_api/api.usage.rollups.daily.*` or `api.portal.enterprise.*` files.
+- These surfaces require explicit disposition in parity tracking:
+  - either add canonical `public_api` schema artifacts,
+  - or document them as gateway-operational endpoints outside canonical `public_api` family scope.
+
+## 3) Permission and Scope Matrix
 
 Tenant scope context:
 
@@ -215,8 +147,6 @@ Role set:
 - `billing_viewer`
 - `security_auditor`
 
-Permission matrix:
-
 | Operation group | org_owner | org_admin | workspace_admin | member | billing_viewer | security_auditor |
 | --- | --- | --- | --- | --- | --- | --- |
 | organizations.create/get/update | allow | allow (get/update) | deny | deny | read-only get | read-only get |
@@ -230,14 +160,14 @@ Permission matrix:
 | billing.plan.update | allow | allow | allow | deny | deny | deny |
 | billing.plan.get and billing.invoices.list/get | allow | allow | allow | deny | allow | allow |
 | service_accounts.create/get/list and service_accounts.keys.* | allow | allow | allow | deny | read-only list/get | read-only list/get |
-| portal.enterprise.overview and portal.enterprise.access_requests | allow | allow | allow | deny | allow | allow |
+| portal.enterprise.overview and portal.enterprise.access-requests | allow | allow | allow | deny | allow | allow |
 
 Notes:
 
-- `member` role can create request-access records for elevated role or org join, but cannot mutate organization/member/quota records directly.
+- `member` can create request-access records for elevated role or org join, but cannot mutate governance resources directly.
 - Workspace-scoped actions require workspace membership binding in runtime policy checks.
 
-## 4) Canonical Error Semantics (Sprint 1)
+## 4) Canonical Error Semantics
 
 Error expectations for enterprise governance operations:
 
@@ -263,5 +193,9 @@ Error expectations for enterprise governance operations:
 
 ## 5) Compatibility Notes
 
-- Sprint 1 publishes additive contracts and OpenAPI operation docs only.
-- Runtime rollout remains feature-flagged and can run in compatibility mode while scoped-credential migration is in progress.
+- Enterprise routes are additive and remain feature-flagged by deployment profile.
+- Runtime rollout can operate in compatibility mode during scoped-credential migration.
+- Contract changes for these families must keep:
+  - idempotency guidance,
+  - trace propagation expectations,
+  - auditable role/scope error behavior.

@@ -170,11 +170,10 @@ Capabilities provide a machine-readable contract for what the runtime currently 
 
 ### SDK call mapping
 
-- Python GA: dedicated helper not yet shipped (use direct HTTP path until parity batch closes the gap).
-- TypeScript GA: dedicated helper not yet shipped (use direct HTTP path until parity batch closes the gap).
+- Python GA: `AxmeClient.get_capabilities(...)`
+- TypeScript GA: `AxmeClient.getCapabilities(...)`
 - Beta SDKs (`Go/Java/.NET`): parity pending.
 
 ### Conformance expectation
 
-- No dedicated capabilities check yet in `axme-conformance`.
-- Track C conformance expansion should add `capabilities.get` shape and non-empty capability list validation.
+- Covered by `capabilities_get` executable contract check in `axme-conformance` (response shape and non-empty capabilities list validation).
