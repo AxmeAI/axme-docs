@@ -34,9 +34,10 @@ jobs:
           python ../axme-control-plane/scripts/export_gateway_openapi.py
           diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
           diff -u docs/openapi/gateway.track-f-sprint1.v1.json ../axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
-      - name: OpenAPI sync gate skipped (missing cross-repo token)
+      - name: Require cross-repo token for OpenAPI sync gate
         if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN == '' }}
         run: |
-          echo "::warning::AXME_CONTROL_PLANE_READ_TOKEN is not configured; skipping control-plane OpenAPI sync gate."
+          echo "::error::AXME_CONTROL_PLANE_READ_TOKEN must be configured to enforce non-optional OpenAPI sync gate."
+          exit 1
       - name: Run tests
         run: python -m pytest -q
