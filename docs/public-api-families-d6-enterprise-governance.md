@@ -17,6 +17,7 @@ Families covered:
 - `service_accounts.*`
 - `service_accounts.keys.*`
 - `portal.enterprise.*` (OpenAPI-exposed BFF operational surface; schema disposition note below)
+- `portal.personal.*` (OpenAPI-exposed BFF operational surface; schema disposition note below)
 - `principals.*`
 - `aliases.*`
 - `routing.*`
@@ -94,8 +95,11 @@ Enterprise operation groups currently published on `gateway.v1.json`:
   - `POST /v1/deliveries/reconcile`
   - `POST /v1/deliveries/{delivery_id}/replay`
 - portal backend-for-frontend:
+  - `GET /v1/portal/enterprise/navigation`
   - `GET /v1/portal/enterprise/overview`
   - `GET /v1/portal/enterprise/access-requests`
+  - `GET /v1/portal/enterprise/request-queue`
+  - `GET /v1/portal/personal/overview`
 
 ## 2) Canonical Schema Contracts
 
@@ -126,9 +130,9 @@ Primary schema groups in this batch:
 
 Schema disposition notes:
 
-- `POST /v1/usage/rollups/daily` and `GET /v1/portal/enterprise/*` are currently OpenAPI-exposed operational surfaces.
+- `POST /v1/usage/rollups/daily`, `GET /v1/portal/enterprise/*`, and `GET /v1/portal/personal/*` are currently OpenAPI-exposed operational surfaces.
 - `GET /v1/deliveries-operations` and `POST /v1/deliveries/reconcile` are currently OpenAPI-exposed delivery operations surfaces.
-- As of this snapshot, there are no dedicated `axp-spec/schemas/public_api/api.usage.rollups.daily.*`, `api.portal.enterprise.*`, or `api.deliveries.operations.*` files.
+- As of this snapshot, there are no dedicated `axp-spec/schemas/public_api/api.usage.rollups.daily.*`, `api.portal.enterprise.*`, `api.portal.personal.*`, or `api.deliveries.operations.*` files.
 - These surfaces require explicit disposition in parity tracking:
   - either add canonical `public_api` schema artifacts,
   - or document them as gateway-operational endpoints outside canonical `public_api` family scope.
@@ -163,7 +167,8 @@ Role set:
 | billing.plan.update | allow | allow | allow | deny | deny | deny |
 | billing.plan.get and billing.invoices.list/get | allow | allow | allow | deny | allow | allow |
 | service_accounts.create/get/list and service_accounts.keys.* | allow | allow | allow | deny | read-only list/get | read-only list/get |
-| portal.enterprise.overview and portal.enterprise.access-requests | allow | allow | allow | deny | allow | allow |
+| portal.enterprise.navigation/overview/access-requests/request-queue | allow | allow | allow | deny | allow (except request-queue) | allow |
+| portal.personal.overview | allow | allow | allow | allow | allow | allow |
 
 Notes:
 
