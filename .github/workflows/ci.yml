@@ -26,14 +26,19 @@ jobs:
         run: python scripts/validate_docs.py
       - name: Verify OpenAPI sync against control-plane full contract
         if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN != '' }}
-        env:
-          GH_TOKEN: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN }}
+        uses: actions/checkout@v4
+        with:
+          repository: AxmeAI/axme-control-plane
+          token: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN }}
+          path: axme-control-plane
+          persist-credentials: false
+      - name: Compare OpenAPI artifacts with control-plane
+        if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN != '' }}
         run: |
-          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/AxmeAI/axme-control-plane" ../axme-control-plane
-          python -m pip install -r ../axme-control-plane/requirements.txt
-          python ../axme-control-plane/scripts/export_gateway_openapi.py
-          diff -u docs/openapi/gateway.v1.json ../axme-control-plane/docs/openapi/gateway.v1.json
-          diff -u docs/openapi/gateway.track-f-sprint1.v1.json ../axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
+          python -m pip install -r axme-control-plane/requirements.txt
+          python axme-control-plane/scripts/export_gateway_openapi.py
+          diff -u docs/openapi/gateway.v1.json axme-control-plane/docs/openapi/gateway.v1.json
+          diff -u docs/openapi/gateway.track-f-sprint1.v1.json axme-control-plane/docs/openapi/gateway.track-f-sprint1.v1.json
       - name: Require cross-repo token for OpenAPI sync gate
         if: ${{ env.AXME_CONTROL_PLANE_READ_TOKEN == '' }}
         run: |
