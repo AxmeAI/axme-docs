@@ -24,6 +24,22 @@ Non-production defaults remain compatibility-oriented unless explicitly hardened
 - bearer auth and strict owner scope stay opt-in
 - uncontrolled bootstrap remains enabled by default
 
+## Internal Caller Posture Checks (Gateway-Adjacent Services)
+
+Internal services that call gateway enterprise routes (for example `mcp-server`) must follow the same shared-key migration posture:
+
+- production profile is fail-closed:
+  - `AXME_DEPLOYMENT_PROFILE=production`
+  - `GATEWAY_API_KEY` must be explicitly configured (startup fails if missing)
+- non-production profile may use `dev-gateway-key` default only for local/dev flows.
+
+Operational verification:
+
+- check `GET /health` on `mcp-server`:
+  - `deployment_profile`
+  - `gateway_api_key_source` (`explicit` or `dev_default`)
+  - `gateway_shared_key_default_active` (must be `false` for staging/production)
+
 ## Scoped Credential Transition Flags
 
 Runtime feature controls:
