@@ -7,6 +7,9 @@ This guide covers the first additive parity batch for family-level integration d
 - `intents.events`
 - `intents.events.stream`
 - `intents.resolve`
+- `intents.resume`
+- `intents.controls`
+- `intents.policy`
 - `inbox.list`
 - `inbox.thread`
 - `inbox.reply`
@@ -35,6 +38,9 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 - `GET /v1/intents/{intent_id}/events` -> list lifecycle events
 - `GET /v1/intents/{intent_id}/events/stream` -> stream lifecycle events (SSE)
 - `POST /v1/intents/{intent_id}/resolve` -> append terminal lifecycle event
+- `POST /v1/intents/{intent_id}/resume` -> resume a blocked/waiting workflow step with control CAS
+- `POST /v1/intents/{intent_id}/controls` -> patch workflow control parameters (`controls_patch`)
+- `POST /v1/intents/{intent_id}/policy` -> patch delegated grants and envelope policy (`grants_patch`, `envelope_patch`)
 
 ### Continuation semantics (v1)
 
@@ -54,6 +60,10 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 - `axme-spec/schemas/public_api/api.intents.events.list.response.v1.json`
 - `axme-spec/schemas/public_api/api.intents.resolve.request.v1.json`
 - `axme-spec/schemas/public_api/api.intents.resolve.response.v1.json`
+- OpenAPI request/response components for:
+  - `POST /v1/intents/{intent_id}/resume`
+  - `POST /v1/intents/{intent_id}/controls`
+  - `POST /v1/intents/{intent_id}/policy`
 
 ### Request example (`POST /v1/intents`)
 
@@ -104,12 +114,18 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
   - `AxmeClient.observe(...)`
   - `AxmeClient.wait_for(...)`
   - `AxmeClient.resolve_intent(...)`
+  - `AxmeClient.resume_intent(...)`
+  - `AxmeClient.update_intent_controls(...)`
+  - `AxmeClient.update_intent_policy(...)`
 - TypeScript GA:
   - `AxmeClient.sendIntent(...)`
   - `AxmeClient.listIntentEvents(...)`
   - `AxmeClient.observe(...)`
   - `AxmeClient.waitFor(...)`
   - `AxmeClient.resolveIntent(...)`
+  - `AxmeClient.resumeIntent(...)`
+  - `AxmeClient.updateIntentControls(...)`
+  - `AxmeClient.updateIntentPolicy(...)`
 
 ### Conformance expectation
 
@@ -121,6 +137,8 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
   - `intents_stream_resume`
   - `intents_continuation_autonomy`
   - `intents_resolve`
+  - `intents_resume_control`
+  - `intents_controls_policy`
   - `intent_completion_delivery`
 
 ## 2) Inbox Family
