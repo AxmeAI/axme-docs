@@ -6973,6 +6973,59 @@
         ],
         "title": "ResolveNickResponse"
       },
+      "ResumeIntentRequest": {
+        "properties": {
+          "approve_current_step": {
+            "type": "boolean",
+            "title": "Approve Current Step",
+            "default": true
+          },
+          "actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "expected_policy_generation": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Policy Generation"
+          },
+          "internal_scheduler": {
+            "type": "boolean",
+            "title": "Internal Scheduler",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "ResumeIntentRequest"
+      },
       "RoutingEndpointRegisterRequest": {
         "properties": {
           "principal_id": {
@@ -7535,6 +7588,131 @@
           "transport_handle"
         ],
         "title": "TransportBindingUpsertRequest"
+      },
+      "UpdateIntentControlsRequest": {
+        "properties": {
+          "controls_patch": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Controls Patch"
+          },
+          "actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "expected_policy_generation": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Policy Generation"
+          },
+          "internal_scheduler": {
+            "type": "boolean",
+            "title": "Internal Scheduler",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "UpdateIntentControlsRequest"
+      },
+      "UpdateIntentPolicyRequest": {
+        "properties": {
+          "grants_patch": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grants Patch"
+          },
+          "envelope_patch": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Envelope Patch"
+          },
+          "actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "expected_policy_generation": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Policy Generation"
+          },
+          "internal_scheduler": {
+            "type": "boolean",
+            "title": "Internal Scheduler",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "UpdateIntentPolicyRequest"
       },
       "UserProfileResponse": {
         "properties": {
