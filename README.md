@@ -3,7 +3,7 @@
 **Public documentation for the AXME platform** — API references, protocol specifications, integration guides, security model, and the full visualization program.
 
 > **Alpha** · Protocol and API surface are stabilizing. Not recommended for production workloads yet.  
-> Feedback and early-adopter reports welcome → [hello@axme.ai](mailto:hello@axme.ai)
+> Alpha access: https://cloud.axme.ai/alpha · Contact and suggestions: [hello@axme.ai](mailto:hello@axme.ai)
 
 ---
 
@@ -70,7 +70,7 @@ The complete runtime container view — services, databases, queues, and their c
 
 ## Integration Quickstart
 
-1. **Get an API key** from the AXME Cloud portal or contact [hello@axme.ai](mailto:hello@axme.ai)
+1. **Get alpha access** at https://cloud.axme.ai/alpha
 2. Choose your SDK: [Python](https://github.com/AxmeAI/axme-sdk-python) · [TypeScript](https://github.com/AxmeAI/axme-sdk-typescript) · [Go](https://github.com/AxmeAI/axme-sdk-go) · [Java](https://github.com/AxmeAI/axme-sdk-java) · [.NET](https://github.com/AxmeAI/axme-sdk-dotnet)
 3. Follow `docs/integration-quickstart.md` for the full onboarding path
 
@@ -142,7 +142,7 @@ The `docs/diagrams/` directory is the canonical home for all platform visualizat
 | Repository | Role |
 |---|---|
 | [axme-spec](https://github.com/AxmeAI/axme-spec) | Canonical schema and protocol contracts |
-| Control-plane runtime (private) | Internal runtime implementation (contact [hello@axme.ai](mailto:hello@axme.ai) for access) |
+| Control-plane runtime (private) | Internal runtime implementation |
 | [axme-conformance](https://github.com/AxmeAI/axme-conformance) | Conformance and contract test suite |
 | [axme-sdk-python](https://github.com/AxmeAI/axme-sdk-python) | Python SDK |
 | [axme-sdk-typescript](https://github.com/AxmeAI/axme-sdk-typescript) | TypeScript SDK |
@@ -156,6 +156,6 @@ The `docs/diagrams/` directory is the canonical home for all platform visualizat
 ## Contributing & Contact
 
 - Bug reports and docs feedback: open an issue in this repository
-- Alpha program inquiries and early-adopter access: [hello@axme.ai](mailto:hello@axme.ai)
+- Alpha access: https://cloud.axme.ai/alpha · Contact and suggestions: [hello@axme.ai](mailto:hello@axme.ai)
 - Security disclosures: see [SECURITY.md](SECURITY.md)
 - Contribution guidelines: [CONTRIBUTING.md](CONTRIBUTING.md)
