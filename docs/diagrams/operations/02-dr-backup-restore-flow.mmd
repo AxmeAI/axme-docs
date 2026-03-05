@@ -1,0 +1,14 @@
+flowchart LR
+    BACKUP[Backup Scheduler]
+
+    BACKUP --> SNAP[WAL / snapshot capture]
+    SNAP --> ENCRYPT[encrypt backup]
+    ENCRYPT --> STORE[(Object store\nS3 / GCS)]
+    STORE --> XREG[cross-region copy]
+
+    STORE --> RESTORE[restore trigger]
+    RESTORE --> DECRYPT[decrypt + decompress]
+    DECRYPT --> LOAD[load to target DB]
+    LOAD --> VERIFY[verify checksums]
+    VERIFY -->|fail| ALERT[alert + retry]
+    VERIFY -->|pass| LIVE[service live on standby]

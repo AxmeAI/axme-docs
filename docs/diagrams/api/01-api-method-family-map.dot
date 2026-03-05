@@ -1,0 +1,68 @@
+digraph api_method_map {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    API  [label="Public API Surface" shape=tab]
+    CLI  [label="Client / SDK\nHTTPS methods"]
+
+    I1   [label="POST /v1/intents"]
+    I2   [label="GET /v1/intents/{id}"]
+    I3   [label="GET /v1/intents/{id}/events"]
+    I4   [label="GET /v1/intents/{id}/events/stream"]
+    I5   [label="POST /v1/intents/{id}/resume"]
+    I6   [label="POST /v1/intents/{id}/controls"]
+    I7   [label="POST /v1/intents/{id}/policy"]
+    I8   [label="POST /v1/intents/{id}/resolve"]
+
+    B1   [label="GET /v1/inbox"]
+    B2   [label="GET /v1/inbox/{thread_id}"]
+    B3   [label="POST /v1/inbox/{id}/reply"]
+    B4   [label="POST /v1/inbox/{id}/delegate"]
+    B5   [label="POST /v1/inbox/{id}/approve"]
+    B6   [label="POST /v1/inbox/{id}/reject"]
+    B7   [label="POST /v1/approvals/{id}/decision"]
+
+    P1   [label="Schemas API"]
+    P2   [label="Webhooks API"]
+    P3   [label="Users + Auth API"]
+    P4   [label="Media API"]
+
+    CLI -> API
+    API -> I1
+    API -> I2
+    API -> I3
+    API -> I4
+    API -> I5
+    API -> I6
+    API -> I7
+    API -> I8
+    API -> B1
+    API -> B2
+    API -> B3
+    API -> B4
+    API -> B5
+    API -> B6
+    API -> B7
+    API -> P1
+    API -> P2
+    API -> P3
+    API -> P4
+
+    subgraph cluster_intents {
+        label="Intents Family"
+        style=dashed color=steelblue
+        I1; I2; I3; I4; I5; I6; I7; I8
+    }
+    subgraph cluster_inbox {
+        label="Inbox + Approvals"
+        style=dashed color=gray
+        B1; B2; B3; B4; B5; B6; B7
+    }
+    subgraph cluster_platform {
+        label="Platform Helpers"
+        style=dashed color=gray
+        P1; P2; P3; P4
+    }
+}

@@ -1,0 +1,32 @@
+digraph authn_authz {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    REQ   [label="Incoming Request"]
+    AKEY  [label="Validate x-api-key"]
+    F401A [label="401 invalid api key" style=filled fillcolor=lightyellow]
+    BRTE  [label="Bearer required\non route?" shape=diamond]
+    VJWT  [label="Validate JWT\nsig + claims + scope"]
+    F401B [label="401/403\ntoken or scope invalid" style=filled fillcolor=lightyellow]
+    OWNR  [label="Owner scope\nchecks"]
+    F403A [label="403 owner mismatch" style=filled fillcolor=lightyellow]
+    ROLE  [label="Role or delegated\ngrant allows action?" shape=diamond]
+    F403B [label="403 forbidden" style=filled fillcolor=lightyellow]
+    EXEC  [label="Execute endpoint logic"]
+    AUDIT [label="Emit audit\n+ trace metadata" style=filled fillcolor=lightgreen]
+
+    REQ   -> AKEY
+    AKEY  -> F401A [label="fail"]
+    AKEY  -> BRTE  [label="ok"]
+    BRTE  -> VJWT  [label="yes"]
+    BRTE  -> OWNR  [label="no"]
+    VJWT  -> F401B [label="fail"]
+    VJWT  -> OWNR  [label="ok"]
+    OWNR  -> F403A [label="fail"]
+    OWNR  -> ROLE  [label="ok"]
+    ROLE  -> F403B [label="deny"]
+    ROLE  -> EXEC  [label="allow"]
+    EXEC  -> AUDIT
+}

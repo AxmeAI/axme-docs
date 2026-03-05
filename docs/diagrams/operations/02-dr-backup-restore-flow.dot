@@ -1,0 +1,22 @@
+digraph dr_flow {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    SCHED  [label="Backup Scheduler" fillcolor="#1e40af" fontcolor=white];
+    SNAP   [label="WAL / snapshot capture"];
+    ENC    [label="encrypt backup"];
+    OBJ    [label="Object Store\n(S3 / GCS)" shape=cylinder fillcolor="#e0e7ff"];
+    XREG   [label="cross-region copy"];
+    REST   [label="restore trigger" fillcolor="#fef3c7"];
+    DEC    [label="decrypt + decompress"];
+    LOAD   [label="load to target DB"];
+    VER    [label="verify checksums"];
+    ALERT  [label="alert + retry" fillcolor="#fee2e2"];
+    LIVE   [label="service live on standby" fillcolor="#dcfce7"];
+
+    SCHED -> SNAP -> ENC -> OBJ -> XREG;
+    OBJ   -> REST -> DEC -> LOAD -> VER;
+    VER   -> ALERT [label="fail"];
+    VER   -> LIVE  [label="pass"];
+}

@@ -1,0 +1,27 @@
+flowchart LR
+    subgraph A["Service A / Integrator Side"]
+        A1["Business app or SDK"]
+        A2["Operator / end user"]
+        A2 --> A1
+    end
+
+    subgraph X["AXME Cloud"]
+        X1["Gateway API"]
+        X2["Workflow + scheduler runtime"]
+        X3["Intent/policy/event stores"]
+        X4["Audit + observability"]
+        X1 --> X2 --> X3
+        X1 --> X4
+    end
+
+    subgraph B["Service B / Recipient Side"]
+        B1["Recipient agent runtime"]
+        B2["Enterprise tools"]
+        B1 --> B2
+    end
+
+    A1 -->|submit intent| X1
+    X2 -->|route via registry| B1
+    B1 -->|completion/progress event| X1
+    X1 -->|completion result| A1
+    X2 -->|durable lifecycle over time| X3

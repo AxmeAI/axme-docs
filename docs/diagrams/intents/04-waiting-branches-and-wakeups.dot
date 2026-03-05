@@ -1,0 +1,45 @@
+digraph waiting_branches {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    WAITING [label="Intent\nWAITING" shape=ellipse style=filled fillcolor=lightyellow]
+    WHY [label="waiting_reason?" shape=diamond]
+
+    W_HUMAN [label="WAITING_FOR_HUMAN"]
+    W_TOOL  [label="WAITING_FOR_TOOL"]
+    W_AGENT [label="WAITING_FOR_AGENT"]
+    W_TIME  [label="WAITING_FOR_TIME"]
+
+    T_HUMAN [label="POST /resume\n(approve or continue)"]
+    T_TOOL  [label="tool result\nevent ingested"]
+    T_AGENT [label="agent continuation\ncallback"]
+    T_TIME  [label="scheduler wakeup\nat next_wakeup_at"]
+
+    EVAL    [label="re-evaluate\nworkflow step" shape=ellipse]
+    OK      [label="condition satisfied?" shape=diamond]
+    PROG    [label="IN_PROGRESS" style=filled fillcolor=lightgreen]
+    SCHED   [label="schedule\nnext wakeup"]
+
+    WAITING -> WHY
+    WHY -> W_HUMAN
+    WHY -> W_TOOL
+    WHY -> W_AGENT
+    WHY -> W_TIME
+
+    W_HUMAN -> T_HUMAN
+    W_TOOL  -> T_TOOL
+    W_AGENT -> T_AGENT
+    W_TIME  -> T_TIME
+
+    T_HUMAN -> EVAL
+    T_TOOL  -> EVAL
+    T_AGENT -> EVAL
+    T_TIME  -> EVAL
+
+    EVAL -> OK
+    OK -> PROG  [label="yes"]
+    OK -> SCHED [label="no"]
+    SCHED -> WAITING
+}

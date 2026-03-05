@@ -1,0 +1,13 @@
+flowchart LR
+    CLIENT[Client]
+    GW[API Gateway\nTrust Boundary]
+    SVC[Intent Service\nInternal Zone]
+    DB[(Postgres\nEncrypted at rest)]
+    WH[Webhook Target\nExternal Zone]
+    AUDIT[Audit Log]
+
+    CLIENT -->|TLS 1.3 + JWT| GW
+    GW -->|mTLS| SVC
+    SVC --> DB
+    SVC -->|HMAC-signed payload| WH
+    SVC --> AUDIT

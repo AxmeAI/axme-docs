@@ -1,0 +1,14 @@
+flowchart LR
+    INTENT[Intent: IN_PROGRESS]
+
+    INTENT --> NEED{approval needed?}
+    NEED -->|no| EXEC[execute]
+    NEED -->|yes| WAIT[WAITING_FOR_HUMAN]
+    WAIT --> INBOX[Approver Inbox]
+    INBOX --> DECISION{decision}
+    DECISION -->|approve| RESUME[resume intent]
+    DECISION -->|reject| CANCEL[CANCELED]
+    DECISION -->|timeout| TIMEOUT[WAITING_FOR_TIME → timeout]
+    RESUME --> EXEC
+    EXEC --> DONE[COMPLETED]
+    TIMEOUT --> CANCEL

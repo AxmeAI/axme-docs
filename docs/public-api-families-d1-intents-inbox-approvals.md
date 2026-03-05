@@ -24,6 +24,8 @@ Use this guide together with:
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
 - `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
+- `docs/diagrams/README.md` (diagram program index)
+- `docs/diagrams/intents/index.md` (intent-focused diagram pack)
 
 ## 1) Intents Family
 
@@ -156,7 +158,7 @@ Inbox endpoints expose owner-scoped threads and allow actioning those threads (r
 - `POST /v1/inbox/{thread_id}/delegate`
 - `POST /v1/inbox/{thread_id}/approve`
 - `POST /v1/inbox/{thread_id}/reject`
-- `DELETE /v1/inbox/{thread_id}/messages`
+- `POST /v1/inbox/{thread_id}/messages/delete`
 
 ### Canonical schemas
 
@@ -248,7 +250,7 @@ Inbox endpoints expose owner-scoped threads and allow actioning those threads (r
   - `inbox_list`
   - `inbox_reply`
   - `inbox_changes_pagination`
-- Track C expansion should add checks for `inbox.thread`, `inbox.delegate`, `inbox.decision`, and `inbox.messages.delete`.
+- Executable checks include `inbox.thread`, `inbox.delegate`, `inbox.decision`, and `inbox.messages.delete` (already in conformance suite).
 
 ## 3) Approvals Family
 

@@ -1,0 +1,15 @@
+flowchart LR
+    SPEC[axme-spec\nschemas + OpenAPI]
+
+    SPEC --> SDK[axme-sdk-*\nSDK tests]
+    SPEC --> CONF[axme-conformance\nconformance suite]
+    SPEC --> CP[axme-control-plane\nruntime]
+    SPEC --> DOCS[axme-docs\ndocumentation]
+
+    SDK --> E2E[E2E tests]
+    CONF --> E2E
+    CP --> E2E
+
+    E2E --> RESULT{pass?}
+    RESULT -->|yes| CERT[conformance certified]
+    RESULT -->|no| GAP[gap → spec issue / impl fix]

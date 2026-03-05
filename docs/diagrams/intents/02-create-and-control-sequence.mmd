@@ -1,0 +1,33 @@
+sequenceDiagram
+    autonumber
+    participant A as Service A (Sender)
+    participant G as AXME Cloud Gateway
+    participant R as Runtime + Store
+    participant B as Service B (Recipient)
+    participant S as Internal Scheduler
+
+    A ->> G: POST /v1/intents (intent_type, payload)
+    G ->> R: persist intent, policy_generation = 0
+    G ->> B: route to recipient
+    G -->> A: 201 accepted + intent_id
+
+    Note over A,G: control mutation (CAS protected)
+    A ->> G: POST /intents/{id}/controls or /policy\n(expected_policy_generation = n)
+    alt generation matches
+        G ->> R: atomic update, generation = n+1
+        G -->> A: 200 updated generation
+    else generation mismatch
+        G -->> A: 409 conflict
+        A ->> G: GET /intents/{id}
+        G -->> A: latest generation → retry
+    end
+
+    Note over B,G: async completion path
+    B -->> G: progress / waiting / completion event
+    alt WAITING_FOR_HUMAN
+        A ->> G: POST /intents/{id}/resume
+        G ->> R: continue run
+    else WAITING_FOR_TIME
+        S -->> R: internal scheduler wakeup
+    end
+    G -->> A: terminal status

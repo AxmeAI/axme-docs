@@ -1,0 +1,12 @@
+flowchart LR
+    AXME[AXME Platform]
+
+    AXME --> CLOUD[Cloud SaaS\ncustomer uses shared infra]
+    AXME --> PRIV[Private Cloud\ncustomer VPC / region]
+    AXME --> ON[On-Premises\ncustomer data center]
+
+    CLOUD --> SHARE[shared control plane]
+    PRIV --> DED[dedicated control plane]
+    ON --> LOCAL[fully isolated\nno egress required]
+
+    SHARE & DED & LOCAL --> UNIFIED[unified API surface\nsame SDK + spec]

@@ -1,0 +1,25 @@
+flowchart LR
+    subgraph C["Client Side"]
+        C1["SDK / API consumer"]
+    end
+
+    subgraph G["AXME Cloud API Gateway"]
+        G0["Public API surface"]
+        G1["Intents family\ncreate/get/events/stream/resume/controls/policy/resolve"]
+        G2["Inbox + approvals\nlist/thread/reply/delegate/approve/reject/decision"]
+        G3["Platform helpers\nschemas/webhooks/users-auth/media"]
+        G0 --> G1
+        G0 --> G2
+        G0 --> G3
+    end
+
+    subgraph R["Consumer Application Logic"]
+        R1["intent orchestration"]
+        R2["inbox actioning"]
+        R3["integration + media flows"]
+    end
+
+    C1 -->|HTTPS methods| G0
+    G1 --> R1
+    G2 --> R2
+    G3 --> R3

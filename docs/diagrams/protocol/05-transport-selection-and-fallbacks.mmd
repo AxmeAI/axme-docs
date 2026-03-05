@@ -1,0 +1,17 @@
+flowchart LR
+    SRC[Sender Service]
+
+    SRC --> SELECT{transport selection}
+    SELECT -->|primary| HTTPS[HTTPS / REST]
+    SELECT -->|streaming| WS[WebSocket]
+    SELECT -->|async| QUEUE[Message Queue]
+    HTTPS --> GW[API Gateway]
+    WS --> GW
+    QUEUE --> GW
+
+    GW --> OK{delivered?}
+    OK -->|yes| DONE[success]
+    OK -->|no: HTTPS timeout| FALLBACK[fallback to QUEUE]
+    OK -->|no: WS disconnect| FALLBACK
+    FALLBACK --> RETRY[retry with backoff]
+    RETRY --> DONE

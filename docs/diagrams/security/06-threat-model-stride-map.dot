@@ -1,0 +1,27 @@
+digraph stride {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    THR  [label="Threat" fillcolor="#1e40af" fontcolor=white];
+    S    [label="Spoofing\n(forged from_agent)"];
+    T    [label="Tampering\n(payload modified)"];
+    R    [label="Repudiation\n(deny sending intent)"];
+    I    [label="Info Disclosure\n(payload leaked)"];
+    D    [label="Denial of Service\n(flood intents)"];
+    E    [label="Elevation of Privilege\n(forge grants)"];
+    M1   [label="JWT + mTLS\n(verify identity)" fillcolor="#dcfce7"];
+    M2   [label="HMAC webhook signature\n+ DB integrity" fillcolor="#dcfce7"];
+    M3   [label="immutable audit log\n(actor + timestamp)" fillcolor="#dcfce7"];
+    M4   [label="AES-256 at rest\nTLS 1.3 in transit" fillcolor="#dcfce7"];
+    M5   [label="rate limits\n+ quota buckets" fillcolor="#dcfce7"];
+    M6   [label="grants CAS + RBAC\n(scoped to org/workspace)" fillcolor="#dcfce7"];
+
+    THR -> {S T R I D E};
+    S   -> M1;
+    T   -> M2;
+    R   -> M3;
+    I   -> M4;
+    D   -> M5;
+    E   -> M6;
+}

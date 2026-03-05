@@ -1,0 +1,13 @@
+flowchart LR
+    DEPLOY[Deploy trigger]
+
+    DEPLOY --> BUILD[build + test]
+    BUILD -->|fail| HALT[halt + notify]
+    BUILD -->|pass| STAGE[deploy to staging]
+    STAGE --> SMOKE[smoke tests]
+    SMOKE -->|fail| ROLLBACK[rollback to previous]
+    SMOKE -->|pass| CANARY[canary slice 5%]
+    CANARY --> MONITOR[monitor SLOs 10 min]
+    MONITOR -->|degraded| ROLLBACK
+    MONITOR -->|healthy| PROMOTE[promote 100%]
+    ROLLBACK --> ALERT[alert on-call]

@@ -1,0 +1,37 @@
+digraph scheduler_loop {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    RUN   [label="Workflow Run\nstate changed"]
+    CHK   [label="status == WAITING?" shape=diamond]
+    NOOP  [label="no wakeup\nscheduling needed"]
+    COMP  [label="compute\nnext_wakeup_at"]
+    JOB   [label="Scheduled Jobs\nupsert job"]
+    TICK  [label="Scheduler\nworkflow-tick loop"]
+    DUE   [label="job due now?" shape=diamond]
+    LOCK  [label="Runtime\nlock run\nload latest policy"]
+    BUDG  [label="retry+timeout\nbudget valid?" shape=diamond]
+    TERM  [label="mark FAILED\nor stale" style=filled fillcolor=lightyellow]
+    EVAL  [label="resume\nevaluation"]
+    STILL [label="still WAITING?" shape=diamond]
+    NEXT  [label="recompute\nnext_wakeup_at"]
+    ADV   [label="advance status\nemit events" style=filled fillcolor=lightgreen]
+
+    RUN -> CHK
+    CHK -> NOOP [label="no"]
+    CHK -> COMP [label="yes"]
+    COMP -> JOB
+    JOB -> TICK
+    TICK -> DUE
+    DUE -> TICK [label="not yet"]
+    DUE -> LOCK [label="due"]
+    LOCK -> BUDG
+    BUDG -> TERM [label="exhausted"]
+    BUDG -> EVAL [label="valid"]
+    EVAL -> STILL
+    STILL -> NEXT [label="yes"]
+    STILL -> ADV  [label="no"]
+    NEXT -> JOB
+}

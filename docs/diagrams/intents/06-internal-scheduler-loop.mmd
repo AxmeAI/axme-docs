@@ -1,0 +1,29 @@
+sequenceDiagram
+    autonumber
+    participant R as Workflow Runtime
+    participant J as Scheduled Jobs Store
+    participant S as Internal Scheduler
+    participant G as Guardrails (TTL / Retry / Timeout)
+
+    R ->> J: upsert next_wakeup_at when status = WAITING
+
+    loop workflow-tick
+        S ->> J: fetch due jobs
+        alt job not yet due
+            S ->> S: continue polling
+        else job due
+            S ->> R: lock run and resume evaluation
+            R ->> G: check retry budget + timeout + ttl
+            alt budget exhausted
+                G -->> R: fail
+                R -->> J: terminal update: FAILED or stale
+            else budget valid
+                G -->> R: continue
+                alt still WAITING
+                    R -->> J: write new next_wakeup_at
+                else state advanced
+                    R -->> J: status + events update
+                end
+            end
+        end
+    end

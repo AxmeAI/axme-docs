@@ -1,0 +1,13 @@
+flowchart LR
+    LOAD[Traffic Load]
+
+    LOAD --> P50[p50 latency]
+    LOAD --> P99[p99 latency]
+    LOAD --> ERR[error rate %]
+
+    P50 & P99 & ERR --> BUDGET[latency budget check]
+    BUDGET -->|within budget| OK[healthy]
+    BUDGET -->|budget exhausted| THROTTLE[throttle / shed load]
+    THROTTLE --> SCALE[trigger autoscale]
+    SCALE --> CAP[capacity added]
+    CAP --> RECOVER[latency recovers]

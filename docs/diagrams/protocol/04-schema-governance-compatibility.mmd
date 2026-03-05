@@ -1,0 +1,11 @@
+flowchart LR
+    SCHEMA[Schema Registry]
+
+    SCHEMA --> COMPAT{backward compatible?}
+    COMPAT -->|yes| MERGE[merge / publish new version]
+    COMPAT -->|no| BREAK[breaking change policy]
+    BREAK --> NEWVER[new major version namespace]
+    NEWVER --> COEXIST[old + new coexist until sunset]
+    COEXIST --> DEPRECATE[deprecate old]
+    DEPRECATE --> SUNSET[sunset old after grace period]
+    MERGE --> NOTIFY[notify consumers via changelog]

@@ -1,0 +1,15 @@
+flowchart LR
+    CHANGE[Change Request]
+
+    CHANGE --> RFC[RFC / ticket created]
+    RFC --> REVIEW{review required?}
+    REVIEW -->|low risk| ASYNC[async approval via PR]
+    REVIEW -->|high risk| SYNC[sync review: arch + security]
+    ASYNC & SYNC --> APPROVE{approved?}
+    APPROVE -->|no| REVISE[revise proposal]
+    REVISE --> REVIEW
+    APPROVE -->|yes| SCHED[schedule deploy window]
+    SCHED --> DEPLOY[deploy]
+    DEPLOY --> VERIF[post-deploy verification]
+    VERIF -->|ok| CLOSE[close ticket]
+    VERIF -->|fail| ROLLBACK[rollback + incident]

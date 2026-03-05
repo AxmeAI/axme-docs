@@ -1,0 +1,22 @@
+digraph enterprise_placement {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    AXME   [label="AXME Platform" fillcolor="#1e40af" fontcolor=white];
+    CLOUD  [label="Cloud SaaS\n(shared infra)"];
+    PRIV   [label="Private Cloud\n(customer VPC / region)"];
+    ON     [label="On-Premises\n(customer data center)"];
+    SHARE  [label="shared control plane"];
+    DED    [label="dedicated control plane"];
+    LOCAL  [label="fully isolated\n(no egress required)"];
+    UNIF   [label="unified API surface\n(same SDK + spec)" fillcolor="#dcfce7"];
+
+    AXME  -> {CLOUD PRIV ON};
+    CLOUD -> SHARE;
+    PRIV  -> DED;
+    ON    -> LOCAL;
+    SHARE -> UNIF;
+    DED   -> UNIF;
+    LOCAL -> UNIF;
+}

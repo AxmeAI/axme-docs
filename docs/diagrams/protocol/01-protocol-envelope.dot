@@ -1,0 +1,24 @@
+digraph protocol_envelope {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    ENV  [label="Intent Envelope" fillcolor="#1e40af" fontcolor=white];
+    ID   [label="intent_id"];
+    TYPE [label="intent_type\n(e.g. finance.approve_payment.v1)"];
+    FROM [label="from_agent"];
+    TO   [label="to_agent"];
+    COR  [label="correlation_id"];
+    REP  [label="reply_to"];
+    PAY  [label="payload\n(free JSON object)"];
+    TS   [label="created_at / updated_at"];
+    STS  [label="status\nCREATED→…→COMPLETED"];
+    POL  [label="workflow_control_policy" fillcolor="#fef3c7"];
+    GRAN [label="grants\n(delegated permissions)"];
+    CTRL [label="controls\n(timeout_seconds)"];
+    ENV2 [label="envelope\n(retry / ttl / expires_at)"];
+    PG   [label="policy_generation\n(CAS version counter)"];
+
+    ENV -> {ID TYPE FROM TO COR REP PAY TS STS POL};
+    POL -> {GRAN CTRL ENV2 PG};
+}

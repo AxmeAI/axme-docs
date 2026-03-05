@@ -1,0 +1,13 @@
+flowchart LR
+    WH[Webhook Delivery]
+
+    WH --> SIGN[sign: HMAC-SHA256\nX-AXME-Signature header]
+    SIGN --> SEND[POST to webhook_url]
+    SEND --> TARGET[Target Service]
+    TARGET --> EXTRACT[extract header signature]
+    TARGET --> REBUILD[rebuild expected signature\nshared secret + raw body]
+    EXTRACT & REBUILD --> COMPARE{match?}
+    COMPARE -->|yes| ACCEPT[process event]
+    COMPARE -->|no| REJECT[reject 403 / log]
+    ACCEPT --> ACK[200 OK → marks DELIVERED]
+    REJECT --> RETRY[AXME retries with backoff]

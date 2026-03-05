@@ -1,0 +1,11 @@
+flowchart LR
+    DATA[Data Asset]
+
+    DATA --> CLASS{classification}
+    CLASS -->|PUBLIC| PUB[no encryption required]
+    CLASS -->|INTERNAL| INT[TLS in transit\nAES-256 at rest]
+    CLASS -->|CONFIDENTIAL| CONF[TLS + payload encryption\nfield-level masking in logs]
+    CLASS -->|RESTRICTED| RESTR[E2E encryption\nHSM key management\nzero-retention logs]
+
+    RESTR --> AUDIT[every access logged + alerted]
+    CONF --> AUDIT

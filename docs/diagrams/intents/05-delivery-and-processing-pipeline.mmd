@@ -1,0 +1,33 @@
+sequenceDiagram
+    autonumber
+    participant A as Service A (Sender)
+    participant G as AXME Cloud
+    participant B as Service B (Recipient)
+    participant W as Webhook Consumer
+
+    A ->> G: POST /v1/intents (HTTPS)
+    G -->> A: 201 accepted + intent_id
+
+    G ->> B: route via registry / runtime
+
+    alt encrypted transport
+        G ->> B: encrypted envelope
+        B ->> B: decrypt and execute
+    else direct internal delivery
+        G ->> B: plain payload delivery
+    else delivery failed
+        G ->> G: retry / backoff schedule
+    end
+
+    B -->> G: progress / completion event
+    G -->> A: status update visible via GET
+
+    opt webhook enabled
+        G ->> W: signed webhook notification
+        alt 2xx accepted
+            W -->> G: ok
+        else non-2xx
+            W -->> G: error
+            G ->> G: webhook retry policy
+        end
+    end

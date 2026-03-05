@@ -1,0 +1,32 @@
+digraph error_model {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    ERR    [label="API Error Response" fillcolor="#1e40af" fontcolor=white];
+    CODE   [label="HTTP status code"];
+    BODY   [label="error body"];
+    ECODE  [label="error_code (machine-readable)"];
+    MSG    [label="message (human-readable)"];
+    DET    [label="details (field issues array)"];
+    RID    [label="request_id"];
+    C4xx   [label="4xx Client Errors"];
+    C5xx   [label="5xx Server Errors"];
+    RET    [label="retriable?" shape=diamond fillcolor="#fef3c7"];
+    DROP   [label="do not retry" fillcolor="#fee2e2"];
+    BO     [label="exponential backoff + jitter"];
+    LIM    [label="max attempts?" shape=diamond fillcolor="#fef3c7"];
+    DLQ    [label="dead-letter / alert" fillcolor="#fee2e2"];
+    RETRY  [label="retry request"];
+
+    ERR  -> {CODE BODY};
+    BODY -> {ECODE MSG DET RID};
+    CODE -> {C4xx C5xx};
+    C4xx -> RET;
+    C5xx -> RET;
+    RET  -> DROP  [label="400/403/404/409/410"];
+    RET  -> BO    [label="429/500/502/503/408/504"];
+    BO   -> LIM;
+    LIM  -> DLQ   [label="exceeded"];
+    LIM  -> RETRY [label="ok"];
+}

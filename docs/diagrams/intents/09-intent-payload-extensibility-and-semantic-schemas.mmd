@@ -1,0 +1,17 @@
+flowchart LR
+    BASE[Base Intent Fields]
+    EXT[payload: free JSON]
+
+    BASE --> intent_type
+    BASE --> from_agent
+    BASE --> to_agent
+    BASE --> EXT
+
+    EXT --> BSNS[business domain data\ne.g. amount / currency / order_id]
+    EXT --> SEMA{semantic schema registered?}
+    SEMA -->|yes| VALID[validate against JSON Schema]
+    SEMA -->|no| OPAQUE[store opaque; no validation]
+
+    VALID -->|pass| ACCEPT[accept intent]
+    VALID -->|fail| REJECT[reject 422]
+    OPAQUE --> ACCEPT

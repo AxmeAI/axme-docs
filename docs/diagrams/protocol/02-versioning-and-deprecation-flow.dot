@@ -1,0 +1,25 @@
+digraph versioning {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    REQ  [label="API Request" fillcolor="#1e40af" fontcolor=white];
+    VERS [label="version header?" shape=diamond fillcolor="#fef3c7"];
+    DEF  [label="use default version"];
+    CHK  [label="supported?" shape=diamond fillcolor="#fef3c7"];
+    ROUT [label="versioned handler"];
+    WARN [label="add Deprecation header"];
+    REJ  [label="reject 410 Gone" fillcolor="#fee2e2"];
+    RESP [label="Response" fillcolor="#dcfce7"];
+
+    REQ  -> VERS;
+    VERS -> DEF  [label="missing"];
+    VERS -> CHK  [label="present"];
+    CHK  -> ROUT [label="yes"];
+    CHK  -> WARN [label="deprecated"];
+    CHK  -> REJ  [label="sunset passed"];
+    WARN -> ROUT;
+    DEF  -> ROUT;
+    ROUT -> RESP;
+    REJ  -> RESP;
+}

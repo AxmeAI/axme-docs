@@ -1,0 +1,18 @@
+digraph trust_dfd {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    CLIENT [label="Client\n(External Zone)" fillcolor="#1e40af" fontcolor=white];
+    GW     [label="API Gateway\n(Trust Boundary)" fillcolor="#fef3c7"];
+    SVC    [label="Intent Service\n(Internal Zone)" fillcolor="#dcfce7"];
+    DB     [label="Postgres\n(Encrypted at rest)" shape=cylinder fillcolor="#e0e7ff"];
+    WH     [label="Webhook Target\n(External Zone)" fillcolor="#dbeafe"];
+    AUDIT  [label="Audit Log" fillcolor="#e0e7ff"];
+
+    CLIENT -> GW    [label="TLS 1.3 + JWT"];
+    GW     -> SVC   [label="mTLS"];
+    SVC    -> DB;
+    SVC    -> WH    [label="HMAC-signed payload"];
+    SVC    -> AUDIT;
+}

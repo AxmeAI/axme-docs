@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    participant C  as Caller
+    participant G  as AXME Cloud Endpoint
+    participant AZ as Access Enforcer
+    participant P  as Policy / Intent Store
+    participant AU as Audit Trail
+
+    C  ->> G:  API request (GET / resume / controls / policy / resolve)
+    G  ->> AZ: evaluate api-key + bearer + owner scope + role/grants
+
+    alt not authorized
+        AZ -->> G: deny
+        G  -->> C: 403 forbidden
+    else authorized
+        AZ -->> G: allow
+        alt read operation
+            G  ->> P:  read intent state
+            G  -->> C: 200 response
+        else mutation operation
+            G  ->> P:  compare expected_policy_generation
+            alt CAS mismatch
+                P  -->> G: stale generation
+                G  -->> C: 409 conflict
+            else CAS match
+                P  -->> G: apply mutation
+                G  ->> AU: write audit event
+                G  -->> C: 200 updated state
+            end
+        end
+    end
