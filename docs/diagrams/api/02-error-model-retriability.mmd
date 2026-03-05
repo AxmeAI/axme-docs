@@ -1,0 +1,22 @@
+flowchart LR
+    ERR[API Error Response]
+
+    ERR --> CODE[HTTP status code]
+    ERR --> BODY[error body]
+    BODY --> error_code[error_code\nmachine-readable]
+    BODY --> message[message\nhuman-readable]
+    BODY --> details[details\narray of field issues]
+    BODY --> request_id
+
+    CODE --> C4xx[4xx Client Errors]
+    CODE --> C5xx[5xx Server Errors]
+
+    C4xx --> RETRY{retriable?}
+    C5xx --> RETRY
+
+    RETRY -->|no: 400/403/404/409/410| DROP[do not retry]
+    RETRY -->|yes: 429/500/502/503| BACKOFF[exponential backoff + jitter]
+    RETRY -->|yes: 408/504| BACKOFF
+    BACKOFF --> LIMIT{max attempts?}
+    LIMIT -->|exceeded| DLQ[dead-letter / alert]
+    LIMIT -->|ok| REQ[retry request]

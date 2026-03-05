@@ -1,0 +1,24 @@
+digraph idempotency {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    REQ    [label="Incoming Request" fillcolor="#1e40af" fontcolor=white];
+    IDK    [label="extract idempotency_key"];
+    LOOK   [label="key in store?" shape=diamond fillcolor="#fef3c7"];
+    DUP    [label="same payload?" shape=diamond fillcolor="#fef3c7"];
+    CACHE  [label="return cached 200" fillcolor="#dcfce7"];
+    CONF   [label="409 Conflict" fillcolor="#fee2e2"];
+    EXEC   [label="execute operation"];
+    STORE  [label="persist result + key"];
+    RESP   [label="return response" fillcolor="#dcfce7"];
+    TTL    [label="expire key after TTL"];
+
+    REQ   -> IDK -> LOOK;
+    LOOK  -> DUP   [label="yes"];
+    LOOK  -> EXEC  [label="no"];
+    DUP   -> CACHE [label="yes"];
+    DUP   -> CONF  [label="no"];
+    EXEC  -> STORE -> RESP;
+    STORE -> TTL;
+}

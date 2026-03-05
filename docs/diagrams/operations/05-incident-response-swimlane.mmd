@@ -1,0 +1,16 @@
+flowchart LR
+    ALERT[Incident Alert]
+
+    ALERT --> TRIAGE[on-call: triage]
+    TRIAGE --> SEV{severity?}
+    SEV -->|SEV1| P0FLOW[P0: exec bridge + war room]
+    SEV -->|SEV2| P1FLOW[P1: eng lead + comms]
+    SEV -->|SEV3| P2FLOW[P2: async fix]
+
+    P0FLOW & P1FLOW --> MITIGATE[mitigate / rollback]
+    MITIGATE --> RESOLVE[mark resolved]
+    RESOLVE --> PIR[post-incident review]
+    PIR --> ACTION[action items]
+
+    P2FLOW --> TICKET[create ticket]
+    TICKET --> SPRINT[schedule in sprint]

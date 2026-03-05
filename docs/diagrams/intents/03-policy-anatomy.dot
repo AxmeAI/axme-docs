@@ -1,0 +1,63 @@
+digraph policy_anatomy {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    // immutable core
+    CORE  [label="Intent Core\n(immutable after create)" shape=tab]
+    C_id  [label="intent_id"]
+    C_type [label="intent_type"]
+    C_agents [label="from_agent / to_agent"]
+    C_payload [label="payload (free JSON)"]
+
+    // policy sections
+    POLICY [label="workflow_control_policy\n(mutable)" shape=tab]
+    GRANTS [label="grants"]
+    CONTROLS [label="controls"]
+    ENVELOPE [label="envelope"]
+
+    G1 [label="delegate:agent://ops\nallow=[resume, update_controls,\nupdate_policy]"]
+    CT1 [label="timeout_seconds"]
+    E1 [label="max_retry_count"]
+    E2 [label="retry_backoff_seconds"]
+    E3 [label="execution_timeout_seconds"]
+    E4 [label="ttl_seconds"]
+    E5 [label="expires_at"]
+
+    // CAS mechanism
+    GEN [label="policy_generation\n(integer, starts at 0)"]
+    EXP [label="expected_policy_generation\n(sent by caller)"]
+    CAS [label="match?" shape=diamond]
+    APPLY [label="atomic update\ngeneration++" style=filled fillcolor=lightgreen]
+    CONFLICT [label="409 conflict\n(stale writer)" style=filled fillcolor=lightyellow]
+
+    // endpoints
+    EP1 [label="POST /intents/{id}/controls"]
+    EP2 [label="POST /intents/{id}/policy"]
+
+    // core links
+    CORE -> C_id
+    CORE -> C_type
+    CORE -> C_agents
+    CORE -> C_payload
+
+    // policy links
+    POLICY -> GRANTS -> G1
+    POLICY -> CONTROLS -> CT1
+    POLICY -> ENVELOPE -> E1
+    ENVELOPE -> E2
+    ENVELOPE -> E3
+    ENVELOPE -> E4
+    ENVELOPE -> E5
+
+    // CAS flow
+    EP1 -> EXP
+    EP2 -> EXP
+    EXP -> CAS
+    GEN -> CAS
+    CAS -> APPLY [label="match"]
+    CAS -> CONFLICT [label="mismatch"]
+    APPLY -> POLICY [label="update"]
+    APPLY -> GEN [label="increment"]
+}

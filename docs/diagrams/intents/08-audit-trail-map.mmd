@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    participant C  as Caller / Service A
+    participant G  as AXME Cloud API
+    participant P  as Policy / State Store
+    participant AU as Audit Trail
+    participant O  as Observability
+
+    C  ->> G:  create / controls / policy / resume / resolve
+    G  ->> P:  mutate intent state or policy
+    G  ->> O:  emit trace + metrics (trace_id, status, latency)
+
+    alt policy mutation
+        P  -->> G: policy_generation incremented
+        G  ->> AU: action = policy_update\nold/new generation, patch summary
+    else status mutation
+        P  -->> G: status changed
+        G  ->> AU: action = status_update\nold/new status, reason
+    else write rejected
+        P  -->> G: conflict or validation failure
+        G  ->> AU: action = mutation_rejected, reason, actor
+        G  ->> O:  emit error counter + latency
+    end
+
+    G  -->> C: API response + current generation / state

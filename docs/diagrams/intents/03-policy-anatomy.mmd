@@ -1,0 +1,31 @@
+flowchart LR
+    %% Immutable core
+    CORE[Intent core\nimmutable after create]
+    CORE --> intent_id
+    CORE --> intent_type
+    CORE --> agents[from_agent / to_agent]
+    CORE --> payload[payload: free JSON]
+
+    %% Mutable policy
+    POLICY[workflow_control_policy\nmutable]
+    POLICY --> grants   --> g1[delegate:agent://ops\nallow = resume, update_controls, update_policy]
+    POLICY --> controls --> c1[timeout_seconds]
+    POLICY --> envelope --> e1[max_retry_count]
+                envelope --> e2[retry_backoff_seconds]
+                envelope --> e3[execution_timeout_seconds]
+                envelope --> e4[ttl_seconds]
+                envelope --> e5[expires_at]
+
+    %% CAS mutation flow
+    EP1[POST /intents/{id}/controls]
+    EP2[POST /intents/{id}/policy]
+    GEN[policy_generation]
+    EXP[expected_policy_generation\nsent by caller]
+    CAS{generation matches?}
+    OK[atomic update\ngeneration++]
+    ERR[409 conflict\nstale writer]
+
+    EP1 & EP2 --> EXP
+    EXP & GEN --> CAS
+    CAS -->|yes| OK --> POLICY
+    CAS -->|no|  ERR

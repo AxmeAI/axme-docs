@@ -1,0 +1,13 @@
+flowchart LR
+    KEY[Cryptographic Key]
+
+    KEY --> GEN[generate: HSM / KMS]
+    GEN --> ACTIVE[active: sign / encrypt]
+    ACTIVE --> ROTATE[rotation trigger]
+    ROTATE --> NEWKEY[new active key]
+    ROTATE --> GRACE[old key: verify-only grace period]
+    GRACE --> RETIRE[retire old key]
+    RETIRE --> ARCHIVE[archive / destroy]
+
+    ACTIVE --> USE[encrypt payload or sign webhook]
+    USE --> VERIFY[recipient: verify / decrypt]

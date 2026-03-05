@@ -1,0 +1,18 @@
+flowchart LR
+    ENV[Intent Envelope]
+
+    ENV --> intent_id
+    ENV --> intent_type[intent_type\ne.g. finance.approve_payment.v1]
+    ENV --> from_agent
+    ENV --> to_agent
+    ENV --> correlation_id
+    ENV --> reply_to
+    ENV --> payload[payload\nfree JSON object]
+    ENV --> timestamps[created_at / updated_at]
+    ENV --> status[status\nCREATED → ... → COMPLETED]
+    ENV --> POLICY[workflow_control_policy]
+
+    POLICY --> grants[grants\ndelegated permissions]
+    POLICY --> controls[controls\ntimeout_seconds]
+    POLICY --> envelope[envelope\nretry / ttl / expires_at]
+    POLICY --> policy_generation[policy_generation\nCAS version counter]

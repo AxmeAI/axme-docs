@@ -1,0 +1,25 @@
+digraph payload_ext {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    BASE  [label="Base Intent Fields" fillcolor="#1e40af" fontcolor=white];
+    TYPE  [label="intent_type"];
+    FROM  [label="from_agent"];
+    TO    [label="to_agent"];
+    PAY   [label="payload: free JSON" fillcolor="#fef3c7"];
+    BIZ   [label="business domain data\n(amount / currency / order_id)"];
+    SEMA  [label="semantic schema registered?" shape=diamond fillcolor="#fef3c7"];
+    VAL   [label="validate against JSON Schema"];
+    OPAQ  [label="store opaque\n(no validation)"];
+    ACC   [label="accept intent" fillcolor="#dcfce7"];
+    REJ   [label="reject 422" fillcolor="#fee2e2"];
+
+    BASE -> {TYPE FROM TO PAY};
+    PAY  -> {BIZ SEMA};
+    SEMA -> VAL  [label="yes"];
+    SEMA -> OPAQ [label="no"];
+    VAL  -> ACC  [label="pass"];
+    VAL  -> REJ  [label="fail"];
+    OPAQ -> ACC;
+}

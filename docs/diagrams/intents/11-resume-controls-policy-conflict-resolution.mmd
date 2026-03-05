@@ -1,0 +1,17 @@
+flowchart LR
+    INTENT[Intent: WAITING]
+
+    INTENT --> RESUME[POST /intents/:id/resume]
+    INTENT --> CTRL[PATCH /intents/:id/controls]
+    INTENT --> POL[PATCH /intents/:id/policy]
+
+    RESUME --> GATE{policy grants\nallow resume?}
+    CTRL --> CASCK{policy_generation\nmatches?}
+    POL --> CASCK
+
+    GATE -->|yes| EXEC[resume execution]
+    GATE -->|no| DENY[403 Forbidden]
+
+    CASCK -->|yes| APPLY[apply delta]
+    CASCK -->|no| CONFLICT[409 Conflict\nretry with fresh generation]
+    APPLY --> EXEC

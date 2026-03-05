@@ -1,0 +1,21 @@
+digraph schema_governance {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    REG   [label="Schema Registry" fillcolor="#1e40af" fontcolor=white];
+    COMPAT [label="backward compatible?" shape=diamond fillcolor="#fef3c7"];
+    MERGE  [label="merge / publish new version" fillcolor="#dcfce7"];
+    BREAK  [label="breaking change policy"];
+    NEWVER [label="new major version namespace"];
+    COEX   [label="old + new coexist until sunset"];
+    DEP    [label="deprecate old" fillcolor="#fef3c7"];
+    SUN    [label="sunset old after grace period" fillcolor="#fee2e2"];
+    NOTIFY [label="notify consumers via changelog"];
+
+    REG   -> COMPAT;
+    COMPAT -> MERGE  [label="yes"];
+    COMPAT -> BREAK  [label="no"];
+    BREAK  -> NEWVER -> COEX -> DEP -> SUN;
+    MERGE  -> NOTIFY;
+}

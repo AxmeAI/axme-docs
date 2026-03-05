@@ -1,0 +1,14 @@
+flowchart LR
+    REQ[API Request]
+
+    REQ --> VERS{version header?}
+    VERS -->|missing| DEFAULT[use default version]
+    VERS -->|present| CHECK{supported?}
+    CHECK -->|yes| ROUTE[route to versioned handler]
+    CHECK -->|deprecated| WARN[add Deprecation header]
+    CHECK -->|sunset passed| REJ[reject 410 Gone]
+    WARN --> ROUTE
+
+    DEFAULT --> ROUTE
+    ROUTE --> RESP[Response]
+    REJ --> RESP

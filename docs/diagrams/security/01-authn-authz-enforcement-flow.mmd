@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    participant C as Caller
+    participant G as AXME Cloud Gateway
+    participant I as Identity Validator
+    participant Z as Authorization Engine
+    participant A as Audit/Trace
+
+    C->>G: API request
+    G->>I: validate x-api-key
+    alt api key invalid
+        I-->>G: invalid
+        G-->>C: 401
+    else api key valid
+        I-->>G: ok
+        G->>I: validate bearer (if required)
+        alt bearer invalid/scope mismatch
+            I-->>G: reject
+            G-->>C: 401/403
+        else identity valid
+            G->>Z: enforce owner scope + role/grants
+            alt unauthorized
+                Z-->>G: deny
+                G-->>C: 403
+            else authorized
+                Z-->>G: allow
+                G->>A: record audit + trace metadata
+                G-->>C: execute and return response
+            end
+        end
+    end

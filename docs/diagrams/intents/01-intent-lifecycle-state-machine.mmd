@@ -1,0 +1,25 @@
+flowchart LR
+    A1[Service A: submit intent]
+    A2[Service A: receive intent_id]
+    A3[Service A: read events]
+    A4[Service A: terminal outcome]
+
+    X1[AXME Cloud: CREATED → SUBMITTED → DELIVERED]
+    X2[AXME Cloud: ACKNOWLEDGED → IN_PROGRESS]
+    X3{AXME Cloud: blocked?}
+    X4[AXME Cloud: WAITING\nhuman / tool / agent / time]
+    X5[AXME Cloud: resume or scheduler tick]
+    X6[AXME Cloud: COMPLETED / FAILED / CANCELED]
+
+    B1[Service B: intent received]
+    B2[Service B: async execution]
+    B3[Service B: status / completion event]
+
+    A1 --> X1
+    X1 --> A2 & B1
+    B1 --> B2 --> B3
+    A3 & B3 --> X2
+    X2 --> X3
+    X3 -->|yes| X4 --> X5 --> X2
+    X3 -->|no|  X6
+    X6 --> A4

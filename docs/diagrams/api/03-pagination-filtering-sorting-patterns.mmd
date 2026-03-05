@@ -1,0 +1,13 @@
+flowchart LR
+    REQ[API Request]
+
+    REQ --> PAGE{paginated?}
+    PAGE -->|yes| CURSOR[cursor-based pagination\nnext_cursor / prev_cursor]
+    PAGE -->|no| FULL[full response]
+
+    REQ --> FILTER[filters: field=value\noperators: eq/lt/gt/in/contains]
+    REQ --> SORT[sort: field:asc / field:desc]
+
+    CURSOR --> RESP[response: items + cursors]
+    FILTER --> RESP
+    SORT --> RESP

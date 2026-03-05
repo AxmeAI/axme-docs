@@ -1,0 +1,21 @@
+digraph data_class {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    DATA  [label="Data Asset" fillcolor="#1e40af" fontcolor=white];
+    CLS   [label="classification" shape=diamond fillcolor="#fef3c7"];
+    PUB   [label="PUBLIC\n(no encryption required)" fillcolor="#dcfce7"];
+    INT   [label="INTERNAL\n(TLS in transit\nAES-256 at rest)"];
+    CONF  [label="CONFIDENTIAL\n(TLS + payload encryption\nfield-level masking in logs)" fillcolor="#fef3c7"];
+    RESTR [label="RESTRICTED\n(E2E encryption\nHSM key mgmt\nzero-retention logs)" fillcolor="#fee2e2"];
+    AUD   [label="every access logged + alerted"];
+
+    DATA  -> CLS;
+    CLS   -> PUB   [label="PUBLIC"];
+    CLS   -> INT   [label="INTERNAL"];
+    CLS   -> CONF  [label="CONFIDENTIAL"];
+    CLS   -> RESTR [label="RESTRICTED"];
+    CONF  -> AUD;
+    RESTR -> AUD;
+}

@@ -1,0 +1,16 @@
+flowchart LR
+    SVC[Service]
+
+    SVC --> METRICS[metrics: Prometheus]
+    SVC --> LOGS[logs: structured JSON]
+    SVC --> TRACES[traces: OTLP]
+
+    METRICS --> DASH[Grafana dashboards]
+    LOGS --> AGG[log aggregator]
+    TRACES --> JAEGER[Jaeger / Tempo]
+
+    DASH --> SLO{SLO breach?}
+    SLO -->|no| OK[all green]
+    SLO -->|warn| PAGE[PagerDuty alert]
+    PAGE --> ONCALL[on-call engineer]
+    ONCALL --> RUNBOOK[runbook lookup]

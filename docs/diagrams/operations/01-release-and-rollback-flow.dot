@@ -1,0 +1,27 @@
+digraph release_flow {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    DEPLOY   [label="Deploy trigger" fillcolor="#1e40af" fontcolor=white];
+    BUILD    [label="build + test"];
+    HALT     [label="halt + notify" fillcolor="#fee2e2"];
+    STAGE    [label="deploy to staging"];
+    SMOKE    [label="smoke tests"];
+    ROLLBACK [label="rollback to previous" fillcolor="#fee2e2"];
+    CANARY   [label="canary slice 5%"];
+    MON      [label="monitor SLOs 10 min"];
+    PROMOTE  [label="promote 100%" fillcolor="#dcfce7"];
+    ALERT    [label="alert on-call"];
+
+    DEPLOY   -> BUILD;
+    BUILD    -> HALT     [label="fail"];
+    BUILD    -> STAGE    [label="pass"];
+    STAGE    -> SMOKE;
+    SMOKE    -> ROLLBACK [label="fail"];
+    SMOKE    -> CANARY   [label="pass"];
+    CANARY   -> MON;
+    MON      -> ROLLBACK [label="degraded"];
+    MON      -> PROMOTE  [label="healthy"];
+    ROLLBACK -> ALERT;
+}

@@ -1,0 +1,69 @@
+digraph create_and_control {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    // nodes
+    C1  [label="Client/SDK\nPOST /v1/intents"]
+    G1  [label="Gateway\nvalidate auth+schema+idempotency"]
+    R1  [label="Runtime+Store\npersist intent\npolicy_generation=0"]
+    B1  [label="Recipient Agent\nrouted via registry"]
+    G2  [label="Gateway\n201 accepted + intent_id" style=filled fillcolor=lightgreen]
+
+    C2  [label="Client/SDK\nPOST /intents/{id}/controls or /policy\n(expected_policy_generation=n)"]
+    G3  [label="Gateway\ncompare generation"]
+    R2  [label="Store\natomic update\ngeneration=n+1"]
+    G4  [label="Gateway\n200 updated generation" style=filled fillcolor=lightgreen]
+    G5  [label="Gateway\n409 conflict" style=filled fillcolor=lightyellow]
+    C3  [label="Client/SDK\nGET /intents/{id}\nfetch latest generation"]
+
+    B2  [label="Recipient Agent\nprogress/waiting/completion"]
+    G6  [label="Gateway\nstatus update"]
+
+    C4  [label="Client/SDK\nPOST /intents/{id}/resume"]
+    R3  [label="Runtime\ncontinue waiting run"]
+    G7  [label="Gateway\nstate advanced"]
+
+    S1  [label="Internal Scheduler\nwakeup tick"]
+    R4  [label="Runtime\nadvance via scheduler"]
+
+    // submission path
+    C1 -> G1 -> R1
+    G1 -> B1
+    G1 -> G2 -> C1 [style=dashed label="return"]
+
+    // control/policy mutation path
+    C2 -> G3
+    G3 -> R2 [label="generation matches"]
+    R2 -> G4 -> C2 [style=dashed label="return"]
+    G3 -> G5 [label="generation mismatch"]
+    G5 -> C3 [style=dashed label="return"]
+    C3 -> G3 [label="retry with new generation"]
+
+    // completion feedback
+    B2 -> G6 -> R1 [label="update state"]
+
+    // human resume path
+    C4 -> R3 -> G7 -> C4 [style=dashed label="return"]
+
+    // scheduler wakeup path
+    S1 -> R4 -> G6
+
+    // clusters
+    subgraph cluster_client {
+        label="Client/SDK"
+        style=dashed color=gray
+        C1; C2; C3; C4
+    }
+    subgraph cluster_axme {
+        label="AXME Cloud"
+        style=dashed color=steelblue
+        G1; G2; G3; G4; G5; G6; G7; R1; R2; R3; R4; S1
+    }
+    subgraph cluster_recipient {
+        label="Recipient Agent"
+        style=dashed color=gray
+        B1; B2
+    }
+}

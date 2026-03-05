@@ -1,0 +1,56 @@
+digraph intent_lifecycle {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    // --- Service A nodes ---
+    A1 [label="Service A\nsubmit intent"]
+    A2 [label="Service A\nreceive intent_id"]
+    A3 [label="Service A\nread events"]
+    A4 [label="Service A\nterminal outcome"]
+
+    // --- AXME Cloud nodes ---
+    X1 [label="AXME Cloud\nCREATED → SUBMITTED → DELIVERED"]
+    X2 [label="AXME Cloud\nACKNOWLEDGED → IN_PROGRESS"]
+    X3 [label="AXME Cloud\nblocked?" shape=diamond]
+    X4 [label="AXME Cloud\nWAITING\n(human/tool/agent/time)"]
+    X5 [label="AXME Cloud\nresume / scheduler tick"]
+    X6 [label="AXME Cloud\nCOMPLETED / FAILED / CANCELED"]
+
+    // --- Service B nodes ---
+    B1 [label="Service B\nintent received"]
+    B2 [label="Service B\nasync execution"]
+    B3 [label="Service B\nstatus/completion event"]
+
+    // --- edges ---
+    A1 -> X1
+    X1 -> A2
+    X1 -> B1
+    B1 -> B2 -> B3
+    A3 -> X2
+    B3 -> X2
+    X2 -> X3
+    X3 -> X4 [label="yes"]
+    X4 -> X5
+    X5 -> X2
+    X3 -> X6 [label="no"]
+    X6 -> A4
+
+    // --- visual grouping (clusters) ---
+    subgraph cluster_a {
+        label="Service A (Sender)"
+        style=dashed color=gray
+        A1; A2; A3; A4
+    }
+    subgraph cluster_x {
+        label="AXME Cloud (Lifecycle Engine)"
+        style=dashed color=steelblue
+        X1; X2; X3; X4; X5; X6
+    }
+    subgraph cluster_b {
+        label="Service B (Recipient)"
+        style=dashed color=gray
+        B1; B2; B3
+    }
+}

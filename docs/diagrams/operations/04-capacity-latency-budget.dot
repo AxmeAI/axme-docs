@@ -1,0 +1,24 @@
+digraph capacity {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    LOAD  [label="Traffic Load" fillcolor="#1e40af" fontcolor=white];
+    P50   [label="p50 latency"];
+    P99   [label="p99 latency"];
+    ERR   [label="error rate %"];
+    BUD   [label="latency budget check" shape=diamond fillcolor="#fef3c7"];
+    OK    [label="healthy" fillcolor="#dcfce7"];
+    THR   [label="throttle / shed load" fillcolor="#fee2e2"];
+    SCALE [label="trigger autoscale"];
+    CAP   [label="capacity added" fillcolor="#dcfce7"];
+    REC   [label="latency recovers" fillcolor="#dcfce7"];
+
+    LOAD -> {P50 P99 ERR};
+    P50  -> BUD;
+    P99  -> BUD;
+    ERR  -> BUD;
+    BUD  -> OK    [label="within budget"];
+    BUD  -> THR   [label="exhausted"];
+    THR  -> SCALE -> CAP -> REC;
+}

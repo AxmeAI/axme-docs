@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    participant H as Human / Sender
+    participant G as AXME Cloud Runtime
+    participant T as Tool System
+    participant AG as Agent System
+    participant S as Internal Scheduler
+
+    Note over G: Intent enters WAITING state
+
+    alt WAITING_FOR_HUMAN
+        H  ->> G: POST /resume (approve or continue)
+    else WAITING_FOR_TOOL
+        T -->> G: tool result event
+    else WAITING_FOR_AGENT
+        AG -->> G: continuation callback
+    else WAITING_FOR_TIME
+        S -->> G: wakeup at next_wakeup_at
+    end
+
+    G ->> G: re-evaluate workflow step
+
+    alt condition satisfied
+        G -->> H: state → IN_PROGRESS
+    else still blocked
+        G ->> S: schedule next wakeup
+        G -->> H: remains WAITING
+    end

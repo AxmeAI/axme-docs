@@ -1,0 +1,21 @@
+digraph crypto_key {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    GEN    [label="generate\n(HSM / KMS)" fillcolor="#1e40af" fontcolor=white];
+    ACTIVE [label="active: sign / encrypt" fillcolor="#dcfce7"];
+    ROT    [label="rotation trigger" fillcolor="#fef3c7"];
+    NEW    [label="new active key" fillcolor="#dcfce7"];
+    GRACE  [label="old key: verify-only grace"];
+    RET    [label="retire old key"];
+    ARC    [label="archive / destroy"];
+    USE    [label="encrypt payload\nor sign webhook"];
+    VERIFY [label="recipient: verify / decrypt" fillcolor="#dcfce7"];
+
+    GEN    -> ACTIVE;
+    ACTIVE -> ROT;
+    ROT    -> {NEW GRACE};
+    GRACE  -> RET -> ARC;
+    ACTIVE -> USE -> VERIFY;
+}

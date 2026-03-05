@@ -1,0 +1,13 @@
+flowchart LR
+    INC[Incident]
+
+    INC --> Q1{service down?}
+    Q1 -->|yes| RB[check last deploy\nrollback if recent]
+    Q1 -->|no| Q2{latency spike?}
+    Q2 -->|yes| DB[check DB query plans\nand connection pool]
+    Q2 -->|no| Q3{error rate spike?}
+    Q3 -->|yes| LOG[check logs: 5xx patterns]
+    Q3 -->|no| ESCALATE[escalate to senior eng]
+
+    RB & DB & LOG --> RESOLVE[resolve]
+    RESOLVE --> PIR[post-incident review]

@@ -1,0 +1,19 @@
+sequenceDiagram
+    autonumber
+    participant C as Client/SDK
+    participant G as Gateway API
+    participant W as Workflow Runtime
+    participant J as Job Scheduler
+    participant D as Data Stores
+    participant R as Recipient Agent
+
+    C->>G: API request
+    G->>D: write request/audit envelope
+    G->>W: start or continue workflow
+    W->>R: deliver step/intent
+    R-->>W: callback/progress
+    W->>D: persist state + events
+    W->>J: set next wakeup if waiting
+    J-->>W: tick due run
+    W-->>G: latest status
+    G-->>C: response/read model

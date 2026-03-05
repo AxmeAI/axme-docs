@@ -1,0 +1,27 @@
+digraph observability {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    SVC    [label="Service" fillcolor="#1e40af" fontcolor=white];
+    MET    [label="metrics\n(Prometheus)"];
+    LOG    [label="logs\n(structured JSON)"];
+    TRC    [label="traces\n(OTLP)"];
+    DASH   [label="Grafana dashboards"];
+    AGG    [label="log aggregator"];
+    JAE    [label="Jaeger / Tempo"];
+    SLO    [label="SLO breach?" shape=diamond fillcolor="#fef3c7"];
+    OK     [label="all green" fillcolor="#dcfce7"];
+    PAGE   [label="PagerDuty alert"];
+    ONC    [label="on-call engineer"];
+    RUN    [label="runbook lookup"];
+
+    SVC  -> {MET LOG TRC};
+    MET  -> DASH;
+    LOG  -> AGG;
+    TRC  -> JAE;
+    DASH -> SLO;
+    SLO  -> OK   [label="no"];
+    SLO  -> PAGE [label="warn"];
+    PAGE -> ONC -> RUN;
+}

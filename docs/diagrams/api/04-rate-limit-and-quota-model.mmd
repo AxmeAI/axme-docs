@@ -1,0 +1,13 @@
+flowchart LR
+    REQ[API Request]
+
+    REQ --> CHECK{rate limit check}
+    CHECK -->|within quota| ALLOW[process request]
+    CHECK -->|exceeded| DENY[429 Too Many Requests\nRetry-After header]
+
+    ALLOW --> RESP[response]
+    DENY --> CLIENT[client backs off]
+    CLIENT --> REQ
+
+    ALLOW --> DEDUCT[deduct from quota bucket]
+    DEDUCT --> REFILL[sliding window refill]

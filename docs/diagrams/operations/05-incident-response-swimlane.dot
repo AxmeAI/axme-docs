@@ -1,0 +1,27 @@
+digraph incident {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    ALERT   [label="Incident Alert" fillcolor="#1e40af" fontcolor=white];
+    TRIAGE  [label="on-call: triage"];
+    SEV     [label="severity?" shape=diamond fillcolor="#fef3c7"];
+    P0F     [label="SEV1: exec bridge\n+ war room" fillcolor="#fee2e2"];
+    P1F     [label="SEV2: eng lead + comms" fillcolor="#fef3c7"];
+    P2F     [label="SEV3: async fix"];
+    MIT     [label="mitigate / rollback"];
+    RES     [label="mark resolved" fillcolor="#dcfce7"];
+    PIR     [label="post-incident review"];
+    ACT     [label="action items"];
+    TKT     [label="create ticket"];
+    SPR     [label="schedule in sprint"];
+
+    ALERT  -> TRIAGE -> SEV;
+    SEV    -> P0F [label="SEV1"];
+    SEV    -> P1F [label="SEV2"];
+    SEV    -> P2F [label="SEV3"];
+    P0F    -> MIT;
+    P1F    -> MIT;
+    MIT    -> RES -> PIR -> ACT;
+    P2F    -> TKT -> SPR;
+}

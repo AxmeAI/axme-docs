@@ -1,0 +1,36 @@
+digraph audit_trail {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    CALL  [label="Caller / Service A\nAPI call"]
+    GW    [label="AXME Cloud API\nprocess request"]
+    STORE [label="Policy/State Store\nmutate intent"]
+    OBS   [label="Observability\ntrace_id, status, latency"]
+    AUDIT [label="Audit Trail\nwrite event"]
+    RESP  [label="Caller\nAPI response"]
+
+    WHY   [label="mutation type?" shape=diamond]
+    POL   [label="Audit: policy_update\nold/new generation\npatch summary"]
+    STAT  [label="Audit: status_update\nold/new status\nreason"]
+    REJ   [label="Audit: mutation_rejected\nreason, actor" style=filled fillcolor=lightyellow]
+    ERR   [label="Observability\nerror counter + latency"]
+
+    CALL -> GW
+    GW -> STORE
+    GW -> OBS
+
+    STORE -> WHY
+    WHY -> POL  [label="policy mutation"]
+    WHY -> STAT [label="status mutation"]
+    WHY -> REJ  [label="rejected"]
+
+    POL  -> AUDIT
+    STAT -> AUDIT
+    REJ  -> AUDIT
+    REJ  -> ERR
+
+    AUDIT -> RESP
+    GW -> RESP [style=dashed label="return"]
+}

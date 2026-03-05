@@ -1,0 +1,16 @@
+flowchart LR
+    THREAT[Threat]
+
+    THREAT --> S[Spoofing\ne.g. forged from_agent]
+    THREAT --> T[Tampering\ne.g. payload modified]
+    THREAT --> R[Repudiation\ne.g. deny sending intent]
+    THREAT --> I[Info Disclosure\ne.g. payload leaked]
+    THREAT --> D[Denial of Service\ne.g. flood intents]
+    THREAT --> E[Elevation of Privilege\ne.g. forge grants]
+
+    S --> M1[JWT + mTLS\nverify identity]
+    T --> M2[HMAC webhook signature\nDB integrity]
+    R --> M3[immutable audit log\nwith actor + timestamp]
+    I --> M4[AES-256 at rest\nTLS 1.3 in transit]
+    D --> M5[rate limits + quota buckets]
+    E --> M6[grants CAS + RBAC\nscoped to org/workspace]

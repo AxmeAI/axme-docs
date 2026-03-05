@@ -1,0 +1,43 @@
+digraph system_context {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    USER  [label="Business User\n/ Operator"]
+    SDK   [label="Business App / SDK"]
+    INTG  [label="External Integrator\nSystems"]
+    GW    [label="AXME Gateway\n/ API"]
+    WF    [label="Workflow +\nScheduler Runtime"]
+    DB    [label="Intent / Policy\n/ Event Stores"]
+    OBS   [label="Audit +\nObservability"]
+    AGENT [label="Recipient Agent\nRuntime"]
+    TOOLS [label="Enterprise Tools"]
+
+    USER  -> SDK
+    SDK   -> GW   [label="HTTPS API"]
+    INTG  -> GW   [label="Webhook/API integration"]
+    GW    -> WF
+    GW    -> DB
+    GW    -> OBS
+    WF    -> DB
+    WF    -> AGENT [label="route via registry"]
+    AGENT -> GW   [label="status/progress callbacks"]
+    AGENT -> TOOLS
+
+    subgraph cluster_client {
+        label="Client and Partner Zone"
+        style=dashed color=gray
+        USER; SDK; INTG
+    }
+    subgraph cluster_axme {
+        label="AXME Cloud Platform"
+        style=dashed color=steelblue
+        GW; WF; DB; OBS
+    }
+    subgraph cluster_recipient {
+        label="Recipient Enterprise Zone"
+        style=dashed color=gray
+        AGENT; TOOLS
+    }
+}

@@ -1,0 +1,67 @@
+digraph delivery_pipeline {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    SA   [label="Service A\nsubmit intent\nHTTPS POST /v1/intents"]
+    GW   [label="AXME Gateway\nvalidate auth+schema\n+idempotency"]
+    ST   [label="Store\npersist intent+events"]
+    WF   [label="Workflow Engine\nstart/advance state"]
+
+    ENC  [label="Transport Layer\nencrypt payload envelope"]
+    DEC  [label="Service B\ndecrypt and execute"]
+    DIR  [label="Service B\ndirect delivery and execute"]
+    FAIL [label="Workflow Engine\nschedule retry/backoff"]
+
+    B    [label="Service B\nprogress/completion event"]
+    GW2  [label="AXME Gateway\nappend event\nupdate status"]
+    SA2  [label="Service A\nread latest state\nGET /v1/intents/{id}"]
+
+    WH   [label="Webhook Consumer\noutbound notification"]
+    WH_OK  [label="Webhook Consumer\n2xx accepted" style=filled fillcolor=lightgreen]
+    WH_ERR [label="AXME Gateway\nwebhook retry policy" style=filled fillcolor=lightyellow]
+
+    SA -> GW
+    GW -> ST
+    GW -> WF
+
+    WF -> ENC [label="encrypted path"]
+    ENC -> DEC
+    WF -> DIR [label="direct path"]
+    WF -> FAIL [label="delivery failed"]
+    FAIL -> WF [label="retry after backoff"]
+
+    DEC -> B
+    DIR -> B
+
+    B -> GW2
+    GW2 -> ST [label="persist"]
+    GW2 -> SA2 [style=dashed label="visible via GET"]
+
+    GW2 -> WH [label="if webhook enabled"]
+    WH -> WH_OK
+    WH -> WH_ERR [label="non-2xx"]
+    WH_ERR -> WH [label="retry"]
+
+    subgraph cluster_sa {
+        label="Service A (Sender)"
+        style=dashed color=gray
+        SA; SA2
+    }
+    subgraph cluster_axme {
+        label="AXME Cloud"
+        style=dashed color=steelblue
+        GW; ST; WF; ENC; FAIL; GW2; WH_ERR
+    }
+    subgraph cluster_sb {
+        label="Service B (Recipient)"
+        style=dashed color=gray
+        DEC; DIR; B
+    }
+    subgraph cluster_wh {
+        label="Webhook Consumer"
+        style=dashed color=gray
+        WH; WH_OK
+    }
+}

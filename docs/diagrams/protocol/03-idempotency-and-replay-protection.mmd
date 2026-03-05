@@ -1,0 +1,12 @@
+flowchart LR
+    REQ[Incoming Request]
+
+    REQ --> IDK[extract idempotency_key]
+    IDK --> LOOKUP{key in store?}
+    LOOKUP -->|yes| DUP{same payload?}
+    DUP -->|yes| CACHED[return cached response 200]
+    DUP -->|no| CONFLICT[409 Conflict]
+    LOOKUP -->|no| EXEC[execute operation]
+    EXEC --> STORE[persist result + idempotency_key]
+    STORE --> RESP[return response]
+    STORE --> TTL[expire key after TTL window]

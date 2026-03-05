@@ -1,0 +1,30 @@
+digraph container_runtime {
+    graph [size="16,9" ratio="fill" pad="0.4"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    C    [label="Client / SDK"]
+    GW   [label="Gateway API"]
+    WR   [label="Workflow Runtime"]
+    DL   [label="Delivery /\nTransport Layer"]
+    SC   [label="Internal Scheduler"]
+    DB   [label="Intent +\nPolicy Store"]
+    EV   [label="Event +\nAudit Store"]
+    SJ   [label="Scheduled Jobs"]
+    AG   [label="Recipient Agents"]
+    OBS  [label="Observability\nlogs / metrics / traces"]
+
+    C  -> GW
+    GW -> WR
+    GW -> EV
+    GW -> OBS
+    WR -> DL
+    WR -> DB
+    WR -> EV
+    WR -> SJ
+    SJ -> SC
+    SC -> WR  [label="tick due run"]
+    DL -> AG
+    AG -> GW  [label="callbacks"]
+}

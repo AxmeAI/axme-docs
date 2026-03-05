@@ -1,0 +1,30 @@
+digraph change_mgmt {
+    graph [size="16,9" ratio="fill" pad="0.4" rankdir=LR fontname="Helvetica"];
+    node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
+    edge [fontname="Helvetica" fontsize=10];
+
+    CHG  [label="Change Request" fillcolor="#1e40af" fontcolor=white];
+    RFC  [label="RFC / ticket created"];
+    REV  [label="review required?" shape=diamond fillcolor="#fef3c7"];
+    ASYNC [label="async approval via PR"];
+    SYNC [label="sync review:\narch + security"];
+    APP  [label="approved?" shape=diamond fillcolor="#fef3c7"];
+    REVIS [label="revise proposal"];
+    SCHED [label="schedule deploy window"];
+    DEP  [label="deploy"];
+    VER  [label="post-deploy verification"];
+    CLS  [label="close ticket" fillcolor="#dcfce7"];
+    RB   [label="rollback + incident" fillcolor="#fee2e2"];
+
+    CHG   -> RFC -> REV;
+    REV   -> ASYNC [label="low risk"];
+    REV   -> SYNC  [label="high risk"];
+    ASYNC -> APP;
+    SYNC  -> APP;
+    APP   -> REVIS [label="no"];
+    APP   -> SCHED [label="yes"];
+    REVIS -> REV;
+    SCHED -> DEP -> VER;
+    VER   -> CLS [label="ok"];
+    VER   -> RB  [label="fail"];
+}
