@@ -142,7 +142,7 @@ The `docs/diagrams/` directory is the canonical home for all platform visualizat
 | Repository | Role |
 |---|---|
 | [axme-spec](https://github.com/AxmeAI/axme-spec) | Canonical schema and protocol contracts |
-| [axme-control-plane](https://github.com/AxmeAI/axme-control-plane) | Private runtime implementation |
+| Control-plane runtime (private) | Internal runtime implementation (contact [hello@axme.ai](mailto:hello@axme.ai) for access) |
 | [axme-conformance](https://github.com/AxmeAI/axme-conformance) | Conformance and contract test suite |
 | [axme-sdk-python](https://github.com/AxmeAI/axme-sdk-python) | Python SDK |
 | [axme-sdk-typescript](https://github.com/AxmeAI/axme-sdk-typescript) | TypeScript SDK |
