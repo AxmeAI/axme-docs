@@ -7,11 +7,11 @@ sequenceDiagram
     participant AU as Audit Trail
 
     C  ->> G:  API request (GET / resume / controls / policy / resolve)
-    G  ->> AZ: evaluate api-key + bearer + owner scope + role/grants
+    G  ->> AZ: evaluate x-api-key + actor token + owner scope + role/grants
 
     alt not authorized
         AZ -->> G: deny
-        G  -->> C: 403 forbidden
+        G  -->> C: 401/403 (missing_platform_api_key / missing_actor_token / invalid_actor_scope)
     else authorized
         AZ -->> G: allow
         alt read operation

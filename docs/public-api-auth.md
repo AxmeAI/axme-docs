@@ -1,11 +1,91 @@
 # Axme Public API Auth and Reliability
 
-## Transport-Level API Key
+## Authentication Layers
 
-- Header: `x-api-key: <key>` for gateway and auth service calls.
-- Missing or invalid key:
-  - HTTP `401`
-  - body: `{"detail":"invalid api key"}`
+AXME uses a two-layer auth model:
+
+- **Platform / service credential**: `x-api-key: <service_key>`
+  - Required for gateway routes by default.
+  - Intended for SDKs, backend integrations, CI/CD, and automation.
+- **Actor token** (user/session context): `authorization: Bearer <access_token>`
+  - Adds user/session context and scoped claims (`org_id`, `workspace_id`, `actor_id`, `roles`).
+  - Required on routes that operate in user or enterprise scoped context.
+
+## Route Classes
+
+To reduce ambiguity, public routes are grouped into three auth classes:
+
+- **Platform routes**
+  - Require only `x-api-key`.
+  - Typical use: service-to-service automation and platform control APIs.
+- **Platform + actor routes**
+  - Require both `x-api-key` and actor token (`authorization: Bearer ...`).
+  - Typical use: enterprise/admin operations where platform identity and actor identity are both required.
+- **Interactive/session routes**
+  - Require actor token only.
+  - Typical use: user-session and delegated interactive flows.
+
+## Structured Auth Errors
+
+Auth failures return a structured body:
+
+```json
+{
+  "error": {
+    "code": "missing_platform_api_key",
+    "message": "missing platform api key",
+    "details": {
+      "header": "x-api-key"
+    }
+  },
+  "detail": "missing platform api key"
+}
+```
+
+`detail` is kept for compatibility. `error.code` is the canonical machine-readable contract.
+
+Common auth error codes:
+
+- `missing_platform_api_key`
+- `invalid_platform_api_key`
+- `missing_actor_token`
+- `invalid_actor_token`
+- `invalid_actor_scope`
+- `rate_limit_exceeded`
+
+## Alpha Bootstrap Key Issuance
+
+For cloud alpha onboarding, AXME Cloud form at `https://cloud.axme.ai/alpha` calls:
+
+- `POST /v1/alpha/bootstrap`
+
+Request body:
+
+- `email` (required)
+- `use_case` (required)
+- `company` (optional)
+
+Response includes a real bootstrap service-account key:
+
+- `key.token` in format `axme_sa_<service_account_id>_<secret>`
+
+The endpoint is controlled by `GATEWAY_ALLOW_UNCONTROLLED_ACCOUNT_BOOTSTRAP`:
+
+- production default: `false` (fail-closed)
+- non-production default: `true`
+
+## Scoped-Only Enterprise Bypass
+
+Actor-token-only access for enterprise routes is now explicit opt-in.
+
+- Flag: `AXME_ALLOW_ENTERPRISE_SCOPED_ONLY_AUTH`
+- Default: `false`
+- When enabled, selected enterprise routes may accept actor token without `x-api-key`.
+
+Without opt-in, enterprise routes require both:
+
+- `x-api-key`
+- `authorization: Bearer <actor_token>`
 
 ## Session Auth (`nick + password`)
 

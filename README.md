@@ -9,9 +9,38 @@
 
 ## What Is AXME?
 
-AXME is a durable intent-delivery platform. Businesses send **intents** — structured, typed actions with rich lifecycle controls — and the platform guarantees reliable delivery, ordering, retries, human-in-the-loop pausing, and cryptographically signed audit trails. The underlying wire protocol is **AXP (AXME Intent Protocol)**.
+AXME is a coordination infrastructure for durable execution of long-running intents across distributed systems.
 
-This repository is the canonical public documentation surface: integration guides, OpenAPI schemas, diagrams, and migration policies all live here and are the single source of truth consumed by the SDK and conformance layers.
+It provides a model for executing **intents** — requests that may take minutes, hours, or longer to complete — across services, agents, and human participants.
+
+## AXP — the Intent Protocol
+
+At the core of AXME is **AXP (Intent Protocol)** — an open protocol that defines contracts and lifecycle rules for intent processing.
+
+AXP can be implemented independently.  
+The open part of the platform includes:
+
+- the protocol specification and schemas
+- SDKs and CLI for integration
+- conformance tests
+- implementation and integration documentation
+
+## AXME Cloud
+
+**AXME Cloud** is the managed service that runs AXP in production together with **The Registry** (identity and routing).
+
+It removes operational complexity by providing:
+
+- reliable intent delivery and retries  
+- lifecycle management for long-running operations  
+- handling of timeouts, waits, reminders, and escalation  
+- observability of intent status and execution history  
+
+State and events can be accessed through:
+
+- API and SDKs  
+- event streams and webhooks  
+- the cloud console
 
 ---
 
@@ -88,7 +117,7 @@ pytest
 | Document | Description |
 |---|---|
 | [`integration-quickstart.md`](docs/integration-quickstart.md) | End-to-end onboarding path for new integrators |
-| [`public-api-auth.md`](docs/public-api-auth.md) | Authentication: API keys, bearer tokens, JWT validation |
+| [`public-api-auth.md`](docs/public-api-auth.md) | Authentication: platform API keys, actor tokens, JWT validation |
 | [`public-api-families-d1-intents-inbox-approvals.md`](docs/public-api-families-d1-intents-inbox-approvals.md) | Full API family reference for intents, inbox, and approvals |
 | [`supported-limits-and-error-model.md`](docs/supported-limits-and-error-model.md) | Rate limits, quotas, error codes, retriability table |
 | [`migration-and-deprecation-policy.md`](docs/migration-and-deprecation-policy.md) | API versioning, deprecation timelines, migration guides |

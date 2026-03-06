@@ -32,7 +32,7 @@ When exceeded:
 
 - `401 Unauthorized`
   - invalid or missing API key
-  - invalid/expired/revoked bearer token
+  - invalid/expired/revoked actor token
 - `403 Forbidden`
   - valid identity but insufficient scope/owner permission
 

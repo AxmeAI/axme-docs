@@ -17,7 +17,7 @@
 1. User enables Axme MCP connector in Gemini.
 2. Gemini starts auth redirect to Axme.
 3. User logs in (`nick + password`) and grants link.
-4. Gemini calls MCP tools with bearer token.
+4. Gemini calls MCP tools with actor token (`Authorization: Bearer ...`).
 5. Axme maps token claim to `owner_agent`.
 
 Expected Axme state:

@@ -79,7 +79,7 @@ Required scoped claims in strict mode:
 
 ## Integrator Action Checklist
 
-1. Ensure bearer token issuance pipeline can mint `org_id`, `workspace_id`, and role claims.
+1. Ensure actor token issuance pipeline can mint `org_id`, `workspace_id`, and role claims.
 2. Roll out scoped claims to sandbox and staging while in Phase 1 compatibility mode.
 3. Validate authorization outcomes for all enterprise admin paths before switching to strict mode.
 4. Disable uncontrolled bootstrap in production and route onboarding through access-request flow.
