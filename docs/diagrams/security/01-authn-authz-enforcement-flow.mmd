@@ -7,21 +7,21 @@ sequenceDiagram
     participant A as Audit/Trace
 
     C->>G: API request
-    G->>I: validate x-api-key
-    alt api key invalid
-        I-->>G: invalid
-        G-->>C: 401
-    else api key valid
+    G->>I: validate platform key (x-api-key)
+    alt platform key invalid or missing
+        I-->>G: reject
+        G-->>C: 401 missing_platform_api_key / invalid_platform_api_key
+    else platform key valid
         I-->>G: ok
-        G->>I: validate bearer (if required)
-        alt bearer invalid/scope mismatch
+        G->>I: validate actor token (if required on route)
+        alt actor token invalid/missing/scope mismatch
             I-->>G: reject
-            G-->>C: 401/403
-        else identity valid
+            G-->>C: 401/403 missing_actor_token / invalid_actor_scope
+        else identity context valid
             G->>Z: enforce owner scope + role/grants
             alt unauthorized
                 Z-->>G: deny
-                G-->>C: 403
+                G-->>C: 403 forbidden
             else authorized
                 Z-->>G: allow
                 G->>A: record audit + trace metadata

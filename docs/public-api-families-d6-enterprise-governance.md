@@ -184,7 +184,7 @@ Error expectations for enterprise governance operations:
   - scope mismatch between path and body (`org_id` / `workspace_id`)
 - `401 Unauthorized`
   - missing or invalid API key
-  - missing/invalid bearer token when route requires bearer
+  - missing/invalid actor token when route requires actor context
 - `403 Forbidden`
   - caller role cannot perform operation for requested scope
   - actor attempts cross-organization access
