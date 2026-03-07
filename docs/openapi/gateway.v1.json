@@ -15,7 +15,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
                   "type": "object",
                   "title": "Response Health Health Get"
                 }
@@ -80,7 +79,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Upsert Matrix Identity V1 Matrix Identities Upsert Post"
                 }
               }
@@ -153,7 +151,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resolve Matrix Identity V1 Matrix Identities Resolve Get"
                 }
               }
@@ -227,7 +224,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Upsert Matrix Device Store V1 Matrix Device Store Upsert Post"
                 }
               }
@@ -318,7 +314,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resolve Matrix Device Store V1 Matrix Device Store Resolve Get"
                 }
               }
@@ -392,7 +387,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Set Matrix Device Trust V1 Matrix Device Trust Set Post"
                 }
               }
@@ -466,7 +460,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Upsert Matrix Cross Signing Identity V1 Matrix Cross Signing Upsert Post"
                 }
               }
@@ -555,7 +548,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resolve Matrix Cross Signing Identity V1 Matrix Cross Signing Resolve Get"
                 }
               }
@@ -629,7 +621,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Set Matrix Device Verification V1 Matrix Device Verification Set Post"
                 }
               }
@@ -718,7 +709,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Matrix Device Trust V1 Matrix Device Trust List Get"
                 }
               }
@@ -824,7 +814,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Audit Events V1 Audit Events Get"
                 }
               }
@@ -931,7 +920,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resolve Matrix Group Session V1 Matrix Group Sessions Resolve Get"
                 }
               }
@@ -1005,7 +993,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Rotate Matrix Group Session V1 Matrix Group Sessions Rotate Post"
                 }
               }
@@ -1079,7 +1066,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Decrypt Matrix Group Session Message V1 Matrix Group Sessions Decrypt Post"
                 }
               }
@@ -1153,7 +1139,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Backup Matrix Group Session V1 Matrix Group Sessions Backup Post"
                 }
               }
@@ -1227,8 +1212,163 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Restore Matrix Group Session V1 Matrix Group Sessions Restore Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/alpha/bootstrap": {
+      "post": {
+        "summary": "Alpha Bootstrap",
+        "operationId": "alpha_bootstrap_v1_alpha_bootstrap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlphaBootstrapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Alpha Bootstrap V1 Alpha Bootstrap Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/alpha/verify-email": {
+      "get": {
+        "summary": "Alpha Verify Email",
+        "operationId": "alpha_verify_email_v1_alpha_verify_email_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 16,
+              "maxLength": 512,
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Alpha Verify Email V1 Alpha Verify Email Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Alpha Verify Email Post",
+        "operationId": "alpha_verify_email_post_v1_alpha_verify_email_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlphaEmailVerificationConfirmRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Alpha Verify Email Post V1 Alpha Verify Email Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/alpha/verify-email/resend": {
+      "post": {
+        "summary": "Alpha Verify Email Resend",
+        "operationId": "alpha_verify_email_resend_v1_alpha_verify_email_resend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlphaEmailVerificationResendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Alpha Verify Email Resend V1 Alpha Verify Email Resend Post"
                 }
               }
             }
@@ -2042,7 +2182,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Get Intent V1 Intents  Intent Id  Get"
                 }
               }
@@ -2133,7 +2272,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Intent Events V1 Intents  Intent Id  Events Get"
                 }
               }
@@ -2340,7 +2478,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resume Intent V1 Intents  Intent Id  Resume Post"
                 }
               }
@@ -2456,7 +2593,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Update Intent Controls V1 Intents  Intent Id  Controls Post"
                 }
               }
@@ -2572,8 +2708,226 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Update Intent Policy V1 Intents  Intent Id  Policy Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/scheduler/workflow-tick": {
+      "post": {
+        "summary": "Internal Scheduler Workflow Tick",
+        "operationId": "internal_scheduler_workflow_tick_internal_scheduler_workflow_tick_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowTickRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Internal Scheduler Workflow Tick Internal Scheduler Workflow Tick Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/scheduler/webhook-tick": {
+      "post": {
+        "summary": "Internal Scheduler Webhook Tick",
+        "operationId": "internal_scheduler_webhook_tick_internal_scheduler_webhook_tick_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookTickRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Internal Scheduler Webhook Tick Internal Scheduler Webhook Tick Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/scheduler/reconcile-safety": {
+      "post": {
+        "summary": "Internal Scheduler Reconcile Safety",
+        "operationId": "internal_scheduler_reconcile_safety_internal_scheduler_reconcile_safety_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconcileSafetyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Internal Scheduler Reconcile Safety Internal Scheduler Reconcile Safety Post"
                 }
               }
             }
@@ -2656,7 +3010,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Resolve Intent V1 Intents  Intent Id  Resolve Post"
                 }
               }
@@ -2719,7 +3072,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -2732,7 +3084,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Register Password V1 Auth Register Password Post"
                 }
               }
@@ -2795,7 +3146,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -2808,7 +3158,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Login V1 Auth Login Post"
                 }
               }
@@ -2871,7 +3220,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -2884,7 +3232,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Refresh V1 Auth Refresh Post"
                 }
               }
@@ -2947,7 +3294,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -2960,7 +3306,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Logout V1 Auth Logout Post"
                 }
               }
@@ -3023,7 +3368,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -3036,7 +3380,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Logout All V1 Auth Logout All Post"
                 }
               }
@@ -3110,7 +3453,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth List Sessions V1 Auth Sessions Get"
                 }
               }
@@ -3173,7 +3515,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true,
                 "title": "Payload"
               }
             }
@@ -3186,7 +3527,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth Revoke Session V1 Auth Sessions Revoke Post"
                 }
               }
@@ -3260,7 +3600,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Auth List Assistant Links V1 Auth Assistant Links Get"
                 }
               }
@@ -3334,7 +3673,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Access Request V1 Access Requests Post"
                 }
               }
@@ -3454,7 +3792,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Access Requests V1 Access Requests Get"
                 }
               }
@@ -3528,7 +3865,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Access Request V1 Access Requests  Access Request Id  Get"
                 }
               }
@@ -3612,7 +3948,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Review Access Request V1 Access Requests  Access Request Id  Review Post"
                 }
               }
@@ -3727,7 +4062,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Portal List Access Requests V1 Portal Enterprise Access Requests Get"
                 }
               }
@@ -3818,7 +4152,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Navigation V1 Portal Enterprise Navigation Get"
                 }
               }
@@ -3945,7 +4278,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Request Queue V1 Portal Enterprise Request Queue Get"
                 }
               }
@@ -4029,7 +4361,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Personal Portal Overview V1 Portal Personal Overview Get"
                 }
               }
@@ -4113,7 +4444,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Overview V1 Portal Enterprise Overview Get"
                 }
               }
@@ -4187,7 +4517,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Organization V1 Organizations Post"
                 }
               }
@@ -4261,7 +4590,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Organization V1 Organizations  Org Id  Get"
                 }
               }
@@ -4343,7 +4671,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Update Organization V1 Organizations  Org Id  Patch"
                 }
               }
@@ -4427,7 +4754,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Workspace V1 Organizations  Org Id  Workspaces Post"
                 }
               }
@@ -4499,7 +4825,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Workspaces V1 Organizations  Org Id  Workspaces Get"
                 }
               }
@@ -4593,7 +4918,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Update Workspace V1 Organizations  Org Id  Workspaces  Workspace Id  Patch"
                 }
               }
@@ -4684,7 +5008,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Members V1 Organizations  Org Id  Members Get"
                 }
               }
@@ -4766,7 +5089,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Add Member V1 Organizations  Org Id  Members Post"
                 }
               }
@@ -4859,7 +5181,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Update Member V1 Organizations  Org Id  Members  Member Id  Patch"
                 }
               }
@@ -4940,7 +5261,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Member V1 Organizations  Org Id  Members  Member Id  Delete"
                 }
               }
@@ -5014,7 +5334,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Quota V1 Quotas Patch"
                 }
               }
@@ -5096,7 +5415,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Quota V1 Quotas Get"
                 }
               }
@@ -5195,7 +5513,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Usage Summary V1 Usage Summary Get"
                 }
               }
@@ -5291,7 +5608,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Usage Timeseries V1 Usage Timeseries Get"
                 }
               }
@@ -5387,7 +5703,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Rollup Usage Daily V1 Usage Rollups Daily Post"
                 }
               }
@@ -5461,7 +5776,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Billing Plan V1 Billing Plan Patch"
                 }
               }
@@ -5543,7 +5857,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Billing Plan V1 Billing Plan Get"
                 }
               }
@@ -5650,7 +5963,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Billing Invoices V1 Billing Invoices Get"
                 }
               }
@@ -5723,7 +6035,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Billing Invoice V1 Billing Invoices  Invoice Id  Get"
                 }
               }
@@ -5797,7 +6108,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Service Account V1 Service Accounts Post"
                 }
               }
@@ -5886,7 +6196,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Service Accounts V1 Service Accounts Get"
                 }
               }
@@ -5959,7 +6268,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Service Account V1 Service Accounts  Service Account Id  Get"
                 }
               }
@@ -6042,7 +6350,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Service Account Key V1 Service Accounts  Service Account Id  Keys Post"
                 }
               }
@@ -6124,7 +6431,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Revoke Service Account Key V1 Service Accounts  Service Account Id  Keys  Key Id  Revoke Post"
                 }
               }
@@ -6198,7 +6504,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Create Principal V1 Principals Post"
                 }
               }
@@ -6271,7 +6576,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Principal V1 Principals  Principal Id  Get"
                 }
               }
@@ -6345,7 +6649,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Bind Alias V1 Aliases Post"
                 }
               }
@@ -6482,7 +6785,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Aliases V1 Aliases Get"
                 }
               }
@@ -6555,7 +6857,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Revoke Alias V1 Aliases  Alias Id  Revoke Post"
                 }
               }
@@ -6650,7 +6951,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Resolve Alias V1 Aliases Resolve Get"
                 }
               }
@@ -6724,7 +7024,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Register Routing Endpoint V1 Routing Endpoints Post"
                 }
               }
@@ -6841,7 +7140,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Routing Endpoints V1 Routing Endpoints Get"
                 }
               }
@@ -6924,7 +7222,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Update Routing Endpoint V1 Routing Endpoints  Route Id  Patch"
                 }
               }
@@ -6995,7 +7292,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Routing Endpoint V1 Routing Endpoints  Route Id  Delete"
                 }
               }
@@ -7069,7 +7365,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Resolve Route V1 Routing Resolve Post"
                 }
               }
@@ -7143,7 +7438,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Transport Binding V1 Transports Bindings Post"
                 }
               }
@@ -7260,7 +7554,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Transport Bindings V1 Transports Bindings Get"
                 }
               }
@@ -7333,7 +7626,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Transport Binding V1 Transports Bindings  Binding Id  Delete"
                 }
               }
@@ -7407,7 +7699,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Submit Delivery V1 Deliveries Post"
                 }
               }
@@ -7547,7 +7838,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise List Deliveries V1 Deliveries Get"
                 }
               }
@@ -7620,7 +7910,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Get Delivery V1 Deliveries  Delivery Id  Get"
                 }
               }
@@ -7723,7 +8012,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Delivery Operations V1 Deliveries Operations Get"
                 }
               }
@@ -7797,7 +8085,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Reconcile Deliveries V1 Deliveries Reconcile Post"
                 }
               }
@@ -7870,7 +8157,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Enterprise Replay Delivery V1 Deliveries  Delivery Id  Replay Post"
                 }
               }
@@ -8056,7 +8342,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Media Upload Relay Put V1 Media Upload  Upload Id  Put"
                 }
               }
@@ -8203,7 +8488,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Media Get Upload V1 Media  Upload Id  Get"
                 }
               }
@@ -8287,7 +8571,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Submit Approval Decision V1 Approvals  Approval Id  Decision Post"
                 }
               }
@@ -8393,7 +8676,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Upsert Webhook Subscription V1 Webhooks Subscriptions Post"
                 }
               }
@@ -8497,7 +8779,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Webhook Subscriptions V1 Webhooks Subscriptions Get"
                 }
               }
@@ -8603,7 +8884,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Delete Webhook Subscription V1 Webhooks Subscriptions  Subscription Id  Delete"
                 }
               }
@@ -8709,7 +8989,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Receive Webhook Event V1 Webhooks Events Post"
                 }
               }
@@ -8815,7 +9094,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Replay Webhook Event V1 Webhooks Events  Event Id  Replay Post"
                 }
               }
@@ -8921,7 +9199,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Upsert Semantic Schema V1 Schemas Post"
                 }
               }
@@ -9026,7 +9303,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Get Semantic Schema V1 Schemas  Semantic Type  Get"
                 }
               }
@@ -9090,7 +9366,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Get Capabilities V1 Capabilities Get"
                 }
               }
@@ -9212,7 +9487,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Inbox Changes V1 Inbox Changes Get"
                 }
               }
@@ -9329,7 +9603,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response List Inbox V1 Inbox Get"
                 }
               }
@@ -9435,7 +9708,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Get Inbox Thread V1 Inbox  Thread Id  Get"
                 }
               }
@@ -9541,7 +9813,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Mark Inbox Thread Read V1 Inbox  Thread Id  Read Post"
                 }
               }
@@ -9657,7 +9928,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Reply Inbox Thread V1 Inbox  Thread Id  Reply Post"
                 }
               }
@@ -9773,7 +10043,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Delete Inbox Messages V1 Inbox  Thread Id  Messages Delete Post"
                 }
               }
@@ -9889,7 +10158,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Delegate Inbox Thread V1 Inbox  Thread Id  Delegate Post"
                 }
               }
@@ -10005,7 +10273,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Approve Inbox Thread V1 Inbox  Thread Id  Approve Post"
                 }
               }
@@ -10121,7 +10388,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true,
                   "title": "Response Reject Inbox Thread V1 Inbox  Thread Id  Reject Post"
                 }
               }
@@ -10311,7 +10577,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -10328,6 +10593,70 @@
           "alias_type"
         ],
         "title": "AliasBindRequest"
+      },
+      "AlphaBootstrapRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 3,
+            "title": "Email"
+          },
+          "use_case": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Use Case"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "use_case"
+        ],
+        "title": "AlphaBootstrapRequest"
+      },
+      "AlphaEmailVerificationConfirmRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 16,
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "AlphaEmailVerificationConfirmRequest"
+      },
+      "AlphaEmailVerificationResendRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 3,
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "AlphaEmailVerificationResendRequest"
       },
       "ApprovalDecisionRequest": {
         "properties": {
@@ -10417,7 +10746,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -10546,7 +10874,6 @@
             "title": "Workspace Id"
           },
           "payload": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           },
@@ -11407,7 +11734,6 @@
             "title": "Matrix Room Id"
           },
           "event_content": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Event Content"
           },
@@ -11429,7 +11755,6 @@
       "MatrixGroupSessionRestoreRequest": {
         "properties": {
           "backup": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Backup"
           },
@@ -11880,7 +12205,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -11958,7 +12282,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12008,7 +12331,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12094,6 +12416,44 @@
           "updated_by_actor_id"
         ],
         "title": "QuotaPatchRequest"
+      },
+      "ReconcileSafetyRequest": {
+        "properties": {
+          "workflow_limit": {
+            "type": "integer",
+            "maximum": 500.0,
+            "minimum": 1.0,
+            "title": "Workflow Limit",
+            "default": 50
+          },
+          "webhook_limit": {
+            "type": "integer",
+            "maximum": 500.0,
+            "minimum": 1.0,
+            "title": "Webhook Limit",
+            "default": 50
+          },
+          "owner_agent": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Agent"
+          },
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "ReconcileSafetyRequest"
       },
       "RegisterNickRequest": {
         "properties": {
@@ -12381,7 +12741,6 @@
           "result": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12393,7 +12752,6 @@
           "error": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12631,7 +12989,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12773,7 +13130,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -12840,7 +13196,6 @@
             "title": "Semantic Type"
           },
           "schema_json": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Schema Json"
           },
@@ -12998,7 +13353,6 @@
             "title": "Reply To"
           },
           "payload": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
@@ -13096,7 +13450,6 @@
           "metadata": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -13117,7 +13470,6 @@
       "UpdateIntentControlsRequest": {
         "properties": {
           "controls_patch": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Controls Patch"
           },
@@ -13172,7 +13524,6 @@
           "grants_patch": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -13184,7 +13535,6 @@
           "envelope_patch": {
             "anyOf": [
               {
-                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -13406,13 +13756,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",
@@ -13438,7 +13781,6 @@
             "title": "Source"
           },
           "payload": {
-            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
@@ -13505,6 +13847,55 @@
           "event_types"
         ],
         "title": "WebhookSubscriptionUpsertRequest"
+      },
+      "WebhookTickRequest": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "maximum": 500.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 50
+          },
+          "owner_agent": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Agent"
+          },
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "WebhookTickRequest"
+      },
+      "WorkflowTickRequest": {
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "maximum": 500.0,
+            "minimum": 1.0,
+            "title": "Limit",
+            "default": 50
+          },
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "WorkflowTickRequest"
       },
       "WorkspaceCreateRequest": {
         "properties": {
