@@ -5,8 +5,8 @@ digraph authn_authz {
     edge [fontname="monospace" fontsize=10]
 
     REQ   [label="Incoming Request"]
-    AKEY  [label="Validate platform key\nx-api-key"]
-    F401A [label="401 missing/invalid\nplatform api key" style=filled fillcolor=lightyellow]
+    AKEY  [label="Validate machine key\nx-api-key (AXME_API_KEY)"]
+    F401A [label="401 missing/invalid\nx-api-key" style=filled fillcolor=lightyellow]
     BRTE  [label="Actor token required\non route?" shape=diamond]
     VJWT  [label="Validate actor token\nJWT sig + claims + scope"]
     F401B [label="401/403 missing actor token\nor invalid actor scope" style=filled fillcolor=lightyellow]

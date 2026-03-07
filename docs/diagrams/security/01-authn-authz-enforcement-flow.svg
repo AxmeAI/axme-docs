@@ -19,7 +19,7 @@
 <g id="node2" class="node">
 <title>AKEY</title>
 <polygon fill="none" stroke="black" points="320,-782.09 162,-782.09 162,-746.09 320,-746.09 320,-782.09"/>
-<text text-anchor="middle" x="241" y="-767.29" font-family="monospace" font-size="11.00">Validate platform key</text>
+<text text-anchor="middle" x="241" y="-767.29" font-family="monospace" font-size="11.00">Validate machine key</text>
 <text text-anchor="middle" x="241" y="-755.29" font-family="monospace" font-size="11.00">x&#45;api&#45;key</text>
 </g>
 <!-- REQ&#45;&gt;AKEY -->
@@ -33,7 +33,7 @@
 <title>F401A</title>
 <polygon fill="lightyellow" stroke="black" points="605.5,-995.09 460.5,-995.09 460.5,-959.09 605.5,-959.09 605.5,-995.09"/>
 <text text-anchor="middle" x="533" y="-980.29" font-family="monospace" font-size="11.00">401 missing/invalid</text>
-<text text-anchor="middle" x="533" y="-968.29" font-family="monospace" font-size="11.00">platform api key</text>
+<text text-anchor="middle" x="533" y="-968.29" font-family="monospace" font-size="11.00">x-api-key</text>
 </g>
 <!-- AKEY&#45;&gt;F401A -->
 <g id="edge2" class="edge">

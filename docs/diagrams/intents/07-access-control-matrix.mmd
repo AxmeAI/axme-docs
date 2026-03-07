@@ -7,7 +7,7 @@ sequenceDiagram
     participant AU as Audit Trail
 
     C  ->> G:  API request (GET / resume / controls / policy / resolve)
-    G  ->> AZ: evaluate x-api-key + actor token + owner scope + role/grants
+    G  ->> AZ: evaluate machine key (x-api-key / AXME_API_KEY) + actor token + owner scope + role/grants
 
     alt not authorized
         AZ -->> G: deny

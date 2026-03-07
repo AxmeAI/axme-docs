@@ -7,11 +7,11 @@ sequenceDiagram
     participant A as Audit/Trace
 
     C->>G: API request
-    G->>I: validate platform key (x-api-key)
-    alt platform key invalid or missing
+    G->>I: validate machine key (x-api-key / AXME_API_KEY)
+    alt x-api-key invalid or missing
         I-->>G: reject
         G-->>C: 401 missing_platform_api_key / invalid_platform_api_key
-    else platform key valid
+    else x-api-key valid
         I-->>G: ok
         G->>I: validate actor token (if required on route)
         alt actor token invalid/missing/scope mismatch
