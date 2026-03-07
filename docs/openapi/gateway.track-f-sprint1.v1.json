@@ -102,6 +102,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Resume Intent V1 Intents  Intent Id  Resume Post"
                 }
               }
@@ -217,6 +218,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Update Intent Controls V1 Intents  Intent Id  Controls Post"
                 }
               }
@@ -332,6 +334,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Update Intent Policy V1 Intents  Intent Id  Policy Post"
                 }
               }
@@ -405,6 +408,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Access Request V1 Access Requests Post"
                 }
               }
@@ -524,6 +528,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Access Requests V1 Access Requests Get"
                 }
               }
@@ -597,6 +602,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Access Request V1 Access Requests  Access Request Id  Get"
                 }
               }
@@ -680,6 +686,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Review Access Request V1 Access Requests  Access Request Id  Review Post"
                 }
               }
@@ -794,6 +801,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Portal List Access Requests V1 Portal Enterprise Access Requests Get"
                 }
               }
@@ -884,6 +892,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Navigation V1 Portal Enterprise Navigation Get"
                 }
               }
@@ -1010,6 +1019,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Request Queue V1 Portal Enterprise Request Queue Get"
                 }
               }
@@ -1093,6 +1103,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Personal Portal Overview V1 Portal Personal Overview Get"
                 }
               }
@@ -1176,6 +1187,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Portal Overview V1 Portal Enterprise Overview Get"
                 }
               }
@@ -1249,6 +1261,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Organization V1 Organizations Post"
                 }
               }
@@ -1322,6 +1335,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Organization V1 Organizations  Org Id  Get"
                 }
               }
@@ -1403,6 +1417,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Update Organization V1 Organizations  Org Id  Patch"
                 }
               }
@@ -1486,6 +1501,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Workspace V1 Organizations  Org Id  Workspaces Post"
                 }
               }
@@ -1557,6 +1573,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Workspaces V1 Organizations  Org Id  Workspaces Get"
                 }
               }
@@ -1650,6 +1667,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Update Workspace V1 Organizations  Org Id  Workspaces  Workspace Id  Patch"
                 }
               }
@@ -1740,6 +1758,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Members V1 Organizations  Org Id  Members Get"
                 }
               }
@@ -1821,6 +1840,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Add Member V1 Organizations  Org Id  Members Post"
                 }
               }
@@ -1913,6 +1933,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Update Member V1 Organizations  Org Id  Members  Member Id  Patch"
                 }
               }
@@ -1993,6 +2014,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Member V1 Organizations  Org Id  Members  Member Id  Delete"
                 }
               }
@@ -2066,6 +2088,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Quota V1 Quotas Patch"
                 }
               }
@@ -2147,6 +2170,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Quota V1 Quotas Get"
                 }
               }
@@ -2245,6 +2269,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Usage Summary V1 Usage Summary Get"
                 }
               }
@@ -2340,6 +2365,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Usage Timeseries V1 Usage Timeseries Get"
                 }
               }
@@ -2435,6 +2461,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Rollup Usage Daily V1 Usage Rollups Daily Post"
                 }
               }
@@ -2508,6 +2535,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Billing Plan V1 Billing Plan Patch"
                 }
               }
@@ -2589,6 +2617,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Billing Plan V1 Billing Plan Get"
                 }
               }
@@ -2695,6 +2724,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Billing Invoices V1 Billing Invoices Get"
                 }
               }
@@ -2767,6 +2797,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Billing Invoice V1 Billing Invoices  Invoice Id  Get"
                 }
               }
@@ -2840,6 +2871,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Service Account V1 Service Accounts Post"
                 }
               }
@@ -2928,6 +2960,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Service Accounts V1 Service Accounts Get"
                 }
               }
@@ -3000,6 +3033,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Service Account V1 Service Accounts  Service Account Id  Get"
                 }
               }
@@ -3082,6 +3116,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Service Account Key V1 Service Accounts  Service Account Id  Keys Post"
                 }
               }
@@ -3163,6 +3198,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Revoke Service Account Key V1 Service Accounts  Service Account Id  Keys  Key Id  Revoke Post"
                 }
               }
@@ -3236,6 +3272,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Create Principal V1 Principals Post"
                 }
               }
@@ -3308,6 +3345,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Principal V1 Principals  Principal Id  Get"
                 }
               }
@@ -3381,6 +3419,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Bind Alias V1 Aliases Post"
                 }
               }
@@ -3517,6 +3556,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Aliases V1 Aliases Get"
                 }
               }
@@ -3589,6 +3629,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Revoke Alias V1 Aliases  Alias Id  Revoke Post"
                 }
               }
@@ -3683,6 +3724,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Resolve Alias V1 Aliases Resolve Get"
                 }
               }
@@ -3756,6 +3798,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Register Routing Endpoint V1 Routing Endpoints Post"
                 }
               }
@@ -3872,6 +3915,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Routing Endpoints V1 Routing Endpoints Get"
                 }
               }
@@ -3954,6 +3998,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Update Routing Endpoint V1 Routing Endpoints  Route Id  Patch"
                 }
               }
@@ -4024,6 +4069,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Routing Endpoint V1 Routing Endpoints  Route Id  Delete"
                 }
               }
@@ -4097,6 +4143,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Resolve Route V1 Routing Resolve Post"
                 }
               }
@@ -4170,6 +4217,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Upsert Transport Binding V1 Transports Bindings Post"
                 }
               }
@@ -4286,6 +4334,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Transport Bindings V1 Transports Bindings Get"
                 }
               }
@@ -4358,6 +4407,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Remove Transport Binding V1 Transports Bindings  Binding Id  Delete"
                 }
               }
@@ -4431,6 +4481,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Submit Delivery V1 Deliveries Post"
                 }
               }
@@ -4570,6 +4621,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise List Deliveries V1 Deliveries Get"
                 }
               }
@@ -4642,6 +4694,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Get Delivery V1 Deliveries  Delivery Id  Get"
                 }
               }
@@ -4744,6 +4797,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Delivery Operations V1 Deliveries Operations Get"
                 }
               }
@@ -4817,6 +4871,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Reconcile Deliveries V1 Deliveries Reconcile Post"
                 }
               }
@@ -4889,6 +4944,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "additionalProperties": true,
                   "title": "Response Enterprise Replay Delivery V1 Deliveries  Delivery Id  Replay Post"
                 }
               }
@@ -5078,6 +5134,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -5128,36 +5185,6 @@
           "use_case"
         ],
         "title": "AlphaBootstrapRequest"
-      },
-      "AlphaEmailVerificationConfirmRequest": {
-        "properties": {
-          "token": {
-            "type": "string",
-            "maxLength": 512,
-            "minLength": 16,
-            "title": "Token"
-          }
-        },
-        "type": "object",
-        "required": [
-          "token"
-        ],
-        "title": "AlphaEmailVerificationConfirmRequest"
-      },
-      "AlphaEmailVerificationResendRequest": {
-        "properties": {
-          "email": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 3,
-            "title": "Email"
-          }
-        },
-        "type": "object",
-        "required": [
-          "email"
-        ],
-        "title": "AlphaEmailVerificationResendRequest"
       },
       "ApprovalDecisionRequest": {
         "properties": {
@@ -5247,6 +5274,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -5375,6 +5403,7 @@
             "title": "Workspace Id"
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           },
@@ -6235,6 +6264,7 @@
             "title": "Matrix Room Id"
           },
           "event_content": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Event Content"
           },
@@ -6256,6 +6286,7 @@
       "MatrixGroupSessionRestoreRequest": {
         "properties": {
           "backup": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Backup"
           },
@@ -6706,6 +6737,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -6783,6 +6815,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -6832,6 +6865,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7242,6 +7276,7 @@
           "result": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7253,6 +7288,7 @@
           "error": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7490,6 +7526,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7631,6 +7668,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7697,6 +7735,7 @@
             "title": "Semantic Type"
           },
           "schema_json": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Schema Json"
           },
@@ -7854,6 +7893,7 @@
             "title": "Reply To"
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
@@ -7951,6 +7991,7 @@
           "metadata": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -7971,6 +8012,7 @@
       "UpdateIntentControlsRequest": {
         "properties": {
           "controls_patch": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Controls Patch"
           },
@@ -8025,6 +8067,7 @@
           "grants_patch": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -8036,6 +8079,7 @@
           "envelope_patch": {
             "anyOf": [
               {
+                "additionalProperties": true,
                 "type": "object"
               },
               {
@@ -8257,6 +8301,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
@@ -8282,6 +8333,7 @@
             "title": "Source"
           },
           "payload": {
+            "additionalProperties": true,
             "type": "object",
             "title": "Payload"
           }
