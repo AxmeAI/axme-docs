@@ -118,6 +118,7 @@ pytest
 |---|---|
 | [`integration-quickstart.md`](docs/integration-quickstart.md) | End-to-end onboarding path for new integrators |
 | [`public-api-auth.md`](docs/public-api-auth.md) | Authentication: platform API keys, actor tokens, JWT validation |
+| [`security-overview.md`](docs/security-overview.md) | Public security architecture, controls, and enterprise review baseline |
 | [`public-api-families-d1-intents-inbox-approvals.md`](docs/public-api-families-d1-intents-inbox-approvals.md) | Full API family reference for intents, inbox, and approvals |
 | [`supported-limits-and-error-model.md`](docs/supported-limits-and-error-model.md) | Rate limits, quotas, error codes, retriability table |
 | [`migration-and-deprecation-policy.md`](docs/migration-and-deprecation-policy.md) | API versioning, deprecation timelines, migration guides |
@@ -147,6 +148,8 @@ The platform enforces layered security boundaries. The trust boundary diagram ma
 ![Security Trust Boundary — DFD](docs/diagrams/security/03-trust-boundary-dfd.svg)
 
 *Public-facing TLS terminates at the gateway. Internal service calls use mTLS. Data at rest is encrypted with AES-256-GCM. Webhook payloads carry HMAC-SHA256 signatures.*
+
+Security control baseline for enterprise review: [`docs/security-overview.md`](docs/security-overview.md).
 
 Authentication and authorization enforcement flow:
 
