@@ -8,13 +8,15 @@ This document describes the public security model for AXME and AXME Cloud.
 
 AXME uses a two-layer authentication model for public APIs:
 
-- **Platform credential** via `x-api-key` (service/workspace identity).
+- **Machine credential** via `x-api-key` (`AXME_API_KEY`, service/workspace identity).
 - **Actor context** via `Authorization: Bearer <actor_token>` (user/session/delegated context).
+
+For external usage, `AXME_API_KEY` is typically a service-account key (`axme_sa_...`) issued by AXME Cloud onboarding. Internal deployment secrets (`GATEWAY_API_KEY`, `AUTH_API_KEY`) remain infrastructure-only.
 
 Route classes are explicit:
 
-- **Platform routes:** require `x-api-key`.
-- **Platform + actor routes:** require both `x-api-key` and `Authorization`.
+- **Machine routes:** require `x-api-key`.
+- **Machine + actor routes:** require both `x-api-key` and `Authorization`.
 - **Interactive/session routes:** require `Authorization`.
 
 Authentication failures return structured error codes (for example: `missing_platform_api_key`, `missing_actor_token`, `invalid_actor_scope`) to make integration debugging deterministic.

@@ -4,21 +4,24 @@
 
 AXME uses a two-layer auth model:
 
-- **Platform / service credential**: `x-api-key: <service_key>`
+- **Machine credential**: `x-api-key: <AXME_API_KEY>`
   - Required for gateway routes by default.
   - Intended for SDKs, backend integrations, CI/CD, and automation.
+  - External value is a workspace/service-account key (`axme_sa_...`) issued by AXME Cloud onboarding.
 - **Actor token** (user/session context): `authorization: Bearer <access_token>`
   - Adds user/session context and scoped claims (`org_id`, `workspace_id`, `actor_id`, `roles`).
   - Required on routes that operate in user or enterprise scoped context.
+
+`GATEWAY_API_KEY` and `AUTH_API_KEY` are internal infrastructure credentials and are not customer-facing.
 
 ## Route Classes
 
 To reduce ambiguity, public routes are grouped into three auth classes:
 
-- **Platform routes**
+- **Machine routes**
   - Require only `x-api-key`.
-  - Typical use: service-to-service automation and platform control APIs.
-- **Platform + actor routes**
+  - Typical use: service-to-service automation and machine-driven runtime APIs.
+- **Machine + actor routes**
   - Require both `x-api-key` and actor token (`authorization: Bearer ...`).
   - Typical use: enterprise/admin operations where platform identity and actor identity are both required.
 - **Interactive/session routes**
@@ -43,6 +46,7 @@ Auth failures return a structured body:
 ```
 
 `detail` is kept for compatibility. `error.code` is the canonical machine-readable contract.
+`missing_platform_api_key` and `invalid_platform_api_key` are backward-compatible error code names for missing/invalid `x-api-key` values (including service-account key usage).
 
 Common auth error codes:
 
@@ -68,6 +72,7 @@ Request body:
 Response includes a real bootstrap service-account key:
 
 - `key.token` in format `axme_sa_<service_account_id>_<secret>`
+- This value is used by customers as `AXME_API_KEY` and sent as `x-api-key`.
 
 The endpoint is controlled by `GATEWAY_ALLOW_UNCONTROLLED_ACCOUNT_BOOTSTRAP`:
 

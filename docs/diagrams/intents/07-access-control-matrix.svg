@@ -20,7 +20,7 @@
 <g id="node2" class="node">
 <title>IKEY</title>
 <polygon fill="none" stroke="black" points="285.81,-1096.13 127.81,-1096.13 127.81,-1060.13 285.81,-1060.13 285.81,-1096.13"/>
-<text text-anchor="middle" x="206.81" y="-1081.33" font-family="monospace" font-size="11.00">Validate platform key</text>
+<text text-anchor="middle" x="206.81" y="-1081.33" font-family="monospace" font-size="11.00">Validate machine key</text>
 <text text-anchor="middle" x="206.81" y="-1069.33" font-family="monospace" font-size="11.00">x&#45;api&#45;key</text>
 </g>
 <!-- CALL&#45;&gt;IKEY -->
@@ -34,7 +34,7 @@
 <title>F401A</title>
 <polygon fill="lightyellow" stroke="black" points="571.31,-1359.13 426.31,-1359.13 426.31,-1323.13 571.31,-1323.13 571.31,-1359.13"/>
 <text text-anchor="middle" x="498.81" y="-1344.33" font-family="monospace" font-size="11.00">401 missing/invalid</text>
-<text text-anchor="middle" x="498.81" y="-1332.33" font-family="monospace" font-size="11.00">platform api key</text>
+<text text-anchor="middle" x="498.81" y="-1332.33" font-family="monospace" font-size="11.00">x-api-key</text>
 </g>
 <!-- IKEY&#45;&gt;F401A -->
 <g id="edge2" class="edge">

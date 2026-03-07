@@ -25,6 +25,8 @@ The open part of the platform includes:
 - conformance tests
 - implementation and integration documentation
 
+Without AXME Cloud runtime, these open components are still usable for protocol-compatible implementations and validation.
+
 ## AXME Cloud
 
 **AXME Cloud** is the managed service that runs AXP in production together with **The Registry** (identity and routing).
@@ -102,6 +104,9 @@ The complete runtime container view — services, databases, queues, and their c
 1. **Get alpha access** at https://cloud.axme.ai/alpha
 2. Choose your SDK: [Python](https://github.com/AxmeAI/axme-sdk-python) · [TypeScript](https://github.com/AxmeAI/axme-sdk-typescript) · [Go](https://github.com/AxmeAI/axme-sdk-go) · [Java](https://github.com/AxmeAI/axme-sdk-java) · [.NET](https://github.com/AxmeAI/axme-sdk-dotnet)
 3. Follow `docs/integration-quickstart.md` for the full onboarding path
+4. Example hubs:
+   - Cloud runnable: [axme-examples/cloud](https://github.com/AxmeAI/axme-examples/tree/main/cloud)
+   - Protocol-only: [axme-examples/protocol](https://github.com/AxmeAI/axme-examples/tree/main/protocol)
 
 ```bash
 # Validate this documentation repo locally
@@ -117,6 +122,7 @@ pytest
 | Document | Description |
 |---|---|
 | [`integration-quickstart.md`](docs/integration-quickstart.md) | End-to-end onboarding path for new integrators |
+| [`examples-cloud-vs-protocol.md`](docs/examples-cloud-vs-protocol.md) | What works with AXME Cloud vs AXP-only mode |
 | [`public-api-auth.md`](docs/public-api-auth.md) | Authentication: platform API keys, actor tokens, JWT validation |
 | [`security-overview.md`](docs/security-overview.md) | Public security architecture, controls, and enterprise review baseline |
 | [`public-api-families-d1-intents-inbox-approvals.md`](docs/public-api-families-d1-intents-inbox-approvals.md) | Full API family reference for intents, inbox, and approvals |

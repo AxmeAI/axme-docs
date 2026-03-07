@@ -14,6 +14,7 @@ Canonical model for this guide:
 - API contracts/schemas: `axme-spec`
 - public integration docs: `axme-docs`
 - SDK baseline repos: `axme-sdk-python`, `axme-sdk-typescript`
+- example hub: `axme-examples` (cloud + protocol tracks)
 
 ## Step 1: Review Public Contracts
 
@@ -37,6 +38,11 @@ Canonical model for this guide:
 - Connector-specific contracts (if needed):
   - `docs/openapi/chatgpt-adapter.v1.json`
   - `docs/openapi/gemini-adapter.v1.json`
+
+Pick example family:
+
+- Cloud runtime scenarios: `axme-examples/cloud`
+- AXP-only protocol scenarios: `axme-examples/protocol`
 
 ## Step 3: Implement Minimal Flow
 
