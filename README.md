@@ -61,11 +61,29 @@ axme-docs/
 │   │   └── website/           # Diagrams for the public website / landing page
 │   ├── openapi/               # OpenAPI artifacts for the public API surface
 │   ├── connectors/            # Connector setup guides (HTTP, webhook, MCP)
+│   ├── ADR-002-service-boundaries.md
+│   ├── ADR-003-trust-consent-model.md
+│   ├── axme-is-not-rpc.md
+│   ├── B2B_FEATURES.md
+│   ├── enterprise-routing-transport-operations.md
+│   ├── enterprise-runtime-model-and-placement.md
+│   ├── enterprise-scoped-credentials-migration-note.md
+│   ├── examples-cloud-vs-protocol.md
+│   ├── external-integrator-dry-run.md
 │   ├── integration-quickstart.md
+│   ├── mcp-axme-continuation-pattern.md
+│   ├── migration-and-deprecation-policy.md
+│   ├── migration-message-centric-to-intent-lifecycle.md
+│   ├── MVP_SCOPE.md
 │   ├── public-api-auth.md
 │   ├── public-api-families-d1-intents-inbox-approvals.md
-│   ├── supported-limits-and-error-model.md
-│   └── migration-and-deprecation-policy.md
+│   ├── public-api-families-d2-webhooks-capabilities.md
+│   ├── public-api-families-d3-users.md
+│   ├── public-api-families-d4-invites-media.md
+│   ├── public-api-families-d5-schemas.md
+│   ├── public-api-families-d6-enterprise-governance.md
+│   ├── security-overview.md
+│   └── supported-limits-and-error-model.md
 ├── scripts/
 │   └── validate_docs.py
 └── tests/
