@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    participant C as CLI
+    participant G as AXME Cloud Gateway
+    participant I as Identity Validator (Auth Service)
+    participant S as Secret Store (keyring / file 0600)
+
+    Note over C,S: Token refresh (CLI proactive, before exp − now < 60s)
+
+    C->>C: check JWT exp − now
+    alt exp − now < 60s
+        C->>G: POST /v1/auth/refresh<br/>{ refresh_token } + x-api-key
+        G->>I: validate refresh_token (one-time-use, 30-day TTL)
+        alt refresh_token invalid or expired
+            I-->>G: reject
+            G-->>C: 401 invalid_refresh_token
+            C-->>C: prompt: run axme login (OTP re-auth required)
+        else valid
+            I->>I: rotate: issue new access_token (15 min TTL)<br/>+ new refresh_token (30 day TTL)<br/>old refresh_token invalidated immediately
+            G-->>C: { access_token, refresh_token, expires_in: 900,<br/>refresh_expires_in: 2592000 }
+            C->>S: persist new access_token + refresh_token
+        end
+    end
+    C->>G: API request + Authorization: Bearer <access_token>
+    G-->>C: response
