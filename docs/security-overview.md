@@ -21,12 +21,33 @@ Route classes are explicit:
 
 Authentication failures return structured error codes (for example: `missing_platform_api_key`, `missing_actor_token`, `invalid_actor_scope`) to make integration debugging deterministic.
 
+### Token model (CLI / interactive sessions)
+
+The actor context uses a **two-token model**:
+
+| Token | Type | TTL | Notes |
+|---|---|---|---|
+| `account_session_token` | JWT (signed) | 15 minutes | Sent as `Authorization: Bearer` on every request |
+| `refresh_token` | Opaque, one-time-use | 30 days | Rotated on each use; old token invalidated immediately |
+
+- The CLI acquires both tokens via the **email OTP login flow** (`axme login`): no password, no API key copying — a one-time code is sent to the user's registered email.
+- Tokens are stored in the OS-native keychain where available, or in a `~/.config/axme/secrets.json` (mode `0600`) on headless/server environments.
+- The CLI **proactively refreshes** the access token when `exp − now < 60 seconds`, before the next API request. This avoids reactive 401 errors entirely in normal operation.
+- If the refresh token expires (30 days of inactivity), the user re-authenticates via OTP — no password needed.
+
+![Authentication and Authorization Enforcement Flow](https://raw.githubusercontent.com/AxmeAI/axme-docs/main/docs/diagrams/security/01-authn-authz-enforcement-flow.svg)
+
+![Token Refresh Flow](https://raw.githubusercontent.com/AxmeAI/axme-docs/main/docs/diagrams/security/09-token-refresh-flow.svg)
+
+For the full login and token lifecycle sequence, see [08-email-otp-login-and-token-refresh-flow](diagrams/security/08-email-otp-login-and-token-refresh-flow.mmd).
+
 ## 2) Secrets management
 
 - Secrets are never intended to be committed to repositories or embedded in client applications.
 - Runtime services load secrets from environment/config providers backed by managed secret stores.
 - Key and secret rotation is supported operationally; expired or revoked credentials are rejected fail-closed.
 - Access to secret material should follow least-privilege IAM policies and auditable access paths.
+- CLI credentials (API key, access token, refresh token) are stored in the OS keychain or a `0600` file — never in plain `config.json`.
 
 ## 3) Encryption and transport
 
@@ -35,10 +56,9 @@ Authentication failures return structured error codes (for example: `missing_pla
 - Data at rest is encrypted by managed infrastructure controls.
 - Outbound callback/webhook channels use request signing so consumers can verify authenticity.
 
-Related diagrams:
+![Trust Boundary DFD](https://raw.githubusercontent.com/AxmeAI/axme-docs/main/docs/diagrams/security/03-trust-boundary-dfd.svg)
 
-- [`docs/diagrams/security/03-trust-boundary-dfd.svg`](diagrams/security/03-trust-boundary-dfd.svg)
-- [`docs/diagrams/security/05-webhook-signature-verification.svg`](diagrams/security/05-webhook-signature-verification.svg)
+![Webhook Signature Verification](https://raw.githubusercontent.com/AxmeAI/axme-docs/main/docs/diagrams/security/05-webhook-signature-verification.svg)
 
 ## 4) Auditability and traceability
 
@@ -51,10 +71,6 @@ Related diagrams:
 - Authorization is scoped by organization/workspace ownership boundaries.
 - Role- and policy-based controls are evaluated before protected operations execute.
 - Cross-tenant access is denied by default unless explicitly granted by policy.
-
-Related diagram:
-
-- [`docs/diagrams/security/01-authn-authz-enforcement-flow.svg`](diagrams/security/01-authn-authz-enforcement-flow.svg)
 
 ## 6) Incident response and disclosure
 
@@ -70,6 +86,6 @@ AXME is currently in Alpha. Formal attestations/certifications may not be comple
 
 ## Related documentation
 
-- [`public-api-auth.md`](public-api-auth.md)
+- [`public-api-auth.md`](public-api-auth.md) — full login flow, token semantics, session management endpoints
 - [`supported-limits-and-error-model.md`](supported-limits-and-error-model.md)
-- [`docs/diagrams/security/index.md`](diagrams/security/index.md)
+- [`docs/diagrams/security/index.md`](diagrams/security/index.md) — all security diagrams
