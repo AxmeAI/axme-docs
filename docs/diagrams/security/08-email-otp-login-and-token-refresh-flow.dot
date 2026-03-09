@@ -1,0 +1,57 @@
+digraph email_otp_login {
+    graph [size="18,10" ratio="fill" pad="0.4" rankdir=LR fontname="monospace"];
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    subgraph cluster_login {
+        label="Email OTP Login Flow (axme login)"
+        fontname="monospace" fontsize=12 style=dashed color=gray
+
+        START   [label="CLI: axme login"]
+        INTENT  [label="POST /v1/auth/login-intent\n{ email } + x-api-key"]
+        EMAIL   [label="Email: OTP (6-digit)\n+ magic link  TTL=5min" style=filled fillcolor=lightyellow]
+        INPUT   [label="User enters OTP\nin CLI"]
+        VERIFY  [label="POST /v1/auth/login-intent/{id}/verify\n{ code } + x-api-key"]
+        OTPCK   [label="Validate OTP hash\n(single-use)" shape=diamond]
+        F409    [label="409 intent already verified\nor 400 wrong code" style=filled fillcolor=lightyellow]
+        ACCOUNT [label="find-or-create account\nby email"]
+        ISSUE   [label="Issue JWT (15 min)\n+ refresh_token (30 day)"]
+        PROV    [label="Auto-provision:\norg + workspace\nemail_verified quota" style=filled fillcolor=lightblue]
+        SAKEY   [label="Create managed SA\n+ api_key"]
+        STORE   [label="CLI stores:\napi_key + account_session_token\n+ refresh_token\n→ OS keyring / secrets.json 0600" style=filled fillcolor=lightgreen]
+
+        START  -> INTENT
+        INTENT -> EMAIL
+        EMAIL  -> INPUT
+        INPUT  -> VERIFY
+        VERIFY -> OTPCK
+        OTPCK  -> F409    [label="invalid/used"]
+        OTPCK  -> ACCOUNT [label="valid"]
+        ACCOUNT -> ISSUE
+        ISSUE  -> PROV
+        PROV   -> SAKEY
+        SAKEY  -> STORE
+    }
+
+    subgraph cluster_refresh {
+        label="Proactive Token Refresh (60s before JWT expiry)"
+        fontname="monospace" fontsize=12 style=dashed color=gray
+
+        EXPCHK  [label="CLI: check JWT exp\nbefore each request" shape=diamond]
+        SKIP    [label="Send request normally"]
+        RFRESH  [label="POST /v1/auth/refresh\n{ refresh_token } + x-api-key"]
+        ROTCK   [label="Validate refresh_token\n(one-time-use, 30-day TTL)" shape=diamond]
+        F401R   [label="401 invalid\n→ axme login required" style=filled fillcolor=lightyellow]
+        ROTATE  [label="Rotate tokens:\nnew access_token (15 min)\nnew refresh_token (30 day)\nold token invalidated" style=filled fillcolor=lightblue]
+        SAVE    [label="Persist new tokens\nto secret store" style=filled fillcolor=lightgreen]
+        SEND    [label="Send request with\nfresh access_token"]
+
+        EXPCHK -> SKIP   [label="exp > 60s"]
+        EXPCHK -> RFRESH [label="exp < 60s"]
+        RFRESH -> ROTCK
+        ROTCK  -> F401R  [label="invalid"]
+        ROTCK  -> ROTATE [label="valid"]
+        ROTATE -> SAVE
+        SAVE   -> SEND
+    }
+}
