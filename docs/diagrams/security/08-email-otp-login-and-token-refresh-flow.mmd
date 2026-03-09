@@ -1,0 +1,41 @@
+sequenceDiagram
+    autonumber
+    participant U as User (CLI)
+    participant G as AXME Gateway
+    participant A as Auth Service
+    participant E as Email Delivery
+    participant S as Secret Store<br/>(keyring / file 0600)
+
+    Note over U,S: Email OTP Login Flow (axme login)
+
+    U->>G: POST /v1/auth/login-intent<br/>{ email } + x-api-key
+    G->>A: create login intent + generate OTP
+    A->>E: dispatch email (OTP + magic link, TTL 5 min)
+    G-->>U: { intent_id, expires_in: 300 }
+
+    U->>U: user reads OTP from email
+
+    U->>G: POST /v1/auth/login-intent/{id}/verify<br/>{ code: "123456" } + x-api-key
+    G->>A: validate OTP hash (single-use)
+    A->>A: find-or-create account by email<br/>issue JWT + refresh_token
+    G->>G: auto-provision org + workspace<br/>apply email_verified quota
+    G->>G: create managed service-account + api_key
+    G-->>U: { ok, api_key, account_session_token,<br/>refresh_token, org_id, workspace_id }
+
+    U->>S: store { api_key, account_session_token,<br/>refresh_token } securely
+
+    Note over U,S: Normal CLI operation (access_token TTL = 15 min)
+
+    U->>U: before each request:<br/>check JWT exp − now
+    alt exp − now < 60s (proactive refresh)
+        U->>G: POST /v1/auth/refresh<br/>{ refresh_token } + x-api-key
+        G->>A: validate refresh_token (one-time-use)
+        A->>A: rotate: issue new access_token<br/>+ new refresh_token, invalidate old
+        G-->>U: { access_token, refresh_token,<br/>expires_in: 900, refresh_expires_in: 2592000 }
+        U->>S: persist new tokens
+    end
+
+    U->>G: API request + Authorization: Bearer <access_token>
+    G-->>U: response
+
+    Note over U,S: Refresh token expires after 30 days of inactivity → re-login via OTP
