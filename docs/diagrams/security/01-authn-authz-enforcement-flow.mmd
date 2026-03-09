@@ -31,15 +31,3 @@ sequenceDiagram
             end
         end
     end
-
-    Note over C,A: Token refresh (CLI proactive, before exp − now < 60s)
-
-    C->>G: POST /v1/auth/refresh { refresh_token } + x-api-key
-    G->>I: validate refresh_token (one-time-use, 30-day TTL)
-    alt refresh_token invalid or expired
-        I-->>G: reject
-        G-->>C: 401 invalid refresh token → re-login via OTP required
-    else valid
-        I->>I: rotate: new access_token (15 min) + new refresh_token (30 day)<br/>old refresh_token invalidated immediately
-        G-->>C: { access_token, refresh_token, expires_in: 900 }
-    end

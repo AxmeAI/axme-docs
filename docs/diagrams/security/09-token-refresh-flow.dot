@@ -1,0 +1,26 @@
+digraph token_refresh {
+    graph [pad="0.6" nodesep="0.5" ranksep="0.8"];
+    rankdir=LR
+    node [shape=box fontname="monospace" fontsize=11]
+    edge [fontname="monospace" fontsize=10]
+
+    CHK   [label="Check JWT exp − now"]
+    SOON  [label="exp − now < 60s?" shape=diamond]
+    SKIP  [label="Token still valid\n→ proceed with request" style=filled fillcolor=lightgray]
+
+    RREQ  [label="POST /v1/auth/refresh\n{ refresh_token } + x-api-key"]
+    VREF  [label="Validate refresh_token\none-time-use, 30-day TTL" shape=diamond]
+    F401R [label="401 invalid_refresh_token\n→ prompt: axme login" style=filled fillcolor=lightyellow]
+    ROT   [label="Rotate: new access_token (15 min)\n+ new refresh_token (30 day)\nold token invalidated immediately" style=filled fillcolor=lightblue]
+    SAVE  [label="Persist new tokens\nto secret store"]
+    RTOK  [label="Return { access_token,\nrefresh_token, expires_in: 900 }" style=filled fillcolor=lightgreen]
+
+    CHK  -> SOON
+    SOON -> SKIP  [label="no"]
+    SOON -> RREQ  [label="yes"]
+    RREQ -> VREF
+    VREF -> F401R [label="invalid/expired"]
+    VREF -> ROT   [label="valid"]
+    ROT  -> RTOK
+    RTOK -> SAVE
+}
