@@ -4345,6 +4345,385 @@
         }
       }
     },
+    "/v1/portal/personal/context": {
+      "get": {
+        "summary": "Personal Portal Context",
+        "operationId": "personal_portal_context_v1_portal_personal_context_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Personal Portal Context V1 Portal Personal Context Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/portal/personal/workspace-selection": {
+      "post": {
+        "summary": "Update Personal Portal Workspace Selection",
+        "operationId": "update_personal_portal_workspace_selection_v1_portal_personal_workspace_selection_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalWorkspaceSelectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Personal Portal Workspace Selection V1 Portal Personal Workspace Selection Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/cli-grants": {
+      "post": {
+        "summary": "Create Cli Grant",
+        "operationId": "create_cli_grant_v1_auth_cli_grants_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Create Cli Grant V1 Auth Cli Grants Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/cli-grants/{grant_id}": {
+      "get": {
+        "summary": "Poll Cli Grant",
+        "operationId": "poll_cli_grant_v1_auth_cli_grants__grant_id__get",
+        "parameters": [
+          {
+            "name": "grant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Grant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Poll Cli Grant V1 Auth Cli Grants  Grant Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/cli-grants/{grant_id}/approve": {
+      "post": {
+        "summary": "Approve Cli Grant",
+        "operationId": "approve_cli_grant_v1_auth_cli_grants__grant_id__approve_post",
+        "parameters": [
+          {
+            "name": "grant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Grant Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Approve Cli Grant V1 Auth Cli Grants  Grant Id  Approve Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login-intent": {
+      "post": {
+        "summary": "Create Login Intent",
+        "operationId": "create_login_intent_v1_auth_login_intent_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Create Login Intent V1 Auth Login Intent Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login-intent/{intent_id}/verify": {
+      "post": {
+        "summary": "Verify Login Intent",
+        "operationId": "verify_login_intent_v1_auth_login_intent__intent_id__verify_post",
+        "parameters": [
+          {
+            "name": "intent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Intent Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Verify Login Intent V1 Auth Login Intent  Intent Id  Verify Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login-intent/{intent_id}/callback": {
+      "get": {
+        "summary": "Verify Login Intent Magic Link",
+        "operationId": "verify_login_intent_magic_link_v1_auth_login_intent__intent_id__callback_get",
+        "parameters": [
+          {
+            "name": "intent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Intent Id"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Verify Login Intent Magic Link V1 Auth Login Intent  Intent Id  Callback Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/portal/personal/overview": {
       "get": {
         "summary": "Personal Portal Overview",
@@ -4440,7 +4819,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
               "title": "Org Id"
             }
           },
@@ -4450,7 +4829,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
               "title": "Workspace Id"
             }
           },
@@ -5004,7 +5383,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -5015,8 +5393,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "string"
                 },
                 {
                   "type": "null"
@@ -5093,7 +5470,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -5177,7 +5553,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -5268,7 +5643,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -5323,6 +5697,173 @@
                   "type": "object",
                   "additionalProperties": true,
                   "title": "Response Enterprise Remove Member V1 Organizations  Org Id  Members  Member Id  Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workspaces/{workspace_id}/members/include": {
+      "post": {
+        "summary": "Enterprise Workspace Include Member",
+        "description": "Include an existing org member into a specific workspace without changing their org-level role.",
+        "operationId": "enterprise_workspace_include_member_v1_workspaces__workspace_id__members_include_post",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workspace Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MemberAddRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Enterprise Workspace Include Member V1 Workspaces  Workspace Id  Members Include Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/workspaces/{workspace_id}/members/{member_id}/exclude": {
+      "delete": {
+        "summary": "Enterprise Workspace Exclude Member",
+        "description": "Exclude a member from a specific workspace without removing them from the organization.",
+        "operationId": "enterprise_workspace_exclude_member_v1_workspaces__workspace_id__members__member_id__exclude_delete",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workspace Id"
+            }
+          },
+          {
+            "name": "member_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Member Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Enterprise Workspace Exclude Member V1 Workspaces  Workspace Id  Members  Member Id  Exclude Delete"
                 }
               }
             }
@@ -6206,7 +6747,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -6218,7 +6760,8 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "minLength": 1,
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -10531,7 +11074,8 @@
             "enum": [
               "create_organization",
               "join_organization",
-              "elevated_role"
+              "elevated_role",
+              "quota_upgrade"
             ],
             "title": "Request Type"
           },
@@ -10583,6 +11127,21 @@
               }
             ],
             "title": "Requested Role"
+          },
+          "requested_tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "email_verified",
+                  "corporate"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Tier"
           },
           "company_name": {
             "anyOf": [
@@ -12224,13 +12783,27 @@
             "anyOf": [
               {
                 "type": "string",
-                "format": "uuid"
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
             "title": "Workspace Id"
+          },
+          "org_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Org Id"
           }
         },
         "type": "object",
@@ -12415,6 +12988,28 @@
         },
         "type": "object",
         "title": "OrganizationUpdateRequest"
+      },
+      "PersonalWorkspaceSelectionRequest": {
+        "properties": {
+          "org_id": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Org Id"
+          },
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Workspace Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "org_id",
+          "workspace_id"
+        ],
+        "title": "PersonalWorkspaceSelectionRequest"
       },
       "PrincipalCreateRequest": {
         "properties": {
@@ -13375,12 +13970,14 @@
         "properties": {
           "org_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Org Id"
           },
           "workspace_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Workspace Id"
           },
           "name": {
@@ -13402,9 +13999,16 @@
             "title": "Description"
           },
           "created_by_actor_id": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Created By Actor Id"
           }
         },
@@ -13412,17 +14016,23 @@
         "required": [
           "org_id",
           "workspace_id",
-          "name",
-          "created_by_actor_id"
+          "name"
         ],
         "title": "ServiceAccountCreateRequest"
       },
       "ServiceAccountKeyCreateRequest": {
         "properties": {
           "created_by_actor_id": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Created By Actor Id"
           },
           "expires_at": {
@@ -13438,9 +14048,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "created_by_actor_id"
-        ],
         "title": "ServiceAccountKeyCreateRequest"
       },
       "SubmitIntentRequest": {

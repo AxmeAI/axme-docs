@@ -1038,6 +1038,112 @@
         }
       }
     },
+    "/v1/portal/personal/context": {
+      "get": {
+        "summary": "Personal Portal Context",
+        "operationId": "personal_portal_context_v1_portal_personal_context_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Personal Portal Context V1 Portal Personal Context Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/portal/personal/workspace-selection": {
+      "post": {
+        "summary": "Update Personal Portal Workspace Selection",
+        "operationId": "update_personal_portal_workspace_selection_v1_portal_personal_workspace_selection_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalWorkspaceSelectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Personal Portal Workspace Selection V1 Portal Personal Workspace Selection Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/portal/personal/overview": {
       "get": {
         "summary": "Personal Portal Overview",
@@ -1133,7 +1239,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
               "title": "Org Id"
             }
           },
@@ -1143,7 +1249,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
               "title": "Workspace Id"
             }
           },
@@ -1697,7 +1803,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -1708,8 +1813,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string",
-                  "format": "uuid"
+                  "type": "string"
                 },
                 {
                   "type": "null"
@@ -1786,7 +1890,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -1870,7 +1973,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -1961,7 +2063,6 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
               "title": "Org Id"
             }
           },
@@ -2899,7 +3000,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2911,7 +3013,8 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "minLength": 1,
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -4973,7 +5076,8 @@
             "enum": [
               "create_organization",
               "join_organization",
-              "elevated_role"
+              "elevated_role",
+              "quota_upgrade"
             ],
             "title": "Request Type"
           },
@@ -5025,6 +5129,21 @@
               }
             ],
             "title": "Requested Role"
+          },
+          "requested_tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "email_verified",
+                  "corporate"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Tier"
           },
           "company_name": {
             "anyOf": [
@@ -6666,13 +6785,27 @@
             "anyOf": [
               {
                 "type": "string",
-                "format": "uuid"
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
             "title": "Workspace Id"
+          },
+          "org_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Org Id"
           }
         },
         "type": "object",
@@ -6857,6 +6990,28 @@
         },
         "type": "object",
         "title": "OrganizationUpdateRequest"
+      },
+      "PersonalWorkspaceSelectionRequest": {
+        "properties": {
+          "org_id": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Org Id"
+          },
+          "workspace_id": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Workspace Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "org_id",
+          "workspace_id"
+        ],
+        "title": "PersonalWorkspaceSelectionRequest"
       },
       "PrincipalCreateRequest": {
         "properties": {
@@ -7817,12 +7972,14 @@
         "properties": {
           "org_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Org Id"
           },
           "workspace_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Workspace Id"
           },
           "name": {
@@ -7844,9 +8001,16 @@
             "title": "Description"
           },
           "created_by_actor_id": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Created By Actor Id"
           }
         },
@@ -7854,17 +8018,23 @@
         "required": [
           "org_id",
           "workspace_id",
-          "name",
-          "created_by_actor_id"
+          "name"
         ],
         "title": "ServiceAccountCreateRequest"
       },
       "ServiceAccountKeyCreateRequest": {
         "properties": {
           "created_by_actor_id": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Created By Actor Id"
           },
           "expires_at": {
@@ -7880,9 +8050,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "created_by_actor_id"
-        ],
         "title": "ServiceAccountKeyCreateRequest"
       },
       "SubmitIntentRequest": {
