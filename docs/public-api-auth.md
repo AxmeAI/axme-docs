@@ -92,72 +92,65 @@ Without opt-in, enterprise routes require both:
 - `x-api-key`
 - `authorization: Bearer <actor_token>`
 
-## Session Auth (`nick + password`)
+## Session Auth — Email OTP (Passwordless)
 
-Auth flow endpoints are exposed by gateway and proxied to `auth_service`:
+The primary user authentication flow is CLI-native, email-based, and requires no browser or password.
 
-- `POST /v1/auth/register-password`
-- `POST /v1/auth/login`
-- `POST /v1/auth/refresh`
-- `POST /v1/auth/logout`
-- `POST /v1/auth/logout-all`
-- `GET /v1/auth/sessions`
-- `POST /v1/auth/sessions/revoke`
-- `GET /v1/auth/assistant-links`
+### Login Intent Flow
 
-### OAuth Linking Page
+```
+POST /v1/auth/login-intent
+  → { intent_id, expires_in: 300, delivery: "email" }
 
-- `GET /oauth/authorize` now supports both actions in one form:
-  - `Sign in` for existing accounts
-  - `Create account` for first-time users (`nick + password`)
-- Create-account path writes `gateway_users`, `gateway_nicks`, and `gateway_auth_credentials`
-  in the same auth database, then continues the OAuth code flow.
-- This removes the dead-end during assistant linking where a new user could not register
-  directly from the OAuth screen.
+POST /v1/auth/login-intent/{id}/verify
+  body: { "code": "123456" }
+  → { ok, api_key, account_session_token, refresh_token, org_id, workspace_id }
 
-### Login / Token Model
+GET /v1/auth/login-intent/{id}/callback?token=<magic_token>
+  → same completion path as verify (magic-link alternative)
+```
 
-- Login payload: `nick`, `password`, optional `client_type`, `device_label`.
-- Password hash algorithm: `argon2id` only.
-- Issued on login:
-  - short-lived `access_token` (Bearer JWT)
-  - long-lived `refresh_token` (opaque, stored server-side as hash)
-- Refresh is one-time use with rotation.
-- Logout revokes current session and refresh chain.
-- Logout-all revokes all active sessions for the user.
-- Session revoke endpoint revokes one selected session chain (`/v1/auth/sessions/revoke`).
+- `POST /v1/auth/login-intent`: creates a login intent, generates a 6-digit OTP (sha256-hashed), sends email with OTP + magic link. Requires `x-api-key`.
+- `POST /v1/auth/login-intent/{id}/verify`: validates OTP, issues `account_session_token` (JWT) + `refresh_token` + `api_key`. OTP is single-use; the intent transitions to `verified` state.
+- `GET  /v1/auth/login-intent/{id}/callback`: magic-link alternative to OTP entry — same completion path, uses `secrets.compare_digest` for timing-safe token comparison.
 
-### Multi-Device Session Visibility
+On first login for a new email, the platform automatically provisions:
+- An organization (`org_...`)
+- A default sandbox workspace (`ws_...`)
+- An `email_verified` quota tier (500 intents/day, 20 actors, 10 service accounts)
 
-- `GET /v1/auth/sessions` returns all sessions for the current bearer user.
-- `GET /v1/auth/assistant-links` returns assistant/client links (`provider`, `device_label`, last seen).
-- Both endpoints require:
-  - gateway API key (`x-api-key`)
-  - bearer access token (`authorization: Bearer ...`)
-- Access token claims must include `scope=axme.api`.
+### Token Model
 
-### Password Policy v1
+- `account_session_token`: short-lived Bearer JWT, `exp = iat + 900s` (15 minutes).
+- `refresh_token`: opaque, one-time-use with rotation, 30-day TTL.
+- Clients (CLI) should proactively refresh when `exp - now < 60s` to avoid reactive 401 round-trips.
+- Refresh endpoint: `POST /v1/auth/refresh` — returns new `access_token` + new `refresh_token`.
+- Refresh token is rotated on every use; the previous token is invalidated immediately.
 
-- Minimum length: `12`.
-- Denylist of common passwords.
-- Password cannot contain normalized nick.
-- Optional breached-password check can be enabled via:
-  - `AUTH_BREACHED_PASSWORD_CHECK_ENABLED=true`
-  - `AUTH_BREACHED_PASSWORD_CHECK_URL=<service-url>`
+### Session Management Endpoints
+
+- `POST /v1/auth/refresh` — exchange `refresh_token` for new `access_token` + `refresh_token`
+- `POST /v1/auth/logout` — revoke current session
+- `POST /v1/auth/logout-all` — revoke all sessions for the actor
+- `GET  /v1/auth/sessions` — list active sessions (requires `x-api-key` + `Authorization: Bearer`)
+- `POST /v1/auth/sessions/revoke` — revoke one selected session
 
 ### Auth Safety Controls
 
 - Rate-limit on auth endpoints (`AUTH_RATE_LIMIT_PER_MINUTE`).
-- Lockout after repeated failed logins:
-  - `AUTH_LOCKOUT_THRESHOLD`
-  - `AUTH_LOCKOUT_SECONDS`
-- Auth audit events:
-  - `login_success`
-  - `login_failed`
-  - `refresh_success`
-  - `logout`
-  - `logout_all`
-  - `lockout_triggered`
+- OTP expires after 5 minutes (`LOGIN_INTENT_TTL_SECONDS=300`).
+- Login intent is single-use: second verify attempt on the same intent returns HTTP `409 Conflict`.
+- Auth audit events: `login_success`, `login_failed`, `refresh_success`, `logout`, `logout_all`, `lockout_triggered`.
+
+## Legacy Session Auth (`nick + password`)
+
+Password-based login is supported for backward compatibility and internal tooling:
+
+- `POST /v1/auth/register-password`
+- `POST /v1/auth/login`
+- `GET  /v1/auth/assistant-links`
+
+Password policy: minimum length 12, argon2id hash, common-password denylist.
 
 ## MCP Bearer Handling
 
