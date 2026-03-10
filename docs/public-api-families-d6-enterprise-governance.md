@@ -197,7 +197,9 @@ Error expectations for enterprise governance operations:
 - `422 Unprocessable Entity`
   - request payload fails contract validation
 - `429 Too Many Requests`
-  - caller exceeded configured rate limits
+  - caller exceeded workspace quota (rate-based or gauge dimensions)
+  - body: `{"error": {"code": "quota_exceeded", "details": {"dimension": "...", "used": N, "limit": N, "reset_at": "..."}}}`
+  - see `supported-limits-and-error-model.md` for full quota dimension table
 
 ## 5) Compatibility Notes
 
