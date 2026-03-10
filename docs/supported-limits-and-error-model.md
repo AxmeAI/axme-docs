@@ -6,25 +6,54 @@ This document defines integration-facing operational limits and canonical HTTP/e
 
 ## Supported Limits (Current Defaults)
 
-- API request rate limit (gateway): `120` requests/minute per API key per endpoint.
+### Per-Request Limits
+
+- API request rate limit (gateway): `180` requests/minute per API key.
 - MCP tool rate limit: `120` calls/minute per `(owner, tool)` tuple.
 - Message payload size (`POST /v1/intents`): `131072` bytes (128 KiB).
 - Media file max size (`create-upload` flow): `104857600` bytes (100 MiB).
 
-These defaults may be adjusted by plan or deployment profile; integrators should rely on response headers and documented configuration contracts.
+### Workspace Quota Dimensions
 
-## Rate-Limit Signaling
+Workspace quotas are enforced server-side per `(org_id, workspace_id)`. The authoritative source is the `quota_counters` table — atomic, persistent, dialect-aware (PostgreSQL in production).
 
-Responses may include:
+| Dimension | Default limit | Window | Type |
+|---|---|---|---|
+| `intents_per_day` | 500 | Calendar day UTC | Rate (counter resets daily) |
+| `inbox_writes_per_day` | 200 | Calendar day UTC | Rate (counter resets daily) |
+| `actors_total` | 20 | — | Gauge (live count) |
+| `service_accounts_per_workspace` | 10 | — | Gauge (live count) |
 
-- `X-RateLimit-Limit`
-- `X-RateLimit-Remaining`
-- `X-RateLimit-Reset`
+To view current usage: `axme quota show`
 
-When exceeded:
+To request higher limits: `axme quota upgrade-request --company "..." --justification "..."`
 
-- HTTP `429 Too Many Requests`
-- `Retry-After` header
+## Quota Enforcement and 429 Response
+
+When a workspace quota is exceeded, the gateway returns `HTTP 429` with a structured body:
+
+```json
+{
+  "error": {
+    "code": "quota_exceeded",
+    "message": "quota exceeded for intents_per_day",
+    "details": {
+      "dimension": "intents_per_day",
+      "used": 501,
+      "limit": 500,
+      "reset_at": "2026-03-11T00:00:00Z"
+    }
+  },
+  "detail": "quota exceeded for intents_per_day"
+}
+```
+
+The CLI surfaces this as a human-readable message:
+
+```
+Quota exceeded: intents per day (used 501 of 500). Resets at 2026-03-11T00:00:00Z.
+Run `axme quota show` to check your limits, or `axme quota upgrade-request` to request higher limits.
+```
 
 ## Error Model
 
