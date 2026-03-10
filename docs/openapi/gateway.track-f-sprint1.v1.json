@@ -438,7 +438,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -455,7 +455,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -716,7 +716,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -728,7 +729,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -831,7 +832,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -843,7 +845,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -922,7 +924,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -934,7 +937,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -1155,7 +1158,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -1165,7 +1169,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2217,7 +2222,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2227,7 +2233,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2301,7 +2308,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2311,7 +2319,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2400,7 +2409,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2410,7 +2420,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2496,7 +2507,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2506,7 +2518,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2664,7 +2677,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2674,7 +2688,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -2748,7 +2763,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -2758,7 +2774,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -3550,7 +3567,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -3562,7 +3580,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -3762,7 +3780,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -3772,7 +3791,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Workspace Id"
             }
           },
@@ -3929,7 +3949,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -3941,7 +3962,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -4348,7 +4369,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -4360,7 +4382,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -4612,7 +4634,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -4624,7 +4647,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -4827,7 +4850,8 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid",
+              "minLength": 1,
+              "maxLength": 255,
               "title": "Org Id"
             }
           },
@@ -4839,7 +4863,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "format": "uuid"
+                  "maxLength": 255
                 },
                 {
                   "type": "null"
@@ -5091,7 +5115,8 @@
             "anyOf": [
               {
                 "type": "string",
-                "format": "uuid"
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -5103,7 +5128,8 @@
             "anyOf": [
               {
                 "type": "string",
-                "format": "uuid"
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -7072,12 +7098,14 @@
         "properties": {
           "org_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Org Id"
           },
           "workspace_id": {
             "type": "string",
-            "format": "uuid",
+            "maxLength": 255,
+            "minLength": 1,
             "title": "Workspace Id"
           },
           "dimensions": {
