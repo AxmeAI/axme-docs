@@ -65,6 +65,17 @@ Run `axme quota show` to check your limits, or `axme quota upgrade-request` to r
 - `403 Forbidden`
   - valid identity but insufficient scope/owner permission
 
+### Agent Addressing Errors
+
+- `404 Not Found` — `agent_not_found`
+  - `to_agent` references an `agent://` address that is not registered in the agent registry
+  - response body: `{"error": {"code": "agent_not_found", "message": "agent address not found", "details": {"address": "agent://..."}}}`
+- `422 Unprocessable Entity` — `invalid_agent_address`
+  - `to_agent` or `from_agent` contains a malformed `agent://` URI that does not match the required format
+  - response body: `{"error": {"code": "invalid_agent_address", "message": "invalid agent address format", "details": {"field": "to_agent", "value": "..."}}}`
+
+See [agent-addressing.md](agent-addressing.md) for the full addressing specification and validation rules.
+
 ### Request and Contract Errors
 
 - `400 Bad Request`

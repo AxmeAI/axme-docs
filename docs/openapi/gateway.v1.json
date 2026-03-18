@@ -14094,13 +14094,17 @@
             "type": "string",
             "maxLength": 255,
             "minLength": 3,
-            "title": "From Agent"
+            "pattern": "^agent://[a-z0-9][a-z0-9-]{1,61}[a-z0-9]/[a-z0-9][a-z0-9-]{1,61}[a-z0-9]/[a-z0-9][a-z0-9._-]{0,61}[a-z0-9]$",
+            "title": "From Agent",
+            "description": "Sender agent address. Auto-derived server-side from the caller's service account API key; any client-supplied value is overwritten."
           },
           "to_agent": {
             "type": "string",
             "maxLength": 255,
             "minLength": 3,
-            "title": "To Agent"
+            "pattern": "^agent://[a-z0-9][a-z0-9-]{1,61}[a-z0-9]/[a-z0-9][a-z0-9-]{1,61}[a-z0-9]/[a-z0-9][a-z0-9._-]{0,61}[a-z0-9]$",
+            "title": "To Agent",
+            "description": "Recipient agent address. Must reference a registered agent in the agent registry. Returns 404 (agent_not_found) if unregistered, 422 (invalid_agent_address) if malformed."
           },
           "reply_to": {
             "anyOf": [

@@ -67,6 +67,18 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
   - `POST /v1/intents/{intent_id}/controls`
   - `POST /v1/intents/{intent_id}/policy`
 
+### Agent addressing
+
+Intent routing uses `agent://` addresses for both sender and recipient identification:
+
+- **`from_agent`** — auto-derived from the caller's service account API key. The gateway resolves the API key to its associated service account and fills in the corresponding `agent://` address server-side. Any client-supplied value is overwritten. See [agent-addressing.md](agent-addressing.md) for the full specification.
+
+- **`to_agent`** — must be a valid `agent://` URI referencing a registered agent in the agent registry. The gateway validates this field on intent submission:
+  - If the URI format is malformed, the gateway returns `422` with error code `invalid_agent_address`.
+  - If the URI is well-formed but does not match a registered agent, the gateway returns `404` with error code `agent_not_found`.
+
+To look up agent details before sending an intent, use `GET /v1/agents/{address}` (see [public-api-families-d6-enterprise-governance.md](public-api-families-d6-enterprise-governance.md)).
+
 ### Request example (`POST /v1/intents`)
 
 ```json
@@ -101,6 +113,8 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 
 ### Error and edge cases
 
+- `404` with `agent_not_found` when `to_agent` references an unregistered agent address.
+- `422` with `invalid_agent_address` when `to_agent` URI format is malformed.
 - `409` on idempotency replay with a mutated payload.
 - `400`/`422` on schema or semantic validation failures.
 - `401`/`403` for auth failures.
