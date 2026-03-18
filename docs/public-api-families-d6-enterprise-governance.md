@@ -20,6 +20,8 @@ Families covered:
 - `portal.personal.*` (OpenAPI-exposed BFF operational surface; schema disposition note below)
 - `principals.*`
 - `aliases.*`
+- `agents.*`
+- `agents.policy.*`
 - `routing.*`
 - `transports.bindings.*`
 - `deliveries.*`
@@ -73,6 +75,13 @@ Enterprise operation groups currently published on `gateway.v1.json`:
   - `GET /v1/service-accounts/{service_account_id}`
   - `POST /v1/service-accounts/{service_account_id}/keys`
   - `POST /v1/service-accounts/{service_account_id}/keys/{key_id}/revoke`
+- agents (agent registry and send policy):
+  - `GET /v1/agents`
+  - `GET /v1/agents/{address}`
+  - `GET /v1/agents/{address}/policy`
+  - `PUT /v1/agents/{address}/policy`
+  - `POST /v1/agents/{address}/policy/entries`
+  - `DELETE /v1/agents/{address}/policy/entries/{entry_id}`
 - naming/routing/transports/deliveries:
   - `POST /v1/principals`
   - `GET /v1/principals/{principal_id}`
@@ -201,7 +210,56 @@ Error expectations for enterprise governance operations:
   - body: `{"error": {"code": "quota_exceeded", "details": {"dimension": "...", "used": N, "limit": N, "reset_at": "..."}}}`
   - see `supported-limits-and-error-model.md` for full quota dimension table
 
-## 5) Compatibility Notes
+## 5) Agent Registry and Send Policy
+
+### Purpose and context
+
+The agent registry provides discovery and governance for `agent://` addresses. Every service account automatically receives an agent address upon creation; these endpoints expose that registry and allow configuring send policies that control which agents may send intents to a given target.
+
+See [agent-addressing.md](agent-addressing.md) for the full agent addressing specification.
+
+### Automatic address generation
+
+When a service account is created via `POST /v1/service-accounts`, the gateway automatically generates and registers an `agent://` address:
+
+```
+agent://{org_slug}/{workspace_slug}/{sa_name}
+```
+
+The address is deterministically derived from the organization slug, workspace slug, and service account name. No separate registration step is required.
+
+### Agent registry endpoints
+
+- `GET /v1/agents` — list all agents visible to the caller's scope. Supports query parameters for filtering by organization or workspace.
+- `GET /v1/agents/{address}` — look up a single agent by its URL-encoded `agent://` address. Returns agent metadata including the owning service account, organization, workspace, and creation timestamp.
+
+### Send policy endpoints
+
+Send policies control which agents are permitted to send intents to a given target agent. By default, all agents within the same workspace can send to each other.
+
+- `GET /v1/agents/{address}/policy` — retrieve the current send policy for the agent.
+- `PUT /v1/agents/{address}/policy` — replace the entire send policy (mode and entries).
+- `POST /v1/agents/{address}/policy/entries` — add a new entry to the send policy (allow or deny a specific sender pattern).
+- `DELETE /v1/agents/{address}/policy/entries/{entry_id}` — remove a specific policy entry.
+
+Policy modes:
+
+| Mode | Behavior |
+|---|---|
+| `allow_all` | Any agent may send intents to this agent (default) |
+| `deny_all` | No agent may send intents unless explicitly allowed by an entry |
+| `allowlist` | Only agents matching an allow entry may send |
+
+### Permission matrix (agents)
+
+| Operation | org_owner | org_admin | workspace_admin | member |
+|---|---|---|---|---|
+| `GET /v1/agents` | allow (org-wide) | allow (org-wide) | allow (workspace-scoped) | deny |
+| `GET /v1/agents/{address}` | allow | allow | allow (workspace-scoped) | deny |
+| `GET/PUT /v1/agents/{address}/policy` | allow | allow | allow (workspace-scoped) | deny |
+| `POST/DELETE policy entries` | allow | allow | allow (workspace-scoped) | deny |
+
+## 6) Compatibility Notes
 
 - Enterprise routes are additive and remain feature-flagged by deployment profile.
 - Runtime rollout can operate in compatibility mode during scoped-credential migration.
