@@ -1,0 +1,288 @@
+digraph axme_complete_architecture {
+    // Global settings
+    graph [rankdir=TB, size="40,30", ratio="fill", pad="0.5", dpi=150,
+           fontname="Helvetica", bgcolor="white", compound=true,
+           label="AXME Complete Architecture", labelloc=t, fontsize=28, fontcolor="#333333",
+           nodesep=0.4, ranksep=0.6];
+    node [fontname="Helvetica", fontsize=11, style="filled,rounded", penwidth=1.5];
+    edge [fontname="Helvetica", fontsize=9, color="#555555", arrowsize=0.7];
+
+    // ═══════════════════════════════════════════════
+    // 1. CLIENT LAYER
+    // ═══════════════════════════════════════════════
+    subgraph cluster_clients {
+        label="CLIENT LAYER"; style="rounded,filled"; fillcolor="#EBF5FB"; color="#4A90D9"; fontsize=16; fontcolor="#2C5F8A"; penwidth=2;
+
+        subgraph cluster_sdks {
+            label="SDKs"; style="rounded,filled"; fillcolor="#D6EAF8"; color="#4A90D9"; fontsize=13;
+            sdk_py [label="Python SDK\naxme-sdk-python", shape=box, fillcolor="#4A90D9", fontcolor=white];
+            sdk_ts [label="TypeScript SDK\naxme-sdk-typescript", shape=box, fillcolor="#4A90D9", fontcolor=white];
+            sdk_go [label="Go SDK\naxme-sdk-go", shape=box, fillcolor="#4A90D9", fontcolor=white];
+            sdk_java [label="Java SDK\naxme-sdk-java", shape=box, fillcolor="#4A90D9", fontcolor=white];
+            sdk_net [label=".NET SDK\naxme-sdk-dotnet", shape=box, fillcolor="#4A90D9", fontcolor=white];
+        }
+
+        subgraph cluster_sdk_methods {
+            label="Key SDK Methods"; style="rounded,filled"; fillcolor="#D6EAF8"; color="#4A90D9"; fontsize=13;
+            m_listen [label="listen()", shape=box, fillcolor="#5DADE2", fontcolor=white];
+            m_observe [label="observe()", shape=box, fillcolor="#5DADE2", fontcolor=white];
+            m_create [label="createIntent()", shape=box, fillcolor="#5DADE2", fontcolor=white];
+            m_resume [label="resumeIntent()", shape=box, fillcolor="#5DADE2", fontcolor=white];
+            m_send [label="sendIntent()", shape=box, fillcolor="#5DADE2", fontcolor=white];
+        }
+
+        subgraph cluster_cli {
+            label="CLI: axme"; style="rounded,filled"; fillcolor="#D6EAF8"; color="#3B7DD8"; fontsize=13;
+            cli_login [label="axme login", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+            cli_examples [label="axme examples", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+            cli_scenarios [label="axme scenarios", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+            cli_intents [label="axme intents", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+            cli_tasks [label="axme tasks", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+            cli_agents [label="axme agents", shape=box, fillcolor="#3B7DD8", fontcolor=white];
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // 2. AXP PROTOCOL LAYER
+    // ═══════════════════════════════════════════════
+    subgraph cluster_protocol {
+        label="AXP INTENT PROTOCOL"; style="rounded,filled"; fillcolor="#FDEDEC"; color="#E74C3C"; fontsize=16; fontcolor="#C0392B"; penwidth=2;
+
+        subgraph cluster_envelope {
+            label="Intent Envelope"; style="rounded,filled"; fillcolor="#F9E0DE"; color="#E74C3C"; fontsize=13;
+            env_fields [label="intent_id | from_agent | to_agent\ntype | payload | lifecycle_status", shape=box, fillcolor="#E74C3C", fontcolor=white];
+        }
+
+        subgraph cluster_lifecycle {
+            label="Intent Lifecycle"; style="rounded,filled"; fillcolor="#F9E0DE"; color="#F39C12"; fontsize=13;
+            s_created [label="CREATED", shape=ellipse, fillcolor="#F39C12", fontcolor=white];
+            s_submitted [label="SUBMITTED", shape=ellipse, fillcolor="#F39C12", fontcolor=white];
+            s_delivered [label="DELIVERED", shape=ellipse, fillcolor="#F39C12", fontcolor=white];
+            s_waiting [label="WAITING", shape=ellipse, fillcolor="#F39C12", fontcolor=white];
+            s_inprogress [label="IN_PROGRESS", shape=ellipse, fillcolor="#F39C12", fontcolor=white];
+            s_completed [label="COMPLETED", shape=ellipse, fillcolor="#27AE60", fontcolor=white];
+            s_failed [label="FAILED", shape=ellipse, fillcolor="#E74C3C", fontcolor=white];
+            s_cancelled [label="CANCELLED", shape=ellipse, fillcolor="#95A5A6", fontcolor=white];
+            s_timedout [label="TIMED_OUT", shape=ellipse, fillcolor="#95A5A6", fontcolor=white];
+
+            s_created -> s_submitted;
+            s_submitted -> s_delivered;
+            s_delivered -> s_inprogress;
+            s_delivered -> s_waiting;
+            s_waiting -> s_inprogress;
+            s_inprogress -> s_completed;
+            s_inprogress -> s_failed;
+            s_inprogress -> s_cancelled;
+            s_inprogress -> s_timedout;
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // 3. AUTHENTICATION
+    // ═══════════════════════════════════════════════
+    subgraph cluster_auth_layer {
+        label="AUTHENTICATION"; style="rounded,filled"; fillcolor="#E8F8F5"; color="#1ABC9C"; fontsize=16; fontcolor="#148F77"; penwidth=2;
+        auth_apikey [label="x-api-key: AXME_API_KEY\nService-Account Key\naxme_sa_...", shape=box, fillcolor="#1ABC9C", fontcolor=white];
+        auth_bearer [label="Authorization: Bearer\nAccount Session Token\nJWT 15-min TTL", shape=box, fillcolor="#1ABC9C", fontcolor=white];
+        auth_internal [label="Internal Secrets\nGATEWAY_API_KEY\nAUTH_API_KEY", shape=box, fillcolor="#148F77", fontcolor=white];
+    }
+
+    // ═══════════════════════════════════════════════
+    // 4. AXME CLOUD SERVICES
+    // ═══════════════════════════════════════════════
+    subgraph cluster_cloud {
+        label="AXME CLOUD -- Cloud Run Services"; style="rounded,filled"; fillcolor="#EAFAF1"; color="#2ECC71"; fontsize=16; fontcolor="#1A9E4F"; penwidth=2;
+
+        subgraph cluster_core_svc {
+            label="Core Services"; style="rounded,filled"; fillcolor="#D5F5E3"; color="#2ECC71"; fontsize=13;
+            gw [label="Gateway\nFastAPI -- 85+ endpoints\nPublic API surface", shape=box, fillcolor="#2ECC71", fontcolor=white];
+            ac [label="Agent Core\nWorkflow orchestration\nStep dispatch", shape=box, fillcolor="#27AE60", fontcolor=white];
+            auth_svc [label="Auth Service\nJWT issuance\nAPI key validation", shape=box, fillcolor="#27AE60", fontcolor=white];
+        }
+
+        subgraph cluster_support_svc {
+            label="Support Services"; style="rounded,filled"; fillcolor="#D5F5E3"; color="#2ECC71"; fontsize=13;
+            sched [label="Scheduler\nTick loop\nDeadline enforcement\nRetries", shape=box, fillcolor="#27AE60", fontcolor=white];
+            toolreg [label="Tool Registry\nAction catalog\nWorkflow compilation", shape=box, fillcolor="#27AE60", fontcolor=white];
+            policy [label="Policy Engine\nAccess decisions\nConsent checks\nRisk evaluation", shape=box, fillcolor="#27AE60", fontcolor=white];
+            mcp [label="MCP Server\nTool access\nData access", shape=box, fillcolor="#27AE60", fontcolor=white];
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // 5. DELIVERY BINDINGS
+    // ═══════════════════════════════════════════════
+    subgraph cluster_delivery {
+        label="DELIVERY BINDINGS"; style="rounded,filled"; fillcolor="#F4ECF7"; color="#9B59B6"; fontsize=16; fontcolor="#7D3C98"; penwidth=2;
+        del_stream [label="stream\nSSE push", shape=box, fillcolor="#9B59B6", fontcolor=white];
+        del_poll [label="poll\nAgent pulls", shape=box, fillcolor="#9B59B6", fontcolor=white];
+        del_http [label="http\nWebhook POST\nHMAC signature", shape=box, fillcolor="#9B59B6", fontcolor=white];
+        del_inbox [label="inbox\nreply_to", shape=box, fillcolor="#9B59B6", fontcolor=white];
+        del_internal [label="internal\nagent-core", shape=box, fillcolor="#9B59B6", fontcolor=white];
+    }
+
+    // ═══════════════════════════════════════════════
+    // 6. AGENT ADDRESSING
+    // ═══════════════════════════════════════════════
+    subgraph cluster_addressing {
+        label="AGENT ADDRESSING"; style="rounded,filled"; fillcolor="#E8F8F5"; color="#1ABC9C"; fontsize=16; fontcolor="#148F77"; penwidth=2;
+        addr_scheme [label="agent://org/ws/sa", shape=box, fillcolor="#1ABC9C", fontcolor=white];
+        addr_registry [label="Agent Registry", shape=box, fillcolor="#1ABC9C", fontcolor=white];
+        addr_routing [label="Routing Engine", shape=box, fillcolor="#1ABC9C", fontcolor=white];
+        addr_scheme -> addr_registry -> addr_routing;
+    }
+
+    // ═══════════════════════════════════════════════
+    // 7. DATA LAYER
+    // ═══════════════════════════════════════════════
+    subgraph cluster_data {
+        label="DATA LAYER"; style="rounded,filled"; fillcolor="#FDF2E9"; color="#E67E22"; fontsize=16; fontcolor="#C0651A"; penwidth=2;
+
+        subgraph cluster_pg {
+            label="PostgreSQL -- 22 Tables"; style="rounded,filled"; fillcolor="#FAE5D3"; color="#E67E22"; fontsize=14;
+
+            subgraph cluster_pg_intent {
+                label="Intent Core"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_intents [label="gateway_intents", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_events [label="gateway_intent_events", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_idempotency [label="gateway_idempotency", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_http_del [label="http_delivery_records", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+
+            subgraph cluster_pg_user {
+                label="User / Identity"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_users [label="gateway_users", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_nicks [label="gateway_nicks", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_invites [label="gateway_invites", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_htokens [label="human_task_action_tokens", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+
+            subgraph cluster_pg_inbox {
+                label="Inbox"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_threads [label="gateway_threads", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_messages [label="gateway_messages", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_members [label="gateway_thread_members", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_tevents [label="gateway_thread_events", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+
+            subgraph cluster_pg_enterprise {
+                label="Enterprise"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_usage [label="usage_ledger", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_quota [label="quota_counters", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_tenant [label="tenant_placements", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_audit [label="enterprise_admin_audit_events", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+
+            subgraph cluster_pg_webhook {
+                label="Webhooks"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_whsub [label="webhook_subscriptions", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_whevt [label="webhook_events", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_whdel [label="webhook_deliveries", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+
+            subgraph cluster_pg_workflow {
+                label="Workflow"; style="rounded,filled"; fillcolor="#F5CBA7"; color="#E67E22"; fontsize=11;
+                t_schedjobs [label="scheduled_jobs", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_wfruns [label="workflow_runs", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+                t_pubsub [label="pubsub_processed_messages", shape=cylinder, fillcolor="#E67E22", fontcolor=white];
+            }
+        }
+
+        pubsub_topic [label="Pub/Sub\nintent-lifecycle topic", shape=cylinder, fillcolor="#D35400", fontcolor=white];
+    }
+
+    // ═══════════════════════════════════════════════
+    // 8. HUMAN TASK FLOW
+    // ═══════════════════════════════════════════════
+    subgraph cluster_humantask {
+        label="HUMAN TASK FLOW"; style="rounded,filled"; fillcolor="#FCE4EC"; color="#E91E63"; fontsize=16; fontcolor="#C2185B"; penwidth=2;
+        ht_cli [label="CLI\naxme tasks approve", shape=box, fillcolor="#E91E63", fontcolor=white];
+        ht_email [label="Email\nMagic link\nAction token 7d TTL", shape=box, fillcolor="#E91E63", fontcolor=white];
+        ht_form [label="Form\nJSON Schema\nValidated submission", shape=box, fillcolor="#E91E63", fontcolor=white];
+    }
+
+    // ═══════════════════════════════════════════════
+    // 9. SCENARIO BUNDLE
+    // ═══════════════════════════════════════════════
+    subgraph cluster_scenario {
+        label="SCENARIO BUNDLE"; style="rounded,filled"; fillcolor="#E0F7FA"; color="#00BCD4"; fontsize=16; fontcolor="#0097A7"; penwidth=2;
+        sb_json [label="JSON file", shape=box, fillcolor="#00BCD4", fontcolor=white];
+        sb_apply [label="axme scenarios apply", shape=box, fillcolor="#00BCD4", fontcolor=white];
+        sb_provision [label="Provisions:\nagents + routing\nworkflow + intent", shape=box, fillcolor="#00BCD4", fontcolor=white];
+        sb_json -> sb_apply -> sb_provision;
+    }
+
+    // ═══════════════════════════════════════════════
+    // CONNECTIONS
+    // ═══════════════════════════════════════════════
+
+    // Clients -> Protocol
+    sdk_py -> env_fields [lhead=cluster_protocol, color="#4A90D9"];
+    m_create -> env_fields [lhead=cluster_protocol, color="#4A90D9"];
+    cli_intents -> env_fields [lhead=cluster_protocol, color="#3B7DD8"];
+
+    // Clients -> Auth -> Gateway
+    sdk_py -> auth_apikey [lhead=cluster_auth_layer, color="#4A90D9", label="credentials"];
+    cli_login -> auth_bearer [lhead=cluster_auth_layer, color="#3B7DD8", label="login"];
+
+    // Auth -> Gateway
+    auth_apikey -> gw [color="#1ABC9C", label="validated"];
+    auth_bearer -> gw [color="#1ABC9C", label="JWT verified"];
+
+    // Protocol -> Gateway
+    env_fields -> gw [color="#E74C3C", label="intent envelope"];
+
+    // Gateway <-> Core Services
+    gw -> ac [dir=both, color="#2ECC71", label="OIDC HTTP"];
+    gw -> auth_svc [dir=both, color="#2ECC71", label="JWT/key ops"];
+    gw -> sched [color="#2ECC71", label="tick endpoints"];
+    gw -> toolreg [color="#2ECC71", label="macro compile"];
+    gw -> policy [color="#2ECC71", label="policy eval"];
+    ac -> mcp [color="#2ECC71", label="tool calls"];
+    ac -> toolreg [color="#2ECC71", label="DAG compile"];
+    ac -> policy [color="#2ECC71", label="access check"];
+
+    // Gateway -> Delivery
+    gw -> del_stream [color="#9B59B6", label="SSE"];
+    gw -> del_poll [color="#9B59B6", label="GET"];
+    gw -> del_http [color="#9B59B6", label="POST"];
+    gw -> del_inbox [color="#9B59B6", label="thread"];
+    ac -> del_internal [color="#9B59B6", label="workflow"];
+
+    // Delivery -> Addressing
+    del_stream -> addr_scheme [lhead=cluster_addressing, color="#9B59B6"];
+
+    // Addressing -> Agent Core
+    addr_routing -> ac [color="#1ABC9C", label="resolved route"];
+
+    // Scheduler connections
+    sched -> t_intents [color="#E67E22"];
+    sched -> t_schedjobs [color="#E67E22"];
+
+    // Gateway -> Data tables
+    gw -> t_intents [lhead=cluster_pg_intent, color="#E67E22"];
+    gw -> t_users [lhead=cluster_pg_user, color="#E67E22"];
+    gw -> t_threads [lhead=cluster_pg_inbox, color="#E67E22"];
+    gw -> t_usage [lhead=cluster_pg_enterprise, color="#E67E22"];
+    gw -> t_whsub [lhead=cluster_pg_webhook, color="#E67E22"];
+    ac -> t_wfruns [lhead=cluster_pg_workflow, color="#E67E22"];
+
+    // Pub/Sub
+    gw -> pubsub_topic [color="#D35400", label="publish"];
+    ac -> pubsub_topic [color="#D35400", label="subscribe"];
+    pubsub_topic -> t_pubsub [color="#D35400"];
+
+    // Human Tasks
+    gw -> ht_cli [lhead=cluster_humantask, color="#E91E63", label="WAITING_FOR_HUMAN"];
+    ht_cli -> gw [color="#E91E63", label="decision"];
+    ht_email -> gw [color="#E91E63", label="magic link"];
+    ht_form -> gw [color="#E91E63", label="form submit"];
+    ht_cli -> t_htokens [color="#E67E22"];
+
+    // Scenario Bundle
+    sb_provision -> gw [color="#00BCD4", label="API calls"];
+
+    // Webhook delivery
+    del_http -> t_whsub [color="#E67E22"];
+    del_http -> t_whdel [color="#E67E22"];
+}
