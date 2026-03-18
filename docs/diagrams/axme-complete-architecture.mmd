@@ -1,0 +1,274 @@
+%%{ init: { "theme": "base", "themeVariables": { "fontSize": "14px" } } }%%
+flowchart TB
+
+    %% ───────────────────────────────────────────────
+    %% STYLE DEFINITIONS
+    %% ───────────────────────────────────────────────
+    classDef sdk fill:#4A90D9,stroke:#2C5F8A,color:#fff,stroke-width:2px
+    classDef cli fill:#3B7DD8,stroke:#2C5F8A,color:#fff,stroke-width:2px
+    classDef gateway fill:#2ECC71,stroke:#1A9E4F,color:#fff,stroke-width:2px
+    classDef service fill:#27AE60,stroke:#1A9E4F,color:#fff,stroke-width:2px
+    classDef datastore fill:#E67E22,stroke:#C0651A,color:#fff,stroke-width:2px
+    classDef delivery fill:#9B59B6,stroke:#7D3C98,color:#fff,stroke-width:2px
+    classDef protocol fill:#E74C3C,stroke:#C0392B,color:#fff,stroke-width:2px
+    classDef lifecycle fill:#F39C12,stroke:#D68910,color:#fff,stroke-width:1px
+    classDef agent fill:#1ABC9C,stroke:#148F77,color:#fff,stroke-width:2px
+    classDef human fill:#E91E63,stroke:#C2185B,color:#fff,stroke-width:2px
+    classDef scenario fill:#00BCD4,stroke:#0097A7,color:#fff,stroke-width:2px
+
+    %% ═══════════════════════════════════════════════
+    %% 1. CLIENT LAYER
+    %% ═══════════════════════════════════════════════
+    subgraph CLIENTS["CLIENT LAYER"]
+        direction TB
+
+        subgraph SDKS["SDKs"]
+            SDK_PY["Python SDK\naxme-sdk-python"]:::sdk
+            SDK_TS["TypeScript SDK\naxme-sdk-typescript"]:::sdk
+            SDK_GO["Go SDK\naxme-sdk-go"]:::sdk
+            SDK_JAVA["Java SDK\naxme-sdk-java"]:::sdk
+            SDK_NET[".NET SDK\naxme-sdk-dotnet"]:::sdk
+        end
+
+        subgraph SDK_METHODS["Key SDK Methods"]
+            M_LISTEN["listen\(\)"]:::sdk
+            M_OBSERVE["observe\(\)"]:::sdk
+            M_CREATE["createIntent\(\)"]:::sdk
+            M_RESUME["resumeIntent\(\)"]:::sdk
+            M_SEND["sendIntent\(\)"]:::sdk
+        end
+
+        subgraph CLI_BOX["CLI: axme"]
+            CLI_LOGIN["axme login"]:::cli
+            CLI_EXAMPLES["axme examples"]:::cli
+            CLI_SCENARIOS["axme scenarios"]:::cli
+            CLI_INTENTS["axme intents"]:::cli
+            CLI_TASKS["axme tasks"]:::cli
+            CLI_AGENTS["axme agents"]:::cli
+        end
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 2. PROTOCOL LAYER
+    %% ═══════════════════════════════════════════════
+    subgraph PROTOCOL["AXP INTENT PROTOCOL"]
+        direction TB
+
+        subgraph ENVELOPE["Intent Envelope"]
+            ENV_FIELDS["intent_id | from_agent | to_agent\ntype | payload | lifecycle_status"]:::protocol
+        end
+
+        subgraph LIFECYCLE["Intent Lifecycle"]
+            direction LR
+            S_CREATED(["CREATED"]):::lifecycle
+            S_SUBMITTED(["SUBMITTED"]):::lifecycle
+            S_DELIVERED(["DELIVERED"]):::lifecycle
+            S_WAITING(["WAITING"]):::lifecycle
+            S_INPROGRESS(["IN_PROGRESS"]):::lifecycle
+            S_COMPLETED(["COMPLETED"]):::lifecycle
+            S_FAILED(["FAILED"]):::lifecycle
+            S_CANCELLED(["CANCELLED"]):::lifecycle
+            S_TIMEDOUT(["TIMED_OUT"]):::lifecycle
+
+            S_CREATED --> S_SUBMITTED --> S_DELIVERED --> S_INPROGRESS
+            S_DELIVERED --> S_WAITING --> S_INPROGRESS
+            S_INPROGRESS --> S_COMPLETED
+            S_INPROGRESS --> S_FAILED
+            S_INPROGRESS --> S_CANCELLED
+            S_INPROGRESS --> S_TIMEDOUT
+        end
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 3. AUTH
+    %% ═══════════════════════════════════════════════
+    subgraph AUTH_LAYER["AUTHENTICATION"]
+        direction LR
+        AUTH_APIKEY["x-api-key: AXME_API_KEY\nService-Account Key\naxme_sa_..."]:::service
+        AUTH_BEARER["Authorization: Bearer\nAccount Session Token\nJWT 15-min TTL"]:::service
+        AUTH_INTERNAL["Internal Secrets\nGATEWAY_API_KEY\nAUTH_API_KEY"]:::service
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 4. CLOUD RUNTIME (AXME CLOUD)
+    %% ═══════════════════════════════════════════════
+    subgraph CLOUD["AXME CLOUD — Cloud Run Services"]
+        direction TB
+
+        subgraph CORE_SERVICES["Core Services"]
+            GW["Gateway\nFastAPI — 85+ endpoints\nPublic API surface"]:::gateway
+            AC["Agent Core\nWorkflow orchestration\nStep dispatch"]:::service
+            AUTH_SVC["Auth Service\nJWT issuance\nAPI key validation"]:::service
+        end
+
+        subgraph SUPPORT_SERVICES["Support Services"]
+            SCHED["Scheduler\nTick loop\nDeadline enforcement\nRetries"]:::service
+            TOOLREG["Tool Registry\nAction catalog\nWorkflow compilation"]:::service
+            POLICY["Policy Engine\nAccess decisions\nConsent checks\nRisk evaluation"]:::service
+            MCP["MCP Server\nTool access\nData access"]:::service
+        end
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 5. DELIVERY BINDINGS
+    %% ═══════════════════════════════════════════════
+    subgraph DELIVERY["DELIVERY BINDINGS"]
+        direction LR
+        DEL_STREAM["stream\nSSE push"]:::delivery
+        DEL_POLL["poll\nAgent pulls"]:::delivery
+        DEL_HTTP["http\nWebhook POST\nHMAC signature"]:::delivery
+        DEL_INBOX["inbox\nreply_to"]:::delivery
+        DEL_INTERNAL["internal\nagent-core"]:::delivery
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 6. AGENT ADDRESSING
+    %% ═══════════════════════════════════════════════
+    subgraph ADDRESSING["AGENT ADDRESSING"]
+        direction LR
+        ADDR_SCHEME["agent://org_slug/workspace_slug/sa_name"]:::agent
+        ADDR_REGISTRY["Agent Registry"]:::agent
+        ADDR_ROUTING["Routing Engine"]:::agent
+        ADDR_SCHEME --> ADDR_REGISTRY --> ADDR_ROUTING
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 7. DATA LAYER
+    %% ═══════════════════════════════════════════════
+    subgraph DATA["DATA LAYER"]
+        direction TB
+
+        subgraph PG["PostgreSQL — 22 Tables"]
+            direction TB
+
+            subgraph PG_INTENT["Intent Core"]
+                T_INTENTS[("gateway_intents")]:::datastore
+                T_EVENTS[("gateway_intent_events")]:::datastore
+                T_IDEMPOTENCY[("gateway_idempotency")]:::datastore
+                T_HTTP_DEL[("http_delivery_records")]:::datastore
+            end
+
+            subgraph PG_USER["User / Identity"]
+                T_USERS[("gateway_users")]:::datastore
+                T_NICKS[("gateway_nicks")]:::datastore
+                T_INVITES[("gateway_invites")]:::datastore
+                T_HTOKENS[("human_task_action_tokens")]:::datastore
+            end
+
+            subgraph PG_INBOX["Inbox"]
+                T_THREADS[("gateway_threads")]:::datastore
+                T_MESSAGES[("gateway_messages")]:::datastore
+                T_MEMBERS[("gateway_thread_members")]:::datastore
+                T_TEVENTS[("gateway_thread_events")]:::datastore
+            end
+
+            subgraph PG_ENTERPRISE["Enterprise"]
+                T_USAGE[("usage_ledger")]:::datastore
+                T_QUOTA[("quota_counters")]:::datastore
+                T_TENANT[("tenant_placements")]:::datastore
+                T_AUDIT[("enterprise_admin_audit_events")]:::datastore
+            end
+
+            subgraph PG_WEBHOOK["Webhooks"]
+                T_WHSUB[("gateway_webhook_subscriptions")]:::datastore
+                T_WHEVT[("gateway_webhook_events")]:::datastore
+                T_WHDEL[("gateway_webhook_deliveries")]:::datastore
+            end
+
+            subgraph PG_WORKFLOW["Workflow"]
+                T_SCHEDJOBS[("scheduled_jobs")]:::datastore
+                T_WFRUNS[("workflow_runs")]:::datastore
+                T_PUBSUB[("pubsub_processed_messages")]:::datastore
+            end
+        end
+
+        PUBSUB_TOPIC["Pub/Sub\nintent-lifecycle topic"]:::datastore
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 8. HUMAN TASK FLOW
+    %% ═══════════════════════════════════════════════
+    subgraph HUMANTASK["HUMAN TASK FLOW"]
+        direction LR
+        HT_CLI["CLI\naxme tasks approve"]:::human
+        HT_EMAIL["Email\nMagic link\nAction token 7-day TTL"]:::human
+        HT_FORM["Form\nJSON Schema\nValidated submission"]:::human
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% 9. SCENARIO BUNDLE
+    %% ═══════════════════════════════════════════════
+    subgraph SCENARIOBUNDLE["SCENARIO BUNDLE"]
+        direction LR
+        SB_JSON["JSON file"]:::scenario
+        SB_APPLY["axme scenarios apply"]:::scenario
+        SB_PROVISION["Provisions:\nagents + routing\nworkflow + intent"]:::scenario
+        SB_JSON --> SB_APPLY --> SB_PROVISION
+    end
+
+    %% ═══════════════════════════════════════════════
+    %% CONNECTIONS
+    %% ═══════════════════════════════════════════════
+
+    %% Clients → Protocol
+    SDKS --> PROTOCOL
+    SDK_METHODS --> PROTOCOL
+    CLI_BOX --> PROTOCOL
+
+    %% Clients → Gateway (via auth)
+    CLIENTS --> AUTH_LAYER
+    AUTH_LAYER --> GW
+
+    %% Protocol → Gateway
+    PROTOCOL --> GW
+
+    %% Gateway ↔ Core Services
+    GW <--> AC
+    GW <--> AUTH_SVC
+    GW --> SCHED
+    GW --> TOOLREG
+    GW --> POLICY
+    AC --> MCP
+    AC --> TOOLREG
+    AC --> POLICY
+
+    %% Scheduler connections
+    SCHED --> T_INTENTS
+    SCHED --> T_SCHEDJOBS
+
+    %% Gateway → Delivery
+    GW --> DELIVERY
+    AC --> DEL_INTERNAL
+
+    %% Delivery → Addressing
+    DELIVERY --> ADDRESSING
+
+    %% Addressing → Agent Core
+    ADDR_ROUTING --> AC
+
+    %% Gateway → Data
+    GW --> PG_INTENT
+    GW --> PG_USER
+    GW --> PG_INBOX
+    GW --> PG_ENTERPRISE
+    GW --> PG_WEBHOOK
+    AC --> PG_WORKFLOW
+
+    %% Pub/Sub
+    GW --> PUBSUB_TOPIC
+    AC --> PUBSUB_TOPIC
+    PUBSUB_TOPIC --> T_PUBSUB
+
+    %% Human Tasks
+    GW --> HUMANTASK
+    HT_CLI --> GW
+    HT_EMAIL --> GW
+    HT_FORM --> GW
+    HUMANTASK --> T_HTOKENS
+
+    %% Scenario Bundle
+    SCENARIOBUNDLE --> GW
+
+    %% Webhook delivery
+    DEL_HTTP --> T_WHSUB
+    DEL_HTTP --> T_WHDEL
