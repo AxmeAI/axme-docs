@@ -1,5 +1,9 @@
 # Integration Quickstart
 
+## CLI-first quickstart
+
+The fastest way to see AXME in action is the CLI. Install with one command, log in with email OTP, and run a built-in example end-to-end: `axme examples run human/cli`. See the full CLI guide at [cloud.axme.ai/alpha/cli](https://cloud.axme.ai/alpha/cli).
+
 ## Goal
 
 Build a minimal integration using public repositories only.
