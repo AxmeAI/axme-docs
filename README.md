@@ -3,7 +3,7 @@
 **Public documentation for the AXME platform** — API references, protocol specifications, integration guides, security model, and the full visualization program.
 
 > **Alpha** · Protocol and API surface are stabilizing. Not recommended for production workloads yet.  
-> Alpha access: https://cloud.axme.ai/alpha · Contact and suggestions: [hello@axme.ai](mailto:hello@axme.ai)
+> **Alpha** — install CLI, log in, run your first example in under 5 minutes. [Quick Start](https://cloud.axme.ai/alpha/cli) · [hello@axme.ai](mailto:hello@axme.ai)
 
 ---
 
@@ -119,7 +119,7 @@ The complete runtime container view — services, databases, queues, and their c
 
 ## Integration Quickstart
 
-1. **Get alpha access** at https://cloud.axme.ai/alpha
+1. **Install the CLI and run your first example**: https://cloud.axme.ai/alpha/cli
 2. Choose your SDK: [Python](https://github.com/AxmeAI/axme-sdk-python) · [TypeScript](https://github.com/AxmeAI/axme-sdk-typescript) · [Go](https://github.com/AxmeAI/axme-sdk-go) · [Java](https://github.com/AxmeAI/axme-sdk-java) · [.NET](https://github.com/AxmeAI/axme-sdk-dotnet)
 3. Follow `docs/integration-quickstart.md` for the full onboarding path
 4. Example hubs:
@@ -212,6 +212,6 @@ The `docs/diagrams/` directory is the canonical home for all platform visualizat
 ## Contributing & Contact
 
 - Bug reports and docs feedback: open an issue in this repository
-- Alpha access: https://cloud.axme.ai/alpha · Contact and suggestions: [hello@axme.ai](mailto:hello@axme.ai)
+- Quick Start: https://cloud.axme.ai/alpha/cli · Contact: [hello@axme.ai](mailto:hello@axme.ai)
 - Security disclosures: see [SECURITY.md](SECURITY.md)
 - Contribution guidelines: [CONTRIBUTING.md](CONTRIBUTING.md)
