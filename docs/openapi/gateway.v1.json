@@ -1298,6 +1298,71 @@
         }
       }
     },
+    "/v1/tasks/view": {
+      "get": {
+        "summary": "View Task",
+        "description": "Return task details for the web task page.  Does NOT consume the token.\n\nThe page token (outcome='*') allows viewing task details and is used\nby the cloud-landing /app/tasks/{id} page to render the task UI.",
+        "operationId": "view_task_v1_tasks_view_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Page token from email link",
+              "title": "Token"
+            },
+            "description": "Page token from email link"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response View Task V1 Tasks View Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tasks/resolve": {
+      "post": {
+        "summary": "Resolve Task",
+        "description": "Resolve a human task from the web task page.\n\nConsumes the page token (outcome='*') and transitions the intent\nbased on the submitted outcome.  Validates outcome against\nallowed_outcomes, required_comment, evidence_required, and form_schema.",
+        "operationId": "resolve_task_v1_tasks_resolve_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Resolve Task V1 Tasks Resolve Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/agents/{address}/intents/stream": {
       "get": {
         "summary": "Stream Agent Intents",
