@@ -9,7 +9,7 @@
 ## Prerequisites
 
 - MCP endpoint is exposed via HTTPS.
-- `mcp_server` and `gateway` pass health checks.
+- Platform MCP server (`mcp_platform`) at `https://mcp.cloud.axme.ai` and gateway pass health checks.
 - JWT/JWKS validation is enabled in MCP and gateway.
 
 ## First-Link Flow
@@ -35,6 +35,6 @@ Expected Axme state:
 ## Verification Checklist
 
 - Link + login completes with no manual backend actions.
-- `axme.resolve_contact`, `axme.send_message`, `axme.reply` succeed.
+- `axme.intents_send`, `axme.intents_list`, `axme.tasks_approve` succeed.
 - Multi-device profile continuity is preserved for same Gemini account.
 - Unlinked or expired state consistently returns auth errors, not silent failures.

@@ -71,6 +71,7 @@ axme-docs/
 │   ├── examples-cloud-vs-protocol.md
 │   ├── external-integrator-dry-run.md
 │   ├── integration-quickstart.md
+│   ├── mcp-api-reference.md            # MCP API reference — all 48 tools, auth, response format
 │   ├── mcp-axme-continuation-pattern.md
 │   ├── migration-and-deprecation-policy.md
 │   ├── migration-message-centric-to-intent-lifecycle.md
