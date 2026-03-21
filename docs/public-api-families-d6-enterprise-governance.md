@@ -78,10 +78,22 @@ Enterprise operation groups currently published on `gateway.v1.json`:
 - agents (agent registry and send policy):
   - `GET /v1/agents`
   - `GET /v1/agents/{address}`
+  - `DELETE /v1/service-accounts/{service_account_id}`
+  - `PATCH /v1/service-accounts/{service_account_id}/delivery`
   - `GET /v1/agents/{address}/policy`
   - `PUT /v1/agents/{address}/policy`
   - `POST /v1/agents/{address}/policy/entries`
   - `DELETE /v1/agents/{address}/policy/entries/{entry_id}`
+- agents (receive override — per-agent cross-org exceptions):
+  - `GET /v1/agents/{address}/receive-override`
+  - `PUT /v1/agents/{address}/receive-override`
+  - `POST /v1/agents/{address}/receive-override/entries`
+  - `DELETE /v1/agents/{address}/receive-override/entries/{entry_id}`
+- organizations (receive policy — cross-org intent delivery control):
+  - `GET /v1/organizations/{org_id}/receive-policy`
+  - `PUT /v1/organizations/{org_id}/receive-policy`
+  - `POST /v1/organizations/{org_id}/receive-policy/entries`
+  - `DELETE /v1/organizations/{org_id}/receive-policy/entries/{entry_id}`
 - naming/routing/transports/deliveries:
   - `POST /v1/principals`
   - `GET /v1/principals/{principal_id}`

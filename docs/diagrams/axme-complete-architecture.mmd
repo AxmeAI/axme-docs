@@ -105,7 +105,7 @@ flowchart TB
             SCHED["Scheduler\nTick loop\nDeadline enforcement\nRetries"]:::service
             TOOLREG["Tool Registry\nAction catalog\nWorkflow compilation"]:::service
             POLICY["Policy Engine\nAccess decisions\nConsent checks\nRisk evaluation"]:::service
-            MCP["MCP Server\nTool access\nData access"]:::service
+            MCP["MCP Platform\n48 JSON-RPC tools\nMirrors CLI"]:::service
         end
     end
 
@@ -129,7 +129,11 @@ flowchart TB
         ADDR_SCHEME["agent://org_slug/workspace_slug/sa_name"]:::agent
         ADDR_REGISTRY["Agent Registry"]:::agent
         ADDR_ROUTING["Routing Engine"]:::agent
+        ADDR_SEND_POLICY["Send Policy\nallowlist / denylist"]:::agent
+        ADDR_RECEIVE_POLICY["Receive Policy\norg: open / allowlist / closed\nagent override: allow / block"]:::agent
         ADDR_SCHEME --> ADDR_REGISTRY --> ADDR_ROUTING
+        ADDR_REGISTRY --> ADDR_SEND_POLICY
+        ADDR_REGISTRY --> ADDR_RECEIVE_POLICY
     end
 
     %% ═══════════════════════════════════════════════
@@ -167,6 +171,9 @@ flowchart TB
                 T_QUOTA[("quota_counters")]:::datastore
                 T_TENANT[("tenant_placements")]:::datastore
                 T_AUDIT[("enterprise_admin_audit_events")]:::datastore
+                T_ADDR_REG[("agent_address_registry")]:::datastore
+                T_ORG_RCV[("org_receive_policies")]:::datastore
+                T_AGT_RCV[("agent_receive_overrides")]:::datastore
             end
 
             subgraph PG_WEBHOOK["Webhooks"]
@@ -228,7 +235,8 @@ flowchart TB
     GW --> SCHED
     GW --> TOOLREG
     GW --> POLICY
-    AC --> MCP
+    CLIENTS --> MCP
+    MCP --> GW
     AC --> TOOLREG
     AC --> POLICY
 

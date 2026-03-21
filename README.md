@@ -114,7 +114,7 @@ The complete runtime container view — services, databases, queues, and their c
 
 ![Container Runtime — C4 Level 2](docs/diagrams/platform/02-container-runtime-c4.svg)
 
-*Gateway, auth service, registry, scheduler, connector runtime, and policy engine run as independent services. Each has a dedicated store; the durable scheduler owns the retry/wakeup loop.*
+*Gateway (public REST API), agent-core (workflow engine), auth service, MCP platform (48 JSON-RPC tools), and tool registry run as Cloud Run services sharing a PostgreSQL instance. The scheduler runs on the gateway via internal tick endpoints.*
 
 ---
 
@@ -141,12 +141,24 @@ pytest
 | Document | Description |
 |---|---|
 | [`integration-quickstart.md`](docs/integration-quickstart.md) | End-to-end onboarding path for new integrators |
-| [`examples-cloud-vs-protocol.md`](docs/examples-cloud-vs-protocol.md) | What works with AXME Cloud vs AXP-only mode |
 | [`public-api-auth.md`](docs/public-api-auth.md) | Authentication: platform API keys, actor tokens, JWT validation |
-| [`security-overview.md`](docs/security-overview.md) | Public security architecture, controls, and enterprise review baseline |
-| [`public-api-families-d1-intents-inbox-approvals.md`](docs/public-api-families-d1-intents-inbox-approvals.md) | Full API family reference for intents, inbox, and approvals |
+| [`security-overview.md`](docs/security-overview.md) | Security architecture, controls, and enterprise review baseline |
 | [`supported-limits-and-error-model.md`](docs/supported-limits-and-error-model.md) | Rate limits, quotas, error codes, retriability table |
 | [`migration-and-deprecation-policy.md`](docs/migration-and-deprecation-policy.md) | API versioning, deprecation timelines, migration guides |
+| [`mcp-api-reference.md`](docs/mcp-api-reference.md) | MCP Server — all 48 tools, auth model, response format |
+| [`cross-org-receive-policy.md`](docs/cross-org-receive-policy.md) | Cross-org intent delivery: org policy + agent overrides |
+| [`agent-addressing.md`](docs/agent-addressing.md) | Agent address registry, agent:// URI scheme |
+
+### API Family References
+
+| Document | Scope |
+|---|---|
+| [`D1 — Intents, Inbox, Approvals`](docs/public-api-families-d1-intents-inbox-approvals.md) | Intent CRUD, SSE, lifecycle events, human tasks |
+| [`D2 — Webhooks, Capabilities`](docs/public-api-families-d2-webhooks-capabilities.md) | Webhook subscriptions, deliveries, event types |
+| [`D3 — Users`](docs/public-api-families-d3-users.md) | User profiles, nicks, contacts |
+| [`D4 — Invites, Media`](docs/public-api-families-d4-invites-media.md) | Invite links, media upload/download |
+| [`D5 — Schemas`](docs/public-api-families-d5-schemas.md) | Schema governance, payload validation |
+| [`D6 — Enterprise Governance`](docs/public-api-families-d6-enterprise-governance.md) | Orgs, workspaces, members, agents, policies, quotas |
 
 ---
 
