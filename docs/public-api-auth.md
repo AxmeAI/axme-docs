@@ -154,7 +154,7 @@ Password policy: minimum length 12, argon2id hash, common-password denylist.
 
 ## MCP Bearer Handling
 
-- `mcp_server` validates JWT signature and claims (`iss`, `aud`, `exp`, `iat`, `jti`, `sid`, `scope`).
+- `mcp_platform` validates JWT signature and claims (`iss`, `aud`, `exp`, `iat`, `jti`, `sid`, `scope`).
 - Validation mode:
   - `AXME_JWKS_URL` set -> JWKS-based verification (supports key rotation).
   - otherwise -> HS256 verification via `AUTH_JWT_SECRET` (dev/local compatibility).
@@ -274,5 +274,5 @@ Gateway and auth service record audit events with:
 
 Request correlation:
 
-- Incoming `x-request-id` is propagated through `mcp_server -> gateway -> auth_service`.
+- Incoming `x-request-id` is propagated through `mcp_platform -> gateway -> auth_service`.
 - If absent, service generates one and returns it in response headers.

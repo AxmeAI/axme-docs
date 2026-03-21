@@ -9,10 +9,9 @@
 ## Prerequisites
 
 - Public MCP endpoint is reachable over HTTPS.
-- `mcp_server` is configured with:
-  - `AXME_MCP_REQUIRE_AUTH=true`
-  - `AXME_OWNER_CLAIM=owner_agent`
-  - JWT validation config (`AXME_JWKS_URL` or `AUTH_JWT_SECRET`).
+- Platform MCP server (`mcp_platform`) is deployed at `https://mcp.cloud.axme.ai`.
+- `AXME_MCP_REQUIRE_AUTH=true` is set.
+- JWT validation is configured (`AXME_JWKS_URL` or `AUTH_JWT_SECRET`).
 - Gateway and auth service are healthy.
 
 ## First-Link Flow
@@ -38,7 +37,8 @@ Expected Axme state:
 ## Verification Checklist
 
 - Register/login works from ChatGPT flow.
-- `axme.send_message` creates intent in gateway.
-- `axme.list_inbox` and `axme.reply` work under same owner scope.
+- `axme.intents_send` creates intent in gateway.
+- `axme.intents_list` and `axme.tasks_approve` work under same owner scope.
 - `cross-owner` access returns `403`.
 - Re-link restores access to same Axme profile for the same account.
+- All 48 platform tools are available via `tools/list`.
