@@ -1301,7 +1301,7 @@
     "/v1/tasks/action": {
       "get": {
         "summary": "Get Task Action",
-        "description": "One-click magic-link handler: consume token and apply the outcome.\n\nWhen a human clicks the magic link from the email, the browser sends\na GET request.  This handler consumes the token immediately and\ntransitions the intent — no confirmation step needed.  Returns an\nHTML page with the result.",
+        "description": "One-click magic-link handler: consume token and apply the outcome.\n\nWhen a human clicks the magic link from the email, the browser sends\na GET request.  This handler consumes the token immediately and\ntransitions the intent \u2014 no confirmation step needed.  Returns an\nHTML page with the result.",
         "operationId": "get_task_action_v1_tasks_action_get",
         "parameters": [
           {
