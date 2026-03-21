@@ -1,12 +1,18 @@
 sequenceDiagram
     autonumber
     participant C as Client/SDK
+    participant M as MCP Server<br/>(AI Assistants)
     participant G as Gateway API
-    participant W as Workflow Runtime
+    participant W as Workflow Runtime<br/>(Agent-Core)
     participant J as Job Scheduler
     participant D as Data Stores
     participant R as Recipient Agent
 
+    Note over M,G: MCP path (AI assistants via JSON-RPC)
+    M->>G: proxy tool call → REST API
+    G-->>M: JSON response → MCP result
+
+    Note over C,G: Direct API path (SDK/CLI)
     C->>G: API request
     G->>D: write request/audit envelope
     G->>W: start or continue workflow

@@ -1,0 +1,49 @@
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#e8f4fd", "primaryBorderColor": "#1a73e8", "lineColor": "#5f6368", "textColor": "#202124"}}}%%
+
+flowchart TD
+    subgraph sender_org["Sender Org (Org A)"]
+        SA[Sender Agent<br/>agent://org-a/ws/requester]
+        GW_SEND[Gateway<br/>POST /v1/intents]
+    end
+
+    subgraph receiver_org["Receiver Org (Org B)"]
+        subgraph policy_check["Policy Evaluation"]
+            RP{Org Receive Policy<br/>org_receive_policies}
+            RP -->|mode=open| ALLOW[✓ Allow]
+            RP -->|mode=closed| DENY[✗ Deny 403]
+            RP -->|mode=allowlist| AL_CHECK{Sender org_id<br/>in allowlist?}
+            AL_CHECK -->|yes| ALLOW
+            AL_CHECK -->|no| OVERRIDE_CHECK
+        end
+
+        OVERRIDE_CHECK{Agent Receive Override<br/>agent_receive_overrides}
+        OVERRIDE_CHECK -->|override=allow<br/>for this agent| ALLOW
+        OVERRIDE_CHECK -->|no override| DENY
+
+        RA[Receiver Agent<br/>agent://org-b/ws/processor]
+    end
+
+    SA -->|cross-org intent| GW_SEND
+    GW_SEND -->|to_agent in different org| RP
+    ALLOW --> RA
+    DENY -->|HTTP 403<br/>cross_org_delivery_blocked| SA
+
+    subgraph tables["Database Tables"]
+        T1["org_receive_policies<br/>─────────────────<br/>org_id (PK)<br/>mode: open│allowlist│closed<br/>allowlist_json<br/>created_at, updated_at"]
+        T2["agent_receive_overrides<br/>─────────────────<br/>agent_address (PK)<br/>override_org_id<br/>override_type: allow│block<br/>created_at, updated_at"]
+    end
+
+    subgraph api["API Endpoints"]
+        E1["GET/PUT /v1/organizations/{org_id}/receive-policy"]
+        E2["GET /v1/agents/{address}/receive-override"]
+        E3["POST /v1/agents/{address}/receive-override"]
+        E4["DELETE /v1/agents/{address}/receive-override/{org_id}"]
+    end
+
+    style sender_org fill:#e8f4fd,stroke:#1a73e8
+    style receiver_org fill:#fce8e6,stroke:#d93025
+    style policy_check fill:#fef7e0,stroke:#f9ab00
+    style tables fill:#e6f4ea,stroke:#1e8e3e
+    style api fill:#f3e8fd,stroke:#7627bb
+    style ALLOW fill:#e6f4ea,stroke:#1e8e3e,color:#1e8e3e
+    style DENY fill:#fce8e6,stroke:#d93025,color:#d93025
