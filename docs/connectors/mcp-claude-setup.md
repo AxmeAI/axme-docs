@@ -8,8 +8,8 @@
 
 ## Prerequisites
 
-- MCP endpoint is reachable and authenticated.
-- `AXME_MCP_REQUIRE_AUTH=true`.
+- Platform MCP server is deployed at `https://mcp.cloud.axme.ai`.
+- `AXME_MCP_REQUIRE_AUTH=true` is set.
 - JWT validation is configured (`JWKS` preferred in prod).
 
 ## First-Link Flow
@@ -34,7 +34,8 @@ Expected Axme state:
 
 ## Verification Checklist
 
-- Happy path: register/login -> send -> inbox -> reply.
+- Happy path: login → `axme.intents_send` → `axme.intents_trace` → `axme.tasks_approve`.
+- All 48 platform tools available via `tools/list`.
 - Owner isolation: cross-owner requests are denied.
 - Re-link to same account restores profile continuity.
 - Logout or revoke immediately invalidates subsequent tool calls.
