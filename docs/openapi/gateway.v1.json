@@ -17666,5 +17666,10 @@
         "title": "_UpdateDeliveryRequest"
       }
     }
-  }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8100"
+    }
+  ]
 }
