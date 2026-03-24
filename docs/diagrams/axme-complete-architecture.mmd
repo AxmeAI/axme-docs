@@ -96,16 +96,21 @@ flowchart TB
         direction TB
 
         subgraph CORE_SERVICES["Core Services"]
-            GW["Gateway\nFastAPI — 85+ endpoints\nPublic API surface"]:::gateway
-            AC["Agent Core\nWorkflow orchestration\nStep dispatch"]:::service
+            GW["Gateway\nFastAPI — 85+ endpoints\nSync: INSERT + COMMIT + Pub/Sub → 200\nAdmin: /admin/probes/*, /admin/maintenance/*"]:::gateway
+            WORKER["Gateway Worker\nBackground processing\nPub/Sub push receiver\nLifecycle, threads, webhooks, jobs"]:::service
+            AC["Agent Core\nWorkflow DAG engine\nStep dispatch + lifecycle"]:::service
             AUTH_SVC["Auth Service\nJWT issuance\nAPI key validation"]:::service
         end
 
         subgraph SUPPORT_SERVICES["Support Services"]
-            SCHED["Scheduler\nTick loop\nDeadline enforcement\nRetries"]:::service
             TOOLREG["Tool Registry\nAction catalog\nWorkflow compilation"]:::service
-            POLICY["Policy Engine\nAccess decisions\nConsent checks\nRisk evaluation"]:::service
-            MCP["MCP Platform\n48 JSON-RPC tools\nMirrors CLI"]:::service
+            POLICY["Policy Engine\nAccess decisions\nConsent checks"]:::service
+            MCP["MCP Platform\n48 JSON-RPC tools\nProxy to Gateway REST\nNo DB access"]:::service
+        end
+
+        subgraph INFRA_SERVICES["Infrastructure"]
+            CLOUD_TASKS["Cloud Tasks\naxme-timeout-jobs (50/s)\naxme-reminder-jobs (20/s)\nPush to Worker (OIDC)"]:::datastore
+            CLOUD_SCHED["Cloud Scheduler\nworkflow-tick + webhook-tick (1 min)\ndaily-cleanup + weekly-vacuum\nAll with OIDC auth"]:::datastore
         end
     end
 
@@ -230,19 +235,23 @@ flowchart TB
     PROTOCOL --> GW
 
     %% Gateway ↔ Core Services
-    GW <--> AC
+    GW <-->|OIDC HTTP| AC
     GW <--> AUTH_SVC
-    GW --> SCHED
     GW --> TOOLREG
     GW --> POLICY
     CLIENTS --> MCP
-    MCP --> GW
+    MCP -->|proxy REST| GW
     AC --> TOOLREG
-    AC --> POLICY
+    AC -->|dispatch step intents| GW
 
-    %% Scheduler connections
-    SCHED --> T_INTENTS
-    SCHED --> T_SCHEDJOBS
+    %% Gateway → Worker → Agent Core (async pipeline)
+    GW -->|publish intent.created| PUBSUB_TOPIC
+    PUBSUB_TOPIC -->|push subscription| WORKER
+    WORKER -->|publish lifecycle events| AC
+
+    %% Cloud Tasks + Scheduler
+    CLOUD_TASKS -->|push TIMEOUT/REMINDER| WORKER
+    CLOUD_SCHED -->|tick + maintenance| GW
 
     %% Gateway → Delivery
     GW --> DELIVERY
@@ -254,18 +263,15 @@ flowchart TB
     %% Addressing → Agent Core
     ADDR_ROUTING --> AC
 
-    %% Gateway → Data
+    %% Gateway + Worker → Data
     GW --> PG_INTENT
     GW --> PG_USER
     GW --> PG_INBOX
     GW --> PG_ENTERPRISE
     GW --> PG_WEBHOOK
+    WORKER --> PG_INTENT
+    WORKER --> PG_INBOX
     AC --> PG_WORKFLOW
-
-    %% Pub/Sub
-    GW --> PUBSUB_TOPIC
-    AC --> PUBSUB_TOPIC
-    PUBSUB_TOPIC --> T_PUBSUB
 
     %% Human Tasks
     GW --> HUMANTASK
