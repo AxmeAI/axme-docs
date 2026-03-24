@@ -1492,7 +1492,7 @@
               "type": "integer",
               "maximum": 60,
               "minimum": 1,
-              "default": 5,
+              "default": 15,
               "title": "Wait Seconds"
             }
           },
@@ -1844,7 +1844,7 @@
               "type": "integer",
               "maximum": 60,
               "minimum": 1,
-              "default": 5,
+              "default": 15,
               "title": "Wait Seconds"
             }
           },
