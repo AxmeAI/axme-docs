@@ -1492,7 +1492,7 @@
               "type": "integer",
               "maximum": 60,
               "minimum": 1,
-              "default": 15,
+              "default": 5,
               "title": "Wait Seconds"
             }
           },
@@ -1844,7 +1844,7 @@
               "type": "integer",
               "maximum": 60,
               "minimum": 1,
-              "default": 15,
+              "default": 5,
               "title": "Wait Seconds"
             }
           },
@@ -2454,6 +2454,90 @@
                   "type": "object",
                   "additionalProperties": true,
                   "title": "Response Internal Scheduler Reconcile Safety Internal Scheduler Reconcile Safety Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/jobs/TIMEOUT/{job_id}": {
+      "post": {
+        "summary": "Internal Job Timeout",
+        "description": "Process a TIMEOUT job pushed by Cloud Tasks.",
+        "operationId": "internal_job_timeout_internal_jobs_TIMEOUT__job_id__post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Internal Job Timeout Internal Jobs Timeout  Job Id  Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/jobs/REMINDER/{job_id}": {
+      "post": {
+        "summary": "Internal Job Reminder",
+        "description": "Process a REMINDER job pushed by Cloud Tasks.",
+        "operationId": "internal_job_reminder_internal_jobs_REMINDER__job_id__post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Internal Job Reminder Internal Jobs Reminder  Job Id  Post"
                 }
               }
             }
@@ -17582,10 +17666,5 @@
         "title": "_UpdateDeliveryRequest"
       }
     }
-  },
-  "servers": [
-    {
-      "url": "http://localhost:8100"
-    }
-  ]
+  }
 }
