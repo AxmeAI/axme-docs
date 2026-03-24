@@ -2,24 +2,32 @@ sequenceDiagram
     autonumber
     participant C as Client/SDK
     participant M as MCP Server<br/>(AI Assistants)
-    participant G as Gateway API
-    participant W as Workflow Runtime<br/>(Agent-Core)
-    participant J as Job Scheduler
-    participant D as Data Stores
+    participant G as Gateway API<br/>(FastAPI, async)
+    participant A as Auth Service<br/>(JWT, OTP)
+    participant AC as Agent-Core<br/>(Workflow DAG)
+    participant W as Worker<br/>(Pub/Sub + Cloud Tasks)
+    participant D as PostgreSQL
     participant R as Recipient Agent
 
     Note over M,G: MCP path (AI assistants via JSON-RPC)
-    M->>G: proxy tool call → REST API
-    G-->>M: JSON response → MCP result
+    M->>G: proxy tool call -> REST API
+    G-->>M: JSON response -> MCP result
 
     Note over C,G: Direct API path (SDK/CLI)
     C->>G: API request
-    G->>D: write request/audit envelope
-    G->>W: start or continue workflow
-    W->>R: deliver step/intent
-    R-->>W: callback/progress
-    W->>D: persist state + events
-    W->>J: set next wakeup if waiting
-    J-->>W: tick due run
-    W-->>G: latest status
+    G->>A: validate x-api-key + Bearer token
+    A-->>G: auth result
+    G->>D: write intent + audit envelope
+    G->>AC: start or continue workflow
+    AC->>R: deliver step/intent (SSE/http/poll)
+    R-->>AC: callback/progress
+    AC->>D: persist state + events
+
+    Note over W,AC: Async pipeline (Pub/Sub + Cloud Tasks)
+    G->>W: publish intent.created (Pub/Sub)
+    W->>AC: lifecycle events
+    W->>D: persist step state
+    W-->>W: Cloud Tasks: timeout + reminder jobs
+    W-->>AC: tick due run (scheduled wakeup)
+    AC-->>G: latest status
     G-->>C: response/read model
