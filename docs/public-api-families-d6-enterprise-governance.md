@@ -30,8 +30,8 @@ Use this guide with:
 
 - `docs/openapi/gateway.v1.json` (current canonical public operation surface)
 - `docs/openapi/gateway.track-f-sprint1.v1.json` (historical phased snapshot)
-- `axp-spec/schemas/public_api/*.json` (canonical schema contracts; current repository path remains `axme-spec` during transition)
-- `axp-spec/docs/public-api-schema-index.md` (schema-to-operation mapping; current repository path remains `axme-spec` during transition)
+- `axme-spec/schemas/public_api/*.json` (canonical schema contracts; current repository path remains `axme-spec` during transition)
+- `axme-spec/docs/public-api-schema-index.md` (schema-to-operation mapping; current repository path remains `axme-spec` during transition)
 - `docs/public-api-auth.md`
 - `docs/supported-limits-and-error-model.md`
 - `docs/enterprise-runtime-model-and-placement.md`
@@ -126,8 +126,8 @@ Enterprise operation groups currently published on `gateway.v1.json`:
 
 Canonical schema files for these families are published in:
 
-- `axp-spec/schemas/public_api/` (current repository path remains `axme-spec` during transition)
-- `axp-spec/docs/public-api-schema-index.md` (authoritative mapping by operation; current repository path remains `axme-spec` during transition)
+- `axme-spec/schemas/public_api/` (current repository path remains `axme-spec` during transition)
+- `axme-spec/docs/public-api-schema-index.md` (authoritative mapping by operation; current repository path remains `axme-spec` during transition)
 
 Primary schema groups in this batch:
 
@@ -153,7 +153,7 @@ Schema disposition notes:
 
 - `POST /v1/usage/rollups/daily`, `GET /v1/portal/enterprise/*`, and `GET /v1/portal/personal/*` are currently OpenAPI-exposed operational surfaces.
 - `GET /v1/deliveries-operations` and `POST /v1/deliveries/reconcile` are currently OpenAPI-exposed delivery operations surfaces.
-- As of this snapshot, there are no dedicated `axp-spec/schemas/public_api/api.usage.rollups.daily.*`, `api.portal.enterprise.*`, `api.portal.personal.*`, or `api.deliveries.operations.*` files.
+- As of this snapshot, there are no dedicated `axme-spec/schemas/public_api/api.usage.rollups.daily.*`, `api.portal.enterprise.*`, `api.portal.personal.*`, or `api.deliveries.operations.*` files.
 - These surfaces require explicit disposition in parity tracking:
   - either add canonical `public_api` schema artifacts,
   - or document them as gateway-operational endpoints outside canonical `public_api` family scope.
