@@ -1,9 +1,9 @@
 # axme-docs
 
-**Public documentation for the AXME platform** — API references, protocol specifications, integration guides, security model, and the full visualization program.
+Implementation documentation, security model, API references, and architecture diagrams for the AXME platform.
 
-> **Alpha** · Protocol and API surface are stabilizing. Not recommended for production workloads yet.  
-> **Alpha** — install CLI, log in, run your first example in under 5 minutes. [Quick Start](https://cloud.axme.ai/alpha/cli) · [hello@axme.ai](mailto:hello@axme.ai)
+> **Alpha** - Protocol and API surface are stabilizing. Not recommended for production workloads yet.
+> Install CLI, log in, run your first example in under 5 minutes. [Quick Start](https://cloud.axme.ai/alpha/cli) - [hello@axme.ai](mailto:hello@axme.ai)
 
 ---
 
@@ -11,11 +11,11 @@
 
 AXME is a coordination infrastructure for durable execution of long-running intents across distributed systems.
 
-It provides a model for executing **intents** — requests that may take minutes, hours, or longer to complete — across services, agents, and human participants.
+It provides a model for executing **intents** - requests that may take minutes, hours, or longer to complete - across services, agents, and human participants.
 
-## AXP — the Intent Protocol
+## AXP - the Intent Protocol
 
-At the core of AXME is **AXP (Intent Protocol)** — an open protocol that defines contracts and lifecycle rules for intent processing.
+At the core of AXME is **AXP (Intent Protocol)** - an open protocol that defines contracts and lifecycle rules for intent processing.
 
 AXP can be implemented independently.  
 The open part of the platform includes:
@@ -46,7 +46,8 @@ State and events can be accessed through:
 
 ---
 
-## Repository Structure
+<details>
+<summary>Full repository structure</summary>
 
 ```
 axme-docs/
@@ -71,7 +72,7 @@ axme-docs/
 │   ├── examples-cloud-vs-protocol.md
 │   ├── external-integrator-dry-run.md
 │   ├── integration-quickstart.md
-│   ├── mcp-api-reference.md            # MCP API reference — all 48 tools, auth, response format
+│   ├── mcp-api-reference.md            # MCP API reference - all 48 tools, auth, response format
 │   ├── mcp-axme-continuation-pattern.md
 │   ├── migration-and-deprecation-policy.md
 │   ├── migration-message-centric-to-intent-lifecycle.md
@@ -90,13 +91,15 @@ axme-docs/
 └── tests/
 ```
 
+</details>
+
 ---
 
 ## Platform Overview
 
 The diagram below shows how AXME components relate: the public gateway, control plane services, connectors, and client SDKs.
 
-![AXME System Context — C4 Level 1](docs/diagrams/platform/01-system-context-c4.svg)
+![AXME System Context - C4 Level 1](docs/diagrams/platform/01-system-context-c4.svg)
 
 *The gateway is the single public entry point. Intents flow from SDK clients through TLS to the gateway, which routes them into the durable scheduler and connector layer. Webhooks and MCP callbacks leave the platform from the connector side, cryptographically signed.*
 
@@ -110,9 +113,9 @@ Every intent progresses through a well-defined state machine. The diagram below 
 
 *Key states: `PENDING → PROCESSING → WAITING_* → DELIVERED → RESOLVED`. Any intent can be cancelled or expire at most transition points. Retry loops are bounded by the policy envelope.*
 
-The complete runtime container view — services, databases, queues, and their connections:
+The complete runtime container view - services, databases, queues, and their connections:
 
-![Container Runtime — C4 Level 2](docs/diagrams/platform/02-container-runtime-c4.svg)
+![Container Runtime - C4 Level 2](docs/diagrams/platform/02-container-runtime-c4.svg)
 
 *Gateway (public REST API), agent-core (workflow engine), auth service, MCP platform (48 JSON-RPC tools), and tool registry run as Cloud Run services sharing a PostgreSQL instance. The scheduler runs on the gateway via internal tick endpoints.*
 
@@ -127,13 +130,6 @@ The complete runtime container view — services, databases, queues, and their c
    - Cloud runnable: [axme-examples/examples](https://github.com/AxmeAI/axme-examples/tree/main/examples)
    - Protocol-only: [axme-examples/protocol](https://github.com/AxmeAI/axme-examples/tree/main/protocol)
 
-```bash
-# Validate this documentation repo locally
-python -m pip install -e ".[dev]"
-python scripts/validate_docs.py
-pytest
-```
-
 ---
 
 ## Key Documents
@@ -145,7 +141,7 @@ pytest
 | [`security-overview.md`](docs/security-overview.md) | Security architecture, controls, and enterprise review baseline |
 | [`supported-limits-and-error-model.md`](docs/supported-limits-and-error-model.md) | Rate limits, quotas, error codes, retriability table |
 | [`migration-and-deprecation-policy.md`](docs/migration-and-deprecation-policy.md) | API versioning, deprecation timelines, migration guides |
-| [`mcp-api-reference.md`](docs/mcp-api-reference.md) | MCP Server — all 48 tools, auth model, response format |
+| [`mcp-api-reference.md`](docs/mcp-api-reference.md) | MCP Server - all 48 tools, auth model, response format |
 | [`cross-org-receive-policy.md`](docs/cross-org-receive-policy.md) | Cross-org intent delivery: org policy + agent overrides |
 | [`agent-addressing.md`](docs/agent-addressing.md) | Agent address registry, agent:// URI scheme |
 
@@ -153,12 +149,12 @@ pytest
 
 | Document | Scope |
 |---|---|
-| [`D1 — Intents, Inbox, Approvals`](docs/public-api-families-d1-intents-inbox-approvals.md) | Intent CRUD, SSE, lifecycle events, human tasks |
-| [`D2 — Webhooks, Capabilities`](docs/public-api-families-d2-webhooks-capabilities.md) | Webhook subscriptions, deliveries, event types |
-| [`D3 — Users`](docs/public-api-families-d3-users.md) | User profiles, nicks, contacts |
-| [`D4 — Invites, Media`](docs/public-api-families-d4-invites-media.md) | Invite links, media upload/download |
-| [`D5 — Schemas`](docs/public-api-families-d5-schemas.md) | Schema governance, payload validation |
-| [`D6 — Enterprise Governance`](docs/public-api-families-d6-enterprise-governance.md) | Orgs, workspaces, members, agents, policies, quotas |
+| [`D1 - Intents, Inbox, Approvals`](docs/public-api-families-d1-intents-inbox-approvals.md) | Intent CRUD, SSE, lifecycle events, human tasks |
+| [`D2 - Webhooks, Capabilities`](docs/public-api-families-d2-webhooks-capabilities.md) | Webhook subscriptions, deliveries, event types |
+| [`D3 - Users`](docs/public-api-families-d3-users.md) | User profiles, nicks, contacts |
+| [`D4 - Invites, Media`](docs/public-api-families-d4-invites-media.md) | Invite links, media upload/download |
+| [`D5 - Schemas`](docs/public-api-families-d5-schemas.md) | Schema governance, payload validation |
+| [`D6 - Enterprise Governance`](docs/public-api-families-d6-enterprise-governance.md) | Orgs, workspaces, members, agents, policies, quotas |
 
 ---
 
@@ -182,7 +178,7 @@ Idempotency and replay protection are first-class protocol features:
 
 The platform enforces layered security boundaries. The trust boundary diagram maps each enforcement point:
 
-![Security Trust Boundary — DFD](docs/diagrams/security/03-trust-boundary-dfd.svg)
+![Security Trust Boundary - DFD](docs/diagrams/security/03-trust-boundary-dfd.svg)
 
 *Public-facing TLS terminates at the gateway. Internal service calls use mTLS. Data at rest is encrypted with AES-256-GCM. Webhook payloads carry HMAC-SHA256 signatures.*
 
@@ -196,13 +192,16 @@ Authentication and authorization enforcement flow:
 
 ---
 
-## Visualization Program
+<details>
+<summary>Visualization program</summary>
 
 The `docs/diagrams/` directory is the canonical home for all platform visualizations. Each diagram is available in four formats: `.mmd` (Mermaid source), `.dot` (Graphviz source), `.svg` (rendered vector), and `.png` (raster).
 
-- **[Visualization Backlog & Status](docs/diagrams/VISUALIZATION_BACKLOG.md)** — P0 / P1 / P2 diagram inventory
-- **[Diagram Usage Matrix](docs/diagrams/DIAGRAM_USAGE_MATRIX.md)** — which diagrams appear in which repositories
-- **[Repository Distribution Plan](docs/diagrams/REPO_DISTRIBUTION_PLAN.md)** — placement strategy
+- **[Visualization Backlog & Status](docs/diagrams/VISUALIZATION_BACKLOG.md)** - P0 / P1 / P2 diagram inventory
+- **[Diagram Usage Matrix](docs/diagrams/DIAGRAM_USAGE_MATRIX.md)** - which diagrams appear in which repositories
+- **[Repository Distribution Plan](docs/diagrams/REPO_DISTRIBUTION_PLAN.md)** - placement strategy
+
+</details>
 
 ---
 
@@ -225,6 +224,17 @@ The `docs/diagrams/` directory is the canonical home for all platform visualizat
 ## Contributing & Contact
 
 - Bug reports and docs feedback: open an issue in this repository
-- Quick Start: https://cloud.axme.ai/alpha/cli · Contact: [hello@axme.ai](mailto:hello@axme.ai)
+- Quick Start: https://cloud.axme.ai/alpha/cli - Contact: [hello@axme.ai](mailto:hello@axme.ai)
 - Security disclosures: see [SECURITY.md](SECURITY.md)
 - Contribution guidelines: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+<details>
+<summary>Validate this documentation repo locally</summary>
+
+```bash
+python -m pip install -e ".[dev]"
+python scripts/validate_docs.py
+pytest
+```
+
+</details>
