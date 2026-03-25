@@ -124,7 +124,7 @@ The complete runtime container view — services, databases, queues, and their c
 2. Choose your SDK: [Python](https://github.com/AxmeAI/axme-sdk-python) · [TypeScript](https://github.com/AxmeAI/axme-sdk-typescript) · [Go](https://github.com/AxmeAI/axme-sdk-go) · [Java](https://github.com/AxmeAI/axme-sdk-java) · [.NET](https://github.com/AxmeAI/axme-sdk-dotnet)
 3. Follow `docs/integration-quickstart.md` for the full onboarding path
 4. Example hubs:
-   - Cloud runnable: [axme-examples/cloud](https://github.com/AxmeAI/axme-examples/tree/main/cloud)
+   - Cloud runnable: [axme-examples/examples](https://github.com/AxmeAI/axme-examples/tree/main/examples)
    - Protocol-only: [axme-examples/protocol](https://github.com/AxmeAI/axme-examples/tree/main/protocol)
 
 ```bash

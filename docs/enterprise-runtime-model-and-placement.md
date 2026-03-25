@@ -140,4 +140,4 @@ Temporary compatibility behavior:
 - `docs/public-api-families-d6-enterprise-governance.md`
 - `docs/enterprise-scoped-credentials-migration-note.md`
 - `docs/openapi/gateway.track-f-sprint1.v1.json`
-- `axp-spec/schemas/public_api/`
+- `axme-spec/schemas/public_api/`
