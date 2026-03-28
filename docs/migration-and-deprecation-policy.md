@@ -4,7 +4,7 @@
 
 This policy defines how Axme evolves public contracts and integration behavior across:
 
-- `axme-spec` schemas (`schemas/protocol`, `schemas/public_api`)
+- `axp-spec` schemas (`schemas/protocol`, `schemas/public_api`)
 - public API/OpenAPI artifacts
 - documented integration flows in `axme-docs`
 
@@ -16,7 +16,7 @@ This policy defines how Axme evolves public contracts and integration behavior a
 
 Reference:
 
-- `axme-spec/docs/schema-versioning-rules.md`
+- `axp-spec/docs/schema-versioning-rules.md`
 
 ## Deprecation Lifecycle
 

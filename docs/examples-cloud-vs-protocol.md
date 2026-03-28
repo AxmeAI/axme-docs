@@ -9,7 +9,7 @@ AXME follows an **open protocol + managed runtime** model.
 
 You can still use:
 
-- AXP protocol spec (`axme-spec`)
+- AXP protocol spec (`axp-spec`)
 - SDKs as protocol/client helpers
 - CLI for contract-level checks and endpoint testing
 - conformance suite (`axme-conformance`) for compatibility validation

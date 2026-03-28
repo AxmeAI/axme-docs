@@ -97,8 +97,8 @@ See [agent-addressing.md](agent-addressing.md) for the full addressing specifica
 
 For workflow-level status/error semantics, see canonical spec docs:
 
-- `axme-spec/docs/protocol-error-status-model.md`
-- `axme-spec/docs/idempotency-correlation-rules.md`
+- `axp-spec/docs/protocol-error-status-model.md`
+- `axp-spec/docs/idempotency-correlation-rules.md`
 
 ## Integrator Recommendations
 

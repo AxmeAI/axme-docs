@@ -12,7 +12,7 @@ This guide covers the fourth additive parity batch for family-level integration 
 Use this guide together with:
 
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
 
 ## 1) Invites Family
@@ -29,11 +29,11 @@ Invite endpoints provide controlled onboarding from an existing owner to a new p
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.invites.create.request.v1.json`
-- `axme-spec/schemas/public_api/api.invites.create.response.v1.json`
-- `axme-spec/schemas/public_api/api.invites.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.invites.accept.request.v1.json`
-- `axme-spec/schemas/public_api/api.invites.accept.response.v1.json`
+- `axp-spec/schemas/public_api/api.invites.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.invites.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.invites.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.invites.accept.request.v1.json`
+- `axp-spec/schemas/public_api/api.invites.accept.response.v1.json`
 
 ### Request example (`POST /v1/invites/create`)
 
@@ -116,11 +116,11 @@ Related transport helpers in OpenAPI (outside `public_api` family contracts):
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.media.create_upload.request.v1.json`
-- `axme-spec/schemas/public_api/api.media.create_upload.response.v1.json`
-- `axme-spec/schemas/public_api/api.media.finalize_upload.request.v1.json`
-- `axme-spec/schemas/public_api/api.media.finalize_upload.response.v1.json`
-- `axme-spec/schemas/public_api/api.media.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.media.create_upload.request.v1.json`
+- `axp-spec/schemas/public_api/api.media.create_upload.response.v1.json`
+- `axp-spec/schemas/public_api/api.media.finalize_upload.request.v1.json`
+- `axp-spec/schemas/public_api/api.media.finalize_upload.response.v1.json`
+- `axp-spec/schemas/public_api/api.media.get.response.v1.json`
 
 ### Request example (`POST /v1/media/create-upload`)
 

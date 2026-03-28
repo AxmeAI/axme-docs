@@ -6,10 +6,10 @@ Provide a repeatable public-only verification that a third-party integrator can 
 
 ## Required Public Inputs
 
-- `axme-spec/docs/public-api-schema-index.md`
-- `axme-spec/docs/schema-versioning-rules.md`
-- `axme-spec/docs/protocol-error-status-model.md`
-- `axme-spec/docs/idempotency-correlation-rules.md`
+- `axp-spec/docs/public-api-schema-index.md`
+- `axp-spec/docs/schema-versioning-rules.md`
+- `axp-spec/docs/protocol-error-status-model.md`
+- `axp-spec/docs/idempotency-correlation-rules.md`
 - `axme-docs/docs/public-api-auth.md`
 - `axme-docs/docs/supported-limits-and-error-model.md`
 - `axme-docs/docs/migration-and-deprecation-policy.md`
@@ -44,7 +44,7 @@ Provide a repeatable public-only verification that a third-party integrator can 
 
 For each dry-run execution, capture:
 
-- date and commit SHAs of `axme-spec` and `axme-docs`,
+- date and commit SHAs of `axp-spec` and `axme-docs`,
 - implemented endpoints and payload contracts,
 - validation result summary,
 - observed issues/gaps and linked follow-up items (if any).

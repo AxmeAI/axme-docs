@@ -3,7 +3,7 @@ digraph conformance {
     node [shape=box style=filled fillcolor="#dbeafe" fontname="Helvetica" fontsize=11];
     edge [fontname="Helvetica" fontsize=10];
 
-    SPEC  [label="axme-spec\n(schemas + OpenAPI)" fillcolor="#1e40af" fontcolor=white];
+    SPEC  [label="axp-spec\n(schemas + OpenAPI)" fillcolor="#1e40af" fontcolor=white];
     SDK   [label="axme-sdk-*\n(SDK tests)"];
     CONF  [label="axme-conformance\n(conformance suite)"];
     CP    [label="axme-control-plane\n(runtime)"];

@@ -8,7 +8,7 @@ This guide covers the fifth additive parity batch for family-level integration d
 Use this guide together with:
 
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
 
 ## 1) Schemas Family
@@ -24,9 +24,9 @@ Schemas endpoints manage semantic contract registry entries used by message enve
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.schemas.upsert.request.v1.json`
-- `axme-spec/schemas/public_api/api.schemas.upsert.response.v1.json`
-- `axme-spec/schemas/public_api/api.schemas.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.schemas.upsert.request.v1.json`
+- `axp-spec/schemas/public_api/api.schemas.upsert.response.v1.json`
+- `axp-spec/schemas/public_api/api.schemas.get.response.v1.json`
 
 ### Request example (`POST /v1/schemas`)
 

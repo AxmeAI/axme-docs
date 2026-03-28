@@ -5,7 +5,7 @@ Implementation docs, API reference, security model, and architecture diagrams fo
 [![Alpha](https://img.shields.io/badge/status-alpha-orange)](https://cloud.axme.ai/alpha/cli)
 [![License](https://img.shields.io/badge/license-see%20LICENSE-blue)](LICENSE)
 
-[Quick Start](https://cloud.axme.ai/alpha/cli) · [axme](https://github.com/AxmeAI/axme) · [Spec](https://github.com/AxmeAI/axme-spec) · [Examples](https://github.com/AxmeAI/axme-examples)
+[Quick Start](https://cloud.axme.ai/alpha/cli) · [axme](https://github.com/AxmeAI/axme) · [Spec](https://github.com/AxmeAI/axp-spec) · [Examples](https://github.com/AxmeAI/axme-examples)
 
 ---
 
@@ -110,7 +110,7 @@ Authentication and authorization enforcement flow:
 
 | Repository | Role |
 |---|---|
-| [axme-spec](https://github.com/AxmeAI/axme-spec) | Canonical schema and protocol contracts |
+| [axp-spec](https://github.com/AxmeAI/axp-spec) | Canonical schema and protocol contracts |
 | Control-plane runtime (private) | Internal runtime implementation |
 | [axme-conformance](https://github.com/AxmeAI/axme-conformance) | Conformance and contract test suite |
 | [axme-sdk-python](https://github.com/AxmeAI/axme-sdk-python) | Python SDK |

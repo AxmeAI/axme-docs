@@ -22,7 +22,7 @@ This guide covers the first additive parity batch for family-level integration d
 Use this guide together with:
 
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
 - `docs/diagrams/README.md` (diagram program index)
 - `docs/diagrams/intents/index.md` (intent-focused diagram pack)
@@ -56,12 +56,12 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.intents.create.request.v1.json`
-- `axme-spec/schemas/public_api/api.intents.create.response.v1.json`
-- `axme-spec/schemas/public_api/api.intents.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.intents.events.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.intents.resolve.request.v1.json`
-- `axme-spec/schemas/public_api/api.intents.resolve.response.v1.json`
+- `axp-spec/schemas/public_api/api.intents.create.request.v1.json`
+- `axp-spec/schemas/public_api/api.intents.create.response.v1.json`
+- `axp-spec/schemas/public_api/api.intents.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.intents.events.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.intents.resolve.request.v1.json`
+- `axp-spec/schemas/public_api/api.intents.resolve.response.v1.json`
 - OpenAPI request/response components for:
   - `POST /v1/intents/{intent_id}/resume`
   - `POST /v1/intents/{intent_id}/controls`
@@ -176,14 +176,14 @@ Inbox endpoints expose owner-scoped threads and allow actioning those threads (r
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.inbox.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.thread.response.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.changes.response.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.reply.request.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.delegate.request.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.decision.request.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.messages.delete.request.v1.json`
-- `axme-spec/schemas/public_api/api.inbox.messages.delete.response.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.thread.response.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.changes.response.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.reply.request.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.delegate.request.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.decision.request.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.messages.delete.request.v1.json`
+- `axp-spec/schemas/public_api/api.inbox.messages.delete.response.v1.json`
 
 ### Request example (`POST /v1/inbox/{thread_id}/reply`)
 
@@ -278,8 +278,8 @@ Approvals provide explicit workflow decision points for external assistants and 
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.approvals.decision.request.v1.json`
-- `axme-spec/schemas/public_api/api.approvals.decision.response.v1.json`
+- `axp-spec/schemas/public_api/api.approvals.decision.request.v1.json`
+- `axp-spec/schemas/public_api/api.approvals.decision.response.v1.json`
 
 ### Request example (`POST /v1/approvals/{approval_id}/decision`)
 

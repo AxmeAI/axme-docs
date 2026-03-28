@@ -12,7 +12,7 @@ Reference matrix:
 
 - `axme-docs`
   - canonical source and catalog for all diagram packs.
-- `axme-spec`
+- `axp-spec`
   - protocol and API diagrams (envelope/versioning/idempotency/error/compatibility).
 
 ### Runtime and reliability
