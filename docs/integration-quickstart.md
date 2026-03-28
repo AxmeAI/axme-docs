@@ -75,6 +75,16 @@ Recommended baseline:
 - Use idempotency keys on retryable writes
 - Capture request/trace identifiers in logs
 
+## Protocol Reference
+
+AXP wraps every intent in a signed envelope carrying the payload, sender identity, schema version, idempotency key, and a gateway-applied HMAC signature:
+
+![AXP Protocol Envelope](diagrams/protocol/01-protocol-envelope.svg)
+
+Idempotency and replay protection are first-class protocol features - duplicate requests bearing the same idempotency key return the cached response without re-executing:
+
+![Idempotency and Replay Protection](diagrams/protocol/03-idempotency-and-replay-protection.svg)
+
 ## Outcome
 
 If these steps pass in staging, external integrator onboarding is possible from public repositories without private context.

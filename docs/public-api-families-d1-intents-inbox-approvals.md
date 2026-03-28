@@ -322,3 +322,13 @@ Approvals provide explicit workflow decision points for external assistants and 
 ### Conformance expectation
 
 - Executable check: `approvals_decision`.
+
+---
+
+## Intent Lifecycle State Machine
+
+Every intent progresses through a well-defined state machine: all states, transitions, and terminal outcomes.
+
+![Intent Lifecycle State Machine](diagrams/intents/01-intent-lifecycle-state-machine.svg)
+
+Key states: `PENDING -> PROCESSING -> WAITING_* -> DELIVERED -> RESOLVED`. Any intent can be cancelled or expire at most transition points. Retry loops are bounded by the policy envelope.

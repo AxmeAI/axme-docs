@@ -84,6 +84,20 @@ AXME is currently in Alpha. Formal attestations/certifications may not be comple
 
 ---
 
+## Security Diagrams
+
+Trust boundary map - each enforcement point across the platform:
+
+![Security Trust Boundary - DFD](diagrams/security/03-trust-boundary-dfd.svg)
+
+Public-facing TLS terminates at the gateway. Internal service calls use mTLS. Data at rest is encrypted with AES-256-GCM. Webhook payloads carry HMAC-SHA256 signatures.
+
+Authentication and authorization enforcement flow:
+
+![Auth/Authz Enforcement](diagrams/security/01-authn-authz-enforcement-flow.svg)
+
+API key verification -> JWT validation -> org/workspace scope check -> role-based access -> resource-level policy grant evaluation. All steps are audited.
+
 ## Related documentation
 
 - [`public-api-auth.md`](public-api-auth.md) — full login flow, token semantics, session management endpoints

@@ -56,56 +56,6 @@ The diagram below shows how AXME components relate: the public gateway, control 
 
 ---
 
-## Intent Lifecycle
-
-Every intent progresses through a well-defined state machine. The diagram below shows all states, transitions, and terminal outcomes.
-
-![Intent Lifecycle State Machine](docs/diagrams/intents/01-intent-lifecycle-state-machine.svg)
-
-*Key states: `PENDING -> PROCESSING -> WAITING_* -> DELIVERED -> RESOLVED`. Any intent can be cancelled or expire at most transition points. Retry loops are bounded by the policy envelope.*
-
-The complete runtime container view - services, databases, queues, and their connections:
-
-![Container Runtime - C4 Level 2](docs/diagrams/platform/02-container-runtime-c4.svg)
-
-*Gateway (public REST API), agent-core (workflow engine), auth service, MCP platform (48 JSON-RPC tools), and tool registry run as Cloud Run services sharing a PostgreSQL instance. The scheduler runs on the gateway via internal tick endpoints.*
-
----
-
-## Protocol
-
-AXP wraps every intent in a signed envelope. The protocol layer ensures integrity, ordering, and schema version negotiation.
-
-![AXP Protocol Envelope](docs/diagrams/protocol/01-protocol-envelope.svg)
-
-*The envelope carries the intent payload, sender identity, schema version, idempotency key, and a gateway-applied HMAC signature. Recipients verify the signature before processing.*
-
-Idempotency and replay protection are first-class protocol features:
-
-![Idempotency and Replay Protection](docs/diagrams/protocol/03-idempotency-and-replay-protection.svg)
-
-*Duplicate requests bearing the same idempotency key return the cached response without re-executing. Replay attacks are rejected by the nonce registry.*
-
----
-
-## Security Model
-
-The platform enforces layered security boundaries. The trust boundary diagram maps each enforcement point:
-
-![Security Trust Boundary - DFD](docs/diagrams/security/03-trust-boundary-dfd.svg)
-
-*Public-facing TLS terminates at the gateway. Internal service calls use mTLS. Data at rest is encrypted with AES-256-GCM. Webhook payloads carry HMAC-SHA256 signatures.*
-
-Security control baseline for enterprise review: [`docs/security-overview.md`](docs/security-overview.md).
-
-Authentication and authorization enforcement flow:
-
-![Auth/Authz Enforcement](docs/diagrams/security/01-authn-authz-enforcement-flow.svg)
-
-*API key verification -> JWT validation -> org/workspace scope check -> role-based access -> resource-level policy grant evaluation. All steps are audited.*
-
----
-
 ## Related Repositories
 
 | Repository | Role |
