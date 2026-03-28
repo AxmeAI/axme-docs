@@ -11,7 +11,7 @@ This guide covers the third additive parity batch for family-level integration d
 Use this guide together with:
 
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
 
 ## 1) Nick Registration and Availability Family
@@ -28,11 +28,11 @@ These endpoints handle the public identity lifecycle for end users: availability
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.users.check_nick.response.v1.json`
-- `axme-spec/schemas/public_api/api.users.register_nick.request.v1.json`
-- `axme-spec/schemas/public_api/api.users.register_nick.response.v1.json`
-- `axme-spec/schemas/public_api/api.users.rename_nick.request.v1.json`
-- `axme-spec/schemas/public_api/api.users.rename_nick.response.v1.json`
+- `axp-spec/schemas/public_api/api.users.check_nick.response.v1.json`
+- `axp-spec/schemas/public_api/api.users.register_nick.request.v1.json`
+- `axp-spec/schemas/public_api/api.users.register_nick.response.v1.json`
+- `axp-spec/schemas/public_api/api.users.rename_nick.request.v1.json`
+- `axp-spec/schemas/public_api/api.users.rename_nick.response.v1.json`
 
 ### Request example (`POST /v1/users/register-nick`)
 
@@ -106,9 +106,9 @@ Profile endpoints return and update canonical user profile fields attached to `o
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.users.profile.get.response.v1.json`
-- `axme-spec/schemas/public_api/api.users.profile.update.request.v1.json`
-- `axme-spec/schemas/public_api/api.users.profile.update.response.v1.json`
+- `axp-spec/schemas/public_api/api.users.profile.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.users.profile.update.request.v1.json`
+- `axp-spec/schemas/public_api/api.users.profile.update.response.v1.json`
 
 ### Request example (`POST /v1/users/profile/update`)
 

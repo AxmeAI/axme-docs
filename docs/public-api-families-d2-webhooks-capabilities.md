@@ -10,7 +10,7 @@ This guide covers the second additive parity batch for family-level integration 
 Use this guide together with:
 
 - `docs/openapi/gateway.v1.json` (canonical endpoint surface)
-- `axme-spec/schemas/public_api/*.json` (canonical schema contracts)
+- `axp-spec/schemas/public_api/*.json` (canonical schema contracts)
 - `docs/public-api-auth.md` and `docs/supported-limits-and-error-model.md`
 
 ## 1) Webhooks Subscriptions Family
@@ -27,10 +27,10 @@ Webhook subscriptions define how Axme pushes event notifications to external int
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.webhooks.subscriptions.upsert.request.v1.json`
-- `axme-spec/schemas/public_api/api.webhooks.subscriptions.response.v1.json`
-- `axme-spec/schemas/public_api/api.webhooks.subscriptions.list.response.v1.json`
-- `axme-spec/schemas/public_api/api.webhooks.subscriptions.delete.response.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.subscriptions.upsert.request.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.subscriptions.response.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.subscriptions.list.response.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.subscriptions.delete.response.v1.json`
 
 ### Request example (`POST /v1/webhooks/subscriptions`)
 
@@ -84,9 +84,9 @@ Events endpoints ingest outgoing webhook events and expose replay behavior for d
 
 ### Canonical schemas
 
-- `axme-spec/schemas/public_api/api.webhooks.events.request.v1.json`
-- `axme-spec/schemas/public_api/api.webhooks.events.response.v1.json`
-- `axme-spec/schemas/public_api/api.webhooks.events.replay.response.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.events.request.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.events.response.v1.json`
+- `axp-spec/schemas/public_api/api.webhooks.events.replay.response.v1.json`
 
 ### Request example (`POST /v1/webhooks/events`)
 
@@ -146,7 +146,7 @@ Capabilities provide a machine-readable contract for what the runtime currently 
 
 ### Canonical schema
 
-- `axme-spec/schemas/public_api/api.capabilities.get.response.v1.json`
+- `axp-spec/schemas/public_api/api.capabilities.get.response.v1.json`
 
 ### Response example (`GET /v1/capabilities`)
 

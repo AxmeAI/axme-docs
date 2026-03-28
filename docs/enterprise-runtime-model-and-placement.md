@@ -135,9 +135,17 @@ Temporary compatibility behavior:
 5. Confirm intent routing details, usage ledger records, and admin audit events include tenant scope.
 6. Promote to production after staging verification is green.
 
+## Container Runtime View
+
+The complete runtime container view - services, databases, queues, and their connections:
+
+![Container Runtime - C4 Level 2](diagrams/platform/02-container-runtime-c4.svg)
+
+Gateway (public REST API), agent-core (workflow engine), auth service, MCP platform (48 JSON-RPC tools), and tool registry run as Cloud Run services sharing a PostgreSQL instance. The scheduler runs on the gateway via internal tick endpoints.
+
 ## References
 
 - `docs/public-api-families-d6-enterprise-governance.md`
 - `docs/enterprise-scoped-credentials-migration-note.md`
 - `docs/openapi/gateway.track-f-sprint1.v1.json`
-- `axme-spec/schemas/public_api/`
+- `axp-spec/schemas/public_api/`

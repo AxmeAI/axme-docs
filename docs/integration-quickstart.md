@@ -15,17 +15,17 @@ Canonical model for this guide:
 
 ## Inputs
 
-- API contracts/schemas: `axme-spec`
+- API contracts/schemas: `axp-spec`
 - public integration docs: `axme-docs`
 - SDK baseline repos: `axme-sdk-python`, `axme-sdk-typescript`
 - example hub: `axme-examples` (cloud + protocol tracks)
 
 ## Step 1: Review Public Contracts
 
-- `axme-spec/docs/public-api-schema-index.md`
-- `axme-spec/docs/schema-versioning-rules.md`
-- `axme-spec/docs/protocol-error-status-model.md`
-- `axme-spec/docs/idempotency-correlation-rules.md`
+- `axp-spec/docs/public-api-schema-index.md`
+- `axp-spec/docs/schema-versioning-rules.md`
+- `axp-spec/docs/protocol-error-status-model.md`
+- `axp-spec/docs/idempotency-correlation-rules.md`
 - `docs/public-api-families-d1-intents-inbox-approvals.md`
 - `docs/public-api-families-d2-webhooks-capabilities.md`
 - `docs/public-api-families-d3-users.md`
@@ -71,9 +71,19 @@ Recommended baseline:
 
 ## Step 5: Validate with Contract Discipline
 
-- Validate payloads against `axme-spec/schemas/public_api/*.json`
+- Validate payloads against `axp-spec/schemas/public_api/*.json`
 - Use idempotency keys on retryable writes
 - Capture request/trace identifiers in logs
+
+## Protocol Reference
+
+AXP wraps every intent in a signed envelope carrying the payload, sender identity, schema version, idempotency key, and a gateway-applied HMAC signature:
+
+![AXP Protocol Envelope](diagrams/protocol/01-protocol-envelope.svg)
+
+Idempotency and replay protection are first-class protocol features - duplicate requests bearing the same idempotency key return the cached response without re-executing:
+
+![Idempotency and Replay Protection](diagrams/protocol/03-idempotency-and-replay-protection.svg)
 
 ## Outcome
 
