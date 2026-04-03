@@ -46,6 +46,21 @@ Four layers are treated independently:
 - Delivery replay primitive is available via `POST /v1/deliveries/{delivery_id}/replay`.
 - Delivery records preserve transport type, route id, and correlation/idempotency metadata.
 
+## Intent Lifecycle and Cleanup Operations
+
+Intents support automatic TTL enforcement and cleanup:
+
+- **Per-intent deadline:** Set `deadline_at` (absolute) or `ttl_seconds` (relative, 60s-7d) at creation. Gateway enforces TIMED_OUT at expiry.
+- **Server default TTL:** `AXME_DEFAULT_INTENT_TTL_SECONDS` env var applies a default deadline to intents without explicit deadline. Default: 0 (disabled).
+- **Stale cleanup:** Scheduler auto-times-out IN_PROGRESS/WAITING intents without deadline after `AXME_STALE_INTENT_TTL_HOURS` (default: 24h) of inactivity.
+- **Zombie cleanup:** DELIVERED/SUBMITTED intents stuck without progress are cleaned after `AXME_ZOMBIE_INTENT_TTL_HOURS` (default: 48h).
+- **Manual bulk cleanup:** `POST /v1/intents/bulk-cancel` or `axme intents cleanup` CLI command. Supports `--status`, `--older-than`, `--dry-run`, `--limit`.
+
+Recommended TTL strategy:
+- Short-lived tasks (API calls, validations): `ttl_seconds: 300` (5 min)
+- Human approvals: `ttl_seconds: 86400` (24h) or `deadline_at` with business-hours logic
+- Background workflows: rely on server default or no TTL with stale cleanup as safety net
+
 ## Operator Checklist
 
 - Verify auth scope checks on all enterprise/portal endpoints.
@@ -53,3 +68,5 @@ Four layers are treated independently:
 - Validate resolver determinism (`alias -> principal -> endpoint -> transport`) for each tenant workspace.
 - Validate delivery replay and dead-letter handling with transport-specific runbooks.
 - Keep rollback-ready domain and WAF configs aligned with infra runbooks.
+- Monitor stale intent counts: `axme intents cleanup --dry-run` shows candidates.
+- Review TTL env vars after each deploy: `AXME_DEFAULT_INTENT_TTL_SECONDS`, `AXME_STALE_INTENT_TTL_HOURS`, `AXME_SSE_STALE_CUTOFF_HOURS`.

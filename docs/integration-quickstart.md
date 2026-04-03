@@ -52,7 +52,10 @@ Pick example family:
 
 Recommended baseline:
 
-1. Submit intent (`POST /v1/intents`)
+1. Submit intent (`POST /v1/intents`) with optional deadline:
+   - `ttl_seconds: 3600` -- relative TTL (60s to 7 days)
+   - `deadline_at: "2026-04-04T18:00:00Z"` -- absolute deadline
+   - If neither is set, the server may apply a default TTL (configurable via `AXME_DEFAULT_INTENT_TTL_SECONDS`).
 2. Observe continuation (primary stream):
    - `GET /v1/intents/{intent_id}/events/stream`
 3. Keep polling fallback:
@@ -62,6 +65,7 @@ Recommended baseline:
    - set `reply_to` in `POST /v1/intents`
    - consume completion from `GET /v1/inbox?owner_agent=<reply_to>`
 5. Reply/delegate/decision on inbox thread as needed
+6. Handle `TIMED_OUT` as a terminal state -- intents that exceed their deadline are automatically closed by the gateway
 
 ## Step 4: Apply Auth, Limits, and Error Handling
 
