@@ -43,6 +43,7 @@ Intents are the primary write/read entry for assistant-integrator workflows. Int
 - `POST /v1/intents/{intent_id}/resume` -> resume a blocked/waiting workflow step with control CAS
 - `POST /v1/intents/{intent_id}/controls` -> patch workflow control parameters (`controls_patch`)
 - `POST /v1/intents/{intent_id}/policy` -> patch delegated grants and envelope policy (`grants_patch`, `envelope_patch`)
+- `POST /v1/intents/bulk-cancel` -> batch cancel stale/zombie intents by filter
 
 ### Continuation semantics (v1)
 
@@ -79,7 +80,23 @@ Intent routing uses `agent://` addresses for both sender and recipient identific
 
 To look up agent details before sending an intent, use `GET /v1/agents/{address}` (see [public-api-families-d6-enterprise-governance.md](public-api-families-d6-enterprise-governance.md)).
 
+### Deadline and TTL
+
+Intents support optional deadline enforcement. If an intent is not resolved before its deadline, the gateway automatically transitions it to `TIMED_OUT`.
+
+- **`deadline_at`** (optional, ISO 8601) -- absolute point in time when the intent expires.
+- **`ttl_seconds`** (optional, integer, 60-604800) -- relative TTL in seconds from creation time. Converted to `deadline_at` server-side. Mutually exclusive with `deadline_at` (422 if both provided).
+
+If neither is set and the server has `AXME_DEFAULT_INTENT_TTL_SECONDS` configured, the server applies a default deadline automatically.
+
+When an intent times out:
+- Status transitions to `TIMED_OUT` (terminal).
+- A `intent.timed_out` webhook event is emitted.
+- Any pending reminders and scheduled jobs are canceled.
+
 ### Request example (`POST /v1/intents`)
+
+Minimal:
 
 ```json
 {
@@ -89,6 +106,36 @@ To look up agent details before sending an intent, use `GET /v1/agents/{address}
   "to_agent": "agent://bob",
   "payload": {
     "question": "Can we sync tomorrow at 10?"
+  }
+}
+```
+
+With relative TTL (expires in 1 hour):
+
+```json
+{
+  "intent_type": "intent.task.v1",
+  "correlation_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "from_agent": "agent://alice",
+  "to_agent": "agent://bob",
+  "ttl_seconds": 3600,
+  "payload": {
+    "task": "Review PR #42"
+  }
+}
+```
+
+With absolute deadline:
+
+```json
+{
+  "intent_type": "intent.approval.v1",
+  "correlation_id": "f9e8d7c6-b5a4-3210-fedc-ba9876543210",
+  "from_agent": "agent://alice",
+  "to_agent": "agent://bob",
+  "deadline_at": "2026-04-04T18:00:00Z",
+  "payload": {
+    "approval": "Budget sign-off"
   }
 }
 ```
@@ -142,6 +189,48 @@ To look up agent details before sending an intent, use `GET /v1/agents/{address}
   - `AxmeClient.resumeIntent(...)`
   - `AxmeClient.updateIntentControls(...)`
   - `AxmeClient.updateIntentPolicy(...)`
+
+### Bulk cancel (`POST /v1/intents/bulk-cancel`)
+
+Cancel multiple non-terminal intents matching filter criteria. Useful for cleaning up stale or zombie intents.
+
+```json
+{
+  "older_than_hours": 24,
+  "status_filter": ["IN_PROGRESS", "WAITING", "DELIVERED"],
+  "dry_run": true,
+  "reason": "cleanup stale intents",
+  "limit": 500
+}
+```
+
+- `older_than_hours` (float, min 0.1, default 24) -- only cancel intents with no activity for this long.
+- `status_filter` (list of strings, default: DELIVERED, WAITING, IN_PROGRESS, SUBMITTED) -- which non-terminal statuses to target.
+- `dry_run` (bool, default true) -- preview mode. Returns `would_cancel` count without acting.
+- `reason` (string) -- recorded in the lifecycle event audit trail.
+- `limit` (int, 1-5000, default 500) -- max intents to process.
+
+Dry-run response:
+
+```json
+{
+  "ok": true,
+  "dry_run": true,
+  "would_cancel": 12,
+  "intent_ids": ["...", "..."]
+}
+```
+
+Execute response:
+
+```json
+{
+  "ok": true,
+  "dry_run": false,
+  "canceled": 12,
+  "intent_ids": ["...", "..."]
+}
+```
 
 ### Conformance expectation
 
