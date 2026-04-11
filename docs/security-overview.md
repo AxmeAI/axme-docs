@@ -74,7 +74,7 @@ For the full login and token lifecycle sequence, see [08-email-otp-login-and-tok
 
 ## 6) Incident response and disclosure
 
-- Security reports and responsible disclosure: [hello@axme.ai](mailto:hello@axme.ai)
+- Security reports and responsible disclosure: [contact@axme.ai](mailto:contact@axme.ai)
 - High-risk credential events should trigger immediate rotation/revocation workflows.
 - Incident handling includes containment, impact analysis, remediation, and follow-up hardening.
 
