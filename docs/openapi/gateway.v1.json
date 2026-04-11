@@ -4112,6 +4112,129 @@
         }
       }
     },
+    "/v1/portal/personal/profile": {
+      "post": {
+        "summary": "Update Personal Profile",
+        "description": "Update the caller's profile (display name, company). Both fields optional.",
+        "operationId": "update_personal_profile_v1_portal_personal_profile_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalProfileUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Update Personal Profile V1 Portal Personal Profile Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/feedback/view": {
+      "get": {
+        "summary": "Feedback View",
+        "description": "View feedback form. Public, token-based access.",
+        "operationId": "feedback_view_v1_feedback_view_get",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Feedback View V1 Feedback View Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/feedback/submit": {
+      "post": {
+        "summary": "Feedback Submit",
+        "description": "Submit feedback responses. Public, token-based.",
+        "operationId": "feedback_submit_v1_feedback_submit_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Feedback Submit V1 Feedback Submit Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/auth/cli-grants": {
       "post": {
         "summary": "Create Cli Grant",
@@ -16547,6 +16670,36 @@
         "type": "object",
         "title": "OrganizationUpdateRequest"
       },
+      "PersonalProfileUpdateRequest": {
+        "properties": {
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          }
+        },
+        "type": "object",
+        "title": "PersonalProfileUpdateRequest"
+      },
       "PersonalWorkspaceSelectionRequest": {
         "properties": {
           "org_id": {
@@ -18260,13 +18413,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",
