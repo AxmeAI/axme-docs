@@ -6210,6 +6210,99 @@
         "type": "object",
         "title": "CostPolicyRequest"
       },
+      "CreateSessionRequest": {
+        "properties": {
+          "owner_agent": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Agent"
+          },
+          "visitor_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visitor Ref"
+          },
+          "parent_session_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Session Id"
+          },
+          "correlation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation Id"
+          },
+          "public_kb_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 36
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Public Kb Id"
+          },
+          "dossier_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dossier Ref"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata"
+          }
+        },
+        "type": "object",
+        "title": "CreateSessionRequest",
+        "description": "POST /v1/sessions body. owner_agent identifies the public agent the\nvisitor is contacting; visitor_ref is the cookie-derived identifier in\nthe B2C path (B3 will plumb the cookie -> this field automatically)."
+      },
       "DashboardExchangeRequest": {
         "properties": {
           "token": {
@@ -8962,6 +9055,211 @@
         },
         "type": "object",
         "title": "ServiceAccountKeyCreateRequest"
+      },
+      "SessionMessageCreateRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 131072,
+            "minLength": 1,
+            "title": "Text"
+          },
+          "sender_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sender Ref"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "SessionMessageCreateRequest",
+        "description": "POST /v1/sessions/{id}/messages body \u2014 plaintext-only for A4.\nPer-session content encryption lands in A5 (D-A5)."
+      },
+      "SessionSpawnIntentRequest": {
+        "properties": {
+          "intent_type": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+(?:\\.[a-z0-9_]+)+\\.v[0-9]+$",
+            "title": "Intent Type"
+          },
+          "to_agent": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 3,
+            "title": "To Agent"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload"
+          },
+          "correlation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation Id"
+          },
+          "parent_intent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 36,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Intent Id"
+          },
+          "reply_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reply To"
+          },
+          "deadline_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline At"
+          },
+          "ttl_seconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 604800.0,
+                "minimum": 60.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ttl Seconds"
+          },
+          "remind_after_seconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remind After Seconds"
+          },
+          "remind_interval_seconds": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remind Interval Seconds"
+          },
+          "max_reminders": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Reminders"
+          },
+          "escalate_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Escalate To"
+          },
+          "max_delivery_attempts": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Delivery Attempts"
+          },
+          "human_task": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Human Task"
+          }
+        },
+        "type": "object",
+        "required": [
+          "intent_type",
+          "to_agent",
+          "payload"
+        ],
+        "title": "SessionSpawnIntentRequest",
+        "description": "POST /v1/sessions/{id}/spawn-intent body.\n\nMirrors the SubmitIntentRequest deadline / reminder / retry / human_task\nfields so the spawned intent goes through the existing Model-A HITL path\n(intent_routes.py:777-940) without reimplementing the human task pipeline."
       },
       "SubmitIntentRequest": {
         "properties": {
