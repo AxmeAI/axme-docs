@@ -14183,6 +14183,133 @@
         }
       }
     },
+    "/v1/sessions/{session_id}/stream": {
+      "get": {
+        "summary": "Stream Session Events",
+        "description": "SSE stream of session events.\n\nPolls ``gateway_session_events`` ORDER BY seq ASC WHERE\n``session_id = :sid AND seq > :since``. Reconnecting clients resume\nfrom the last id they received \u2014 the ``(session_id, seq)`` unique\nconstraint guarantees no duplicate, no gap. After ``wait_seconds``\nof inactivity the stream emits a ``stream.timeout`` event with the\nlast seq the caller should reconnect from.\n\nConcurrency cap is shared with the agent intent stream (A6 gate):\nboth routers acquire from ``helpers_sse._sse_stream_counts`` so a\nsingle workspace cannot blow past ``sse_streams_max`` by mixing the\ntwo stream types.\n\nAuth: x-api-key + x-owner-agent (visitor cookie comes in B3 as a\nsibling dep; the participation check is identical either way).",
+        "operationId": "stream_session_events_v1_sessions__session_id__stream_get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Since"
+            }
+          },
+          {
+            "name": "wait_seconds",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 120,
+              "minimum": 1,
+              "default": 30,
+              "title": "Wait Seconds"
+            }
+          },
+          {
+            "name": "owner_agent",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Owner Agent"
+            }
+          },
+          {
+            "name": "x-owner-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Owner-Agent"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live SSE stream of session lifecycle events (A6).",
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "text/event-stream": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/mesh/heartbeat": {
       "post": {
         "tags": [
